@@ -12,4 +12,9 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/Example');
+
+require('./components/index');
+require('./components/App');
+require('./components/home/index');
+require('./components/login/index');
+// require("../../public/js/app");
