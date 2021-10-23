@@ -67,7 +67,7 @@ function Home() {
             <Grid item>
                 <Stack direction="row" spacing={2}>
                     <Button variant="contained" color="success">Botón de ejemplo</Button>
-                    <Button variant="outlined" href="/login">A la siguiente ruta</Button>
+                    <Button variant="outlined" href="/">A la siguiente ruta</Button>
                 </Stack>
             </Grid>
             <Grid item>

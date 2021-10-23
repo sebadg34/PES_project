@@ -16,5 +16,6 @@ require('./bootstrap');
 require('./components/index');
 require('./components/App');
 require('./components/home/index');
+require('./components/appbar/index');
 require('./components/login/index');
 // require("../../public/js/app");
