@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import {Grid, Paper, Avatar, TextField, Typography, Button} from '@material-ui/core'
+import {Grid, Paper, Avatar, TextField, Typography, Button, Divider} from '@material-ui/core'
 //import { Button } from '@mui/material';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
@@ -12,22 +12,9 @@ function Login() {
     const [phone, setPhone] = useState("");
     const [hasAccount, setHasAccount] = useState(true);
   
-    const paperTitle = {
-      padding: 5,
-      height: "12vh",
-      width: 700,
-      position: "relative",
-      right: "200px",
-      backgroundColor: "#003057",
-      justifyContent: "center",
-      alignItems: "center",
-      textAlign: "center",      
-      borderRadius: "50px",
-    };
-
     const paperStyle = {
       padding: 20,
-      height: "55vh",
+      height: "390px",
       width: 400,
       margin: "20px auto",
       border: "1px solid #003057",
@@ -47,9 +34,10 @@ function Login() {
       <>
         <Grid container direction={"column"} spacing={3}>
           <Grid item>
-            <Paper style={paperTitle}>         
-              <Typography variant="h3" gutterBottom style={{ color: "white", lineHeight: 1.4, marginLeft:50 }}>Plan de escolaridad segura</Typography>
-            </Paper>
+            <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
+              Plan de escolaridad segura
+            </Typography>
+            <Divider light />
           </Grid>
           <Grid item>
             <form>

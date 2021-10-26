@@ -18,4 +18,8 @@ require('./components/App');
 require('./components/home/index');
 require('./components/appbar/index');
 require('./components/login/index');
+require("./components/menucontainer/index");
+require("./components/menuitems/index");
+require("./components/perfil/index");
+require("./components/registro/index");
 // require("../../public/js/app");

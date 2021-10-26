@@ -22,3 +22,10 @@
     color: white;
     background-color: orangered;
 }
+
+.linkItem {
+    color: #FFF;
+  }
+.linkItem:hover {
+    color: #FFF;
+}
