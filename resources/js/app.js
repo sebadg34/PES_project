@@ -22,4 +22,6 @@ require("./components/menucontainer/index");
 require("./components/menuitems/index");
 require("./components/perfil/index");
 require("./components/registro/index");
+require("./components/registro_estudiante/index");
+require("./components/registro_sostenedor/index");
 // require("../../public/js/app");

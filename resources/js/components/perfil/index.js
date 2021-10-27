@@ -7,7 +7,7 @@ function Perfil() {
     const items = [
         {
           id: 1,
-          title: "Registro de beneficios",
+          title: "Registro del beneficio",
           url: "/registro",
         },
         {

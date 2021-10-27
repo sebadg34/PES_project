@@ -29,3 +29,16 @@
 .linkItem:hover {
     color: #FFF;
 }
+
+.labelSelect{
+  /* color: #003057; */
+  font-weight: bold;
+}
+
+.TextField-without-border-radius fieldset {
+  border-radius: 0;
+}
+
+.Mui-disabled{
+  height: 58;
+}
