@@ -120,6 +120,7 @@ function Login() {
                         )}
                       <Grid item align="center">
                         <Button
+                          className="linkItem"
                           style={{maxWidth: '250px', minWidth: '250px'}}
                           variant="contained"
                           color="primary"
