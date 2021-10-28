@@ -13,7 +13,7 @@ function Perfil() {
         {
           id: 2,
           title: "Visualizar solicitud",
-          url: "/solicitud",
+          url: "/visualizar-solicitud",
         },
         {
           id: 3,
