@@ -49,24 +49,6 @@ function Registro() {
           }          
         </Grid>
         <Grid item>
-          {/* {
-            isActive ? 
-              <motion.div 
-                style={{  width: "fit-content", height: "fit-content", float:"right"}} 
-                whileHover={{ scale: 1.5 }}
-                onClick={delayedOnClick}
-                >
-                <ArrowForwardIcon style={{ fontSize: 60 }}/>
-              </motion.div>
-            : 
-              <motion.div 
-                style={{  width: "fit-content", height: "fit-content"}} 
-                whileHover={{ scale: 1.5 }}
-                onClick={delayedOnClick}
-                >
-                <ArrowBackIcon style={{ fontSize: 60 }}/>
-              </motion.div>
-          } */}
           <motion.div 
             style={{  width: "fit-content", height: "fit-content", display: isActive ? "none" : "block"}} 
             whileHover={{ scale: 1.5 }}
