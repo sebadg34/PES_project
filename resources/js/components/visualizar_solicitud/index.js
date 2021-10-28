@@ -1,5 +1,6 @@
-import { React, useEffect, useState } from 'react';
-import {Grid, Paper, TextField, Typography, Button, Divider } from '@material-ui/core';
+import { React } from 'react';
+import {Grid, TextField, Typography, Divider } from '@material-ui/core';
+import MaterialTable from 'material-table';
 
 function VisualizarSolicitud() {
 
@@ -231,10 +232,31 @@ function VisualizarSolicitud() {
                 </Grid>                    
             </Grid>         
             <Grid item>
-                <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
-                    Archivos adjuntos    
-                </Typography>
-                <Divider light />
+                <MaterialTable
+                    title="Archivos adjuntos"
+                    options={{search: false, paging: false}}           
+                    columns={[
+                        { title: 'Nombre archivo', field: 'nombreArchivo' },
+                        { title: 'Peso', field: 'peso' },
+                        { title: 'Persona correspondiente', field: 'Persona'},
+                    ]}
+                    data={[
+                        { name: 'Mehmet', surname: 'Baran', birthYear: "1987"},
+                        { name: 'Zerya Betül', surname: 'Baran', birthYear: "2017"},
+                    ]}
+                    detailPanel={rowData => {
+                        return (
+                        <iframe
+                            width="100%"
+                            height="1120"
+                            src="https://fi.ort.edu.uy/innovaportal/file/2021/1/metodologia_xp.pdf"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                        />
+                        )
+                    }}
+                    />
             </Grid>                                                                    
         </Grid>
           
