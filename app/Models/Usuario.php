@@ -15,6 +15,10 @@ class Usuario extends Model
         'password',
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
     
     public function formulario()
     {
