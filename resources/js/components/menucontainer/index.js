@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx, Global } from "@emotion/react";
 import {Grid, Typography, Divider} from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import MenuItems from "../menuitems";
 
 function MenuContainer() {
@@ -13,12 +14,28 @@ function MenuContainer() {
         height: 100%;
       `}
     >
-        <Grid container direction={"column"} spacing={3}>
+        <Grid container direction={"column"} spacing={1}>
             <Grid item>
-            <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
-                Perfil estudiante
-            </Typography>
-            <Divider light />
+              <Grid container direction={"column"} spacing={3}>
+                <Grid item>
+                  <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
+                      Perfil estudiante
+                  </Typography>                            
+                  <Divider light />        
+                </Grid>
+                <Grid item>
+                  <Button
+                    className="linkItem"
+                    style={{maxWidth: '150px', minWidth: '150px', float:"right"}}
+                    variant="contained"
+                    color="primary"
+                    href="/"
+                  //   onClick={hasAccount ? handleLogin : handleSignup}
+                    >
+                    Cerrar sesión
+                  </Button>                        
+                </Grid>                            
+              </Grid>               
             </Grid>
             <Grid item>
                 <MenuItems/>
