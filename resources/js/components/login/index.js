@@ -6,6 +6,8 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorEmail, setErrorEmail] = useState("");
+    const [errorPassword, setErrorPassword] = useState("");
   
     const paperStyle = {
       padding: 20,
@@ -17,10 +19,39 @@ function Login() {
     
     const avatarStyle = { backgroundColor: "#003057" };
         
+    const handleLogin = () => {
+
+      setErrorEmail("");
+      setErrorPassword("");
+
+      const request = {
+        method: 'POST',
+        headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({ email: email , password: password})
+     }
+
+      fetch("api/login", request)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          if(data.hasOwnProperty("errors")){
+            if(data.errors.hasOwnProperty("email")){
+              setErrorEmail(data.errors.email[0]);
+            }
+            if(data.errors.hasOwnProperty("password")){
+              setErrorPassword(data.errors.password[0]);
+            }
+          }else{
+            alert("Usuario autorizado");
+          }
+        });
+    }
+
+
     return (
     //   <form onSubmit={hasAccount ? handleLogin : handleSignup}>
       <>
-        <Grid container direction={"column"} spacing={3}>
+        <Grid container direction={"column"} spacing={1}>
           <Grid item>
             <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
               Plan de escolaridad segura
@@ -31,7 +62,7 @@ function Login() {
             <form>
                 <Grid>
                   <Paper elevation={0} style={paperStyle}>
-                    <Grid align="center" container direction={"column"} spacing={4}>
+                    <Grid align="center" container direction={"column"} spacing={2}>
                       <Grid item>
                         <Avatar style={avatarStyle}>
                           <LockOutlinedIcon />
@@ -41,7 +72,7 @@ function Login() {
                         <h4>Iniciar sesión</h4>
                       </Grid>                      
                     </Grid>
-                    <Grid container direction={"column"} spacing={2}>
+                    <Grid container direction={"column"} spacing={3}>
                       <Grid item>
                         <TextField
                           label="Correo electrónico"
@@ -55,6 +86,7 @@ function Login() {
                           required
                           autoFocus
                         />
+                        <span className="errorMsg">{errorEmail}</span>
                       </Grid>
                       <Grid item>
                         <TextField
@@ -70,6 +102,7 @@ function Login() {
                           required
                           autoFocus
                         />
+                        <span className="errorMsg">{errorPassword}</span>
                       </Grid>
                       <Grid item align="center">
                         <Button
@@ -77,8 +110,7 @@ function Login() {
                           style={{maxWidth: '250px', minWidth: '250px'}}
                           variant="contained"
                           color="primary"
-                          href="/home"
-                        //   onClick={hasAccount ? handleLogin : handleSignup}
+                          onClick={handleLogin}
                         >
                           Iniciar sesión
                         </Button>

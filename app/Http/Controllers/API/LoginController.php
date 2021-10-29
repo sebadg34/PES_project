@@ -7,6 +7,7 @@ use App\Models\Usuario;
 use Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller 
 {  public $successStatus = 200;
@@ -23,15 +24,24 @@ class LoginController extends Controller
             'password'=>'required|string'
         ]);
 
+        //Estas variables solo se utilizan si es que existe algún error
+        $emailError = [ "email" => ["Este correo no corresponde a ningún usuario"]];
+        $passwordError = [ "password" => ["Esta contraseña no corresponde al correo ingresado"]];
+        
         $user = Usuario::where('email',$fields['email'])->first();
 
+        if($user == null){
+            return response()->json(['status'=>'Unauthorised', 
+                                    "errors" => $emailError], 401); 
+        }
 
-           if(Hash::check($fields['password'],$user['password'])){ 
-              
-            return response()->json(['success'=>'Authorized'],200); 
-           } 
-           else{ 
-               return response()->json(['error'=>'Unauthorised'], 401); 
-           } 
-       }
+        if(Hash::check($fields['password'],$user['password'])){ 
+            
+        return response()->json(['status'=>'Authorized'],200); 
+        } 
+        else{ 
+            return response()->json(['status'=>'Unauthorised', 
+                                    "errors" => $passwordError], 401); 
+        } 
+    }
 }
