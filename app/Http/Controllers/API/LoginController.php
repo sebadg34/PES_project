@@ -54,14 +54,21 @@ class LoginController extends Controller
         return Auth::guard("usuario")->user();
     }
 
-
-    public function logout()
+    //porter76@example.net
+    public function logout(Request $request)
     {
-
         $cookie = Cookie::forget("jwt");
+        Auth::guard("usuario")->user()->tokens()->delete();
         return response()->json(['message' => 'You have successfully logged out and the token was successfully deleted'])->withCookie($cookie);
 
     }
+
+    public function check()
+    {
+        $check = Auth::guard("usuario")->check();
+        return response()->json(['El usuario esta autenticado?' => $check]);
+
+    }    
 
     // public function logout()
     // {

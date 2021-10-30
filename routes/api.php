@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [App\Http\Controllers\API\LoginController::class,'user'])->name('user');
     Route::post('logout', [App\Http\Controllers\API\LoginController::class,'logout'])->name('logout');
+    Route::get('check', [App\Http\Controllers\API\LoginController::class,'check'])->name('check');
+
 });
 
 Route::post('login', [App\Http\Controllers\API\LoginController::class,'login'])->name('login');
-

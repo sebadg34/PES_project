@@ -22,7 +22,6 @@ function MenuContainer() {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      history.push("/");
     });    
   }
 
