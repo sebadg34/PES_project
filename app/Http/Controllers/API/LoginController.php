@@ -6,6 +6,7 @@ use App\Models\Usuario;
 use Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Auth;
 
@@ -40,9 +41,8 @@ class LoginController extends Controller
 
             $user->tokens()->delete();
             $token = $user->createToken('auth_token')->plainTextToken;
-            //response()->json(['status'=>'Authorized'],200);
-
-        return response()->json(['message' => 'Hi '.$user->name.', welcome to home','access_token' => $token, 'token_type' => 'Bearer', ]);
+            $cookie = cookie("jwt", $token, 60 * 1);
+            return response()->json(['message' => 'Hi '.$user->email.', welcome to home','access_token' => $token, 'token_type' => 'Bearer', ])->withCookie($cookie);
         } 
         else{ 
             return response()->json(['status'=>'Unauthorised', 
@@ -50,12 +50,25 @@ class LoginController extends Controller
         } 
     }
 
+    public function user(){ 
+        return Auth::guard("usuario")->user();
+    }
+
+
     public function logout()
     {
-        auth()->usuario()->tokens()->delete();
 
-        return [
-            'message' => 'You have successfully logged out and the token was successfully deleted'
-        ];
+        $cookie = Cookie::forget("jwt");
+        return response()->json(['message' => 'You have successfully logged out and the token was successfully deleted'])->withCookie($cookie);
+
     }
+
+    // public function logout()
+    // {
+    //     auth()->usuario()->tokens()->delete();
+
+    //     return [
+    //         'message' => 'You have successfully logged out and the token was successfully deleted'
+    //     ];
+    // }
 }

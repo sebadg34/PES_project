@@ -4,8 +4,28 @@ import { css, jsx, Global } from "@emotion/react";
 import {Grid, Typography, Divider} from '@material-ui/core'
 import { Button } from '@material-ui/core'
 import MenuItems from "../menuitems";
+import { useHistory } from "react-router-dom";
 
 function MenuContainer() {
+
+  let history = useHistory();
+
+  const handleLogout = () => {
+
+    const request = {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({})
+     }
+
+    fetch("api/logout", request)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      history.push("/");
+    });    
+  }
+
 
   return (
     <div
@@ -30,7 +50,7 @@ function MenuContainer() {
                     variant="contained"
                     color="primary"
                     href="/"
-                  //   onClick={hasAccount ? handleLogin : handleSignup}
+                    onClick={handleLogout}
                     >
                     Cerrar sesión
                   </Button>                        

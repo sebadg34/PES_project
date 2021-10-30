@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import {Grid, Paper, Avatar, TextField, Typography, Button, Divider} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { useHistory } from "react-router-dom";
 
 function Login() {
 
@@ -9,6 +10,8 @@ function Login() {
     const [errorEmail, setErrorEmail] = useState("");
     const [errorPassword, setErrorPassword] = useState("");
   
+    let history = useHistory();
+
     const paperStyle = {
       padding: 20,
       height: "390px",
@@ -42,7 +45,7 @@ function Login() {
               setErrorPassword(data.errors.password[0]);
             }
           }else{
-            alert("Usuario autorizado");
+            history.push("/home");
           }
         });
     }

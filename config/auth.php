@@ -41,7 +41,7 @@ return [
             'provider' => 'users',
         ],
         'usuario' => [
-            'driver' => 'token',
+            'driver' => 'sanctum',
             'provider' => 'usuarios',
             'hash' => true,
         ]
