@@ -2,12 +2,12 @@
 namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
-use Illuminate\Support\Facades\Auth; 
 use App\Models\Usuario; 
 use Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Auth;
 
 class LoginController extends Controller 
 {  public $successStatus = 200;
@@ -30,18 +30,32 @@ class LoginController extends Controller
         
         $user = Usuario::where('email',$fields['email'])->first();
 
+
         if($user == null){
             return response()->json(['status'=>'Unauthorised', 
                                     "errors" => $emailError], 401); 
         }
 
         if(Hash::check($fields['password'],$user['password'])){ 
-            
-        return response()->json(['status'=>'Authorized'],200); 
+
+            $user->tokens()->delete();
+            $token = $user->createToken('auth_token')->plainTextToken;
+            //response()->json(['status'=>'Authorized'],200);
+
+        return response()->json(['message' => 'Hi '.$user->name.', welcome to home','access_token' => $token, 'token_type' => 'Bearer', ]);
         } 
         else{ 
             return response()->json(['status'=>'Unauthorised', 
                                     "errors" => $passwordError], 401); 
         } 
+    }
+
+    public function logout()
+    {
+        auth()->usuario()->tokens()->delete();
+
+        return [
+            'message' => 'You have successfully logged out and the token was successfully deleted'
+        ];
     }
 }
