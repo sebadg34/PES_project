@@ -42,7 +42,10 @@ class LoginController extends Controller
             $user->tokens()->delete();
             $token = $user->createToken('auth_token')->plainTextToken;
             $cookie = cookie("jwt", $token, 60 * 1);
-            return response()->json(['message' => 'Hi '.$user->email.', welcome to home','access_token' => $token, 'token_type' => 'Bearer', ])->withCookie($cookie);
+
+            return response()->json(['message' => 'Hi '.$user->email.', welcome to home'
+            ,'access_token' => $token
+            , 'token_type' => 'Bearer', ])->withCookie($cookie);
         } 
         else{ 
             return response()->json(['status'=>'Unauthorised', 
@@ -66,7 +69,7 @@ class LoginController extends Controller
     public function check()
     {
         $check = Auth::guard("usuario")->check();
-        return response()->json(['El usuario esta autenticado?' => $check]);
+        return response()->json(['autenticado' => $check]);
 
     }    
 

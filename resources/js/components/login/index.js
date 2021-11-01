@@ -2,9 +2,12 @@ import { React, useState } from 'react';
 import {Grid, Paper, Avatar, TextField, Typography, Button, Divider} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useHistory } from "react-router-dom";
+import axios from 'axios';
+import AuthService from "../auth/AuthService";
 
 function Login() {
 
+  
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorEmail, setErrorEmail] = useState("");
@@ -24,30 +27,24 @@ function Login() {
         
     const handleLogin = () => {
 
+      
       setErrorEmail("");
       setErrorPassword("");
 
-      const request = {
-        method: 'POST',
-        headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
-        body: JSON.stringify({ email: email , password: password})
-     }
-
-      fetch("api/login", request)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          if(data.hasOwnProperty("errors")){
-            if(data.errors.hasOwnProperty("email")){
-              setErrorEmail(data.errors.email[0]);
-            }
-            if(data.errors.hasOwnProperty("password")){
-              setErrorPassword(data.errors.password[0]);
-            }
-          }else{
-            history.push("/home");
-          }
-        });
+      AuthService.login(email, password).then(
+        () => {
+          history.push("/home");
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+        
     }
 
 

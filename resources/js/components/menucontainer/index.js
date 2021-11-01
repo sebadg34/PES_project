@@ -21,6 +21,7 @@ function MenuContainer() {
     fetch("api/logout", request)
     .then(response => response.json())
     .then(data => {
+      localStorage.removeItem("user");
       console.log(data);
     });    
   }

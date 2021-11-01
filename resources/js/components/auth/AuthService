@@ -1,0 +1,73 @@
+import axios from "axios";
+
+const API_URL = "http://localhost:8000/api/";
+
+const register = (username, email, password) => {
+  return axios.post(API_URL + "signup", {
+    username,
+    email,
+    password,
+  });
+};
+
+const login = (email, password) => {
+  return axios
+    .post(API_URL + "login", {
+      email,
+      password,
+    })
+    .then((response) => {
+      if (response.data.access_token) {
+        console.log("LOGIN EXITOSO");
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+
+      return response.data;
+    });
+};
+
+const logout = () => {
+
+    return axios
+    .post(API_URL + "logout")
+    .then((response) => {
+      
+        console.log("LOGOUT EXITOSO");
+        localStorage.removeItem("user");
+        
+      return response.data;
+    });
+  
+};
+
+const check = () => {
+    const headers = {
+        'Content-Type': 'application/json',
+        'X-Auth-Token': '97e0d315477f435489cf04904c9d0e6co',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      };
+   return axios.get(API_URL + "check").then((response) => {
+    if (response.data.message == "Authenticated") {
+        console.log("AUTHENTICATED");
+     return true;
+    }
+
+  });
+
+};
+
+
+
+
+
+
+const getCurrentUser = () => {
+  return JSON.parse(localStorage.getItem("user"));
+};
+
+export default {
+  register,
+  login,
+  logout,
+  getCurrentUser,
+};
