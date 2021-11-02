@@ -9,4 +9,8 @@ class RegistroController extends Controller
     {
         return response()->json(['message' => 'Pasamos por el controlador :D']);
     }
+
+    public function verRegistro(){
+        
+    }
 }
