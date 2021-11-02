@@ -5,25 +5,33 @@ import {Grid, Typography, Divider} from '@material-ui/core'
 import { Button } from '@material-ui/core'
 import MenuItems from "../menuitems";
 import { useHistory } from "react-router-dom";
+import AuthService from "../auth/AuthService";
+import axios from 'axios';
 
 function MenuContainer() {
 
   let history = useHistory();
 
   const handleLogout = () => {
+  AuthService.logout().then().then(
+    () => {
+      history.push("/");
+    },
+    (error) => {
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+    }
+  );
 
-    const request = {
-      method: 'POST',
-      headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({})
-     }
+  if(response.message != "Unauthorized"){
+    console.log("WEEEEEEEEE");
+    //console.log(response);
+  }
 
-    fetch("api/logout", request)
-    .then(response => response.json())
-    .then(data => {
-      localStorage.removeItem("user");
-      console.log(data);
-    });    
   }
 
 
@@ -49,7 +57,7 @@ function MenuContainer() {
                     style={{maxWidth: '150px', minWidth: '150px', float:"right"}}
                     variant="contained"
                     color="primary"
-                    href="/"
+                    href=""
                     onClick={handleLogout}
                     >
                     Cerrar sesión
