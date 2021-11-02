@@ -17,11 +17,15 @@ class CreateFormulariosTable extends Migration
             $table->id();
             $table->string('email')->unsigned();
             $table->foreign('email')->references('email')->on('usuarios');
-            $table->string('nombreapellido');
+            $table->string('rutEstudiante')->unique();
+            $table->string('rutSostenedor');
+            $table->string('parentezco');
+            $table->string('nombreCompletoEstudiante');
             $table->string('sede');
             $table->string('carrera');
-            $table->integer('añoingreso');
-            $table->binary('scancarnet');
+            $table->integer('añoIngreso');
+            $table->binary('scanCarnetEstudiante')->nullable();
+            $table->binary('scanCarnetSostenedor')->nullable();
             $table->timestamps();
         });
     }

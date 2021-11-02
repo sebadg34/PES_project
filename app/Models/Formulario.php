@@ -15,7 +15,7 @@ class Formulario extends Model
         'sede',
         'carrera',
         'añoIngreso',
-        'correoEstudiante',
+        'email',
         'scanCarnetEstudiante',
         'rutSostenedor',
         'nombreCompletoSostenedor',
