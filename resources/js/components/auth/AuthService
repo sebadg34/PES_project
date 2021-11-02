@@ -1,9 +1,16 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/";
+axios.defaults.baseURL = "http://localhost:8000/api/";
+
+axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.post["Accept"] = "application/json";
+axios.defaults.headers.get["Content-Type"] = "application/json";
+axios.defaults.headers.get["Accept"] = "application/json";
+
+axios.defaults.withCredentials = true;
 
 const register = (username, email, password) => {
-  return axios.post(API_URL + "signup", {
+  return axios.post("signup", {
     username,
     email,
     password,
@@ -11,11 +18,7 @@ const register = (username, email, password) => {
 };
 
 const login = (email, password) => {
-  return axios
-    .post(API_URL + "login", {
-      email,
-      password,
-    })
+  return axios.post("login", { email, password })
     .then((response) => {
       if (response.data.access_token) {
         console.log("LOGIN EXITOSO");
@@ -29,15 +32,7 @@ const login = (email, password) => {
 
 const logout = () => {
 
-    return axios
-    .get(API_URL + "logout", {
-      headers: {
-        "Authorization" : "Bearer " + localStorage.getItem('access_token'),
-        "Content-Type" : "application/json",
-        "Accept" : "application/json",
-      } 
-    }
-    )
+  return axios.get("logout")
     .then((response) => {
       
         console.log("LOGOUT EXITOSO");
@@ -46,28 +41,18 @@ const logout = () => {
         console.log(response.data);
       return response.data;
     });
-  
 };
 
 const check = () => {
-    const headers = {
-        'Content-Type': 'application/json',
-        'X-Auth-Token': '97e0d315477f435489cf04904c9d0e6co',
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-      };
-   return axios.get(API_URL + "check").then((response) => {
-    if (response.data.message == "Authenticated") {
-        console.log("AUTHENTICATED");
-     return true;
-    }
 
+  return axios.get("check")
+    .then((response) => {
+      if (response.data.message) {
+          console.log("AUTHENTICATED");
+          return true;
+      }
   });
-
 };
-
-
-
-
 
 
 const getCurrentUser = () => {

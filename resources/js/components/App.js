@@ -6,7 +6,7 @@ import Registro from "./registro";
 import VisualizarSolicitud from "./visualizar_solicitud";
 import CambiarSostenedor from "./cambiar_sostenedor";
 import ProtectedRoute from "./auth/ProtectedRoute";
-
+import RouteLogin from "./login/RouteLogin";
 
 
 
@@ -17,11 +17,15 @@ function App(){
     return (
         <Router>
             <Switch> 
-                <Route exact path={"/"} component={Login} />
+
+                <RouteLogin exact path={"/"} component={Login} />
+                {/* <AppBarCustom>
+                    <Route exact path={"/"} component={Login} />
+                </AppBarCustom> */}
                 {/*<Route exact path={"/home"} component={MenuContainer} />*/}
-                <Route exact path={"/registro"} component={Registro} />
-                <Route exact path={"/visualizar-solicitud"} component={VisualizarSolicitud} />
-                <Route exact path={"/cambiar-sostenedor"} component={CambiarSostenedor} />
+                <ProtectedRoute exact path={"/registro"} component={Registro} />
+                <ProtectedRoute exact path={"/visualizar-solicitud"} component={VisualizarSolicitud} />
+                <ProtectedRoute exact path={"/cambiar-sostenedor"} component={CambiarSostenedor} />
                 <ProtectedRoute exact path={"/home"} component={MenuContainer}/>
             </Switch>
         </Router>
