@@ -4,7 +4,8 @@ import Select from "react-select";
 import { motion } from "framer-motion";
 //import { Select, InputLabel, MenuItem} from "@mui/material";
 
-function RegistroEstudiante({nombre, setNombre, isOpen, pos}) {
+function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombreCompletoEstudiante, setNombreCompletoEstudiante, sede, setSede, carrera, setCarrera,
+    anioIngreso, setAnioIngreso, correoEstudiante, setCorreoEstudiante, scanCarnetEstudiante, setScanCarnetEstudiante}) {
 
     const paperStyle = {
         padding: 20,
@@ -44,7 +45,7 @@ function RegistroEstudiante({nombre, setNombre, isOpen, pos}) {
                 <Paper elevation={0} style={paperStyle}>
                 <Grid align="center" container direction={"column"} spacing={3}>
                     <Grid item>
-                    <h4>{"Identificación del estudiante"}</h4>
+                    <h4>{"Cualquier cosa"}</h4>
                     </Grid>                      
                 </Grid>                    
                 <Grid container direction={"column"} spacing={3}>
@@ -55,8 +56,8 @@ function RegistroEstudiante({nombre, setNombre, isOpen, pos}) {
                         variant="outlined"
                         id="name"
                         name="name"
-                        onChange={(e) => {setNombre(e.target.value);}}
-                        value={nombre}
+                        onChange={(e) => {setNombreCompletoEstudiante(e.target.value);}}
+                        value={nombreCompletoEstudiante}
                         fullWidth
                         required
                         autoFocus
@@ -71,8 +72,8 @@ function RegistroEstudiante({nombre, setNombre, isOpen, pos}) {
                             label="Rut"
                             placeholder="Ingresa tu Rut"
                             variant="outlined"
-                            //value={password}
-                            //onChange={(e) => {setPassword(e.target.value);}}
+                            onChange={(e) => {setRutEstudiante(e.target.value);}}
+                            value={rutEstudiante}
                             fullWidth
                             required
                             autoFocus
@@ -85,8 +86,8 @@ function RegistroEstudiante({nombre, setNombre, isOpen, pos}) {
                             label="Correo electrónico"
                             placeholder="Ingresa tu correo electrónico"
                             variant="outlined"
-                            //value={password}
-                            //onChange={(e) => {setPassword(e.target.value);}}
+                            value={correoEstudiante}
+                            onChange={(e) => {setCorreoEstudiante(e.target.value);}}
                             fullWidth
                             required
                             autoFocus
@@ -103,8 +104,8 @@ function RegistroEstudiante({nombre, setNombre, isOpen, pos}) {
                             name="filename"
                             label="Copia Carnet"                        
                             variant="outlined"
-                            //value={password}
-                            //onChange={(e) => {setPassword(e.target.value);}}
+                            value={scanCarnetEstudiante}
+                            onChange={(e) => {setScanCarnetEstudiante(e.target.value);}}
                             fullWidth
                             disabled
                         />
@@ -148,6 +149,7 @@ function RegistroEstudiante({nombre, setNombre, isOpen, pos}) {
                             {label: "2019", value: "2019"}
                             ]}
                             classNamePrefix="select"
+                            onChange={event => setAnioIngreso(event)}
                         />                        
                         </Grid>
                     </Grid>
@@ -174,7 +176,8 @@ function RegistroEstudiante({nombre, setNombre, isOpen, pos}) {
                             options={[
                             {label: "URL", value: "URL"},
                             {label: "DOCUMENTO", value: "DOCUMENTO"}
-                            ]}          
+                            ]}
+                            onChange={event => setSede(event)}          
                         />                    
                         </Grid>
                     </Grid>
@@ -202,6 +205,7 @@ function RegistroEstudiante({nombre, setNombre, isOpen, pos}) {
                             {label: "2019", value: "2019"}
                             ]}
                             classNamePrefix="select"
+                            onChange={event => setCarrera(event)}
                         />                        
                         </Grid>
                     </Grid>

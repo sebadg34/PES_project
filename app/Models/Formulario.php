@@ -10,13 +10,23 @@ class Formulario extends Model
     use HasFactory;
 
     protected $fillable = [
-        'email',
-        'nombreapellido',
+        'rutEstudiante',
+        'nombreCompletoEstudiante',
         'sede',
         'carrera',
-        'añoingreso',
-        'scancarnet'
+        'añoIngreso',
+        'correoEstudiante',
+        'scanCarnetEstudiante',
+        'rutSostenedor',
+        'nombreCompletoSostenedor',
+        'Parentezco',
+        'scanCarnetSostenedor'
     ];
+
+    public function formulario()
+    {
+        return $this->hasOne(Formulario::class);
+    }
 }
 
 

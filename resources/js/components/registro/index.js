@@ -6,13 +6,30 @@ import RegistroSostenedor from "../registro_sostenedor";
 //import { Select, InputLabel, MenuItem} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import axios from "axios";
 
 function Registro() {
 
   const [isOpen, setIsOpen] = useState(true)
   const [isActive, setIsActive] = useState(true)
-  const [nombre, setNombre] = useState("")
-  const[pos, setPos] = useState(0);
+  const [pos, setPos] = useState(0);
+
+  //variables para el formulario
+
+  //variables estudiante
+  const [rutEstudiante, setRutEstudiante] = useState("");
+  const [nombreCompletoEstudiante, setNombreCompletoEstudiante] = useState("");
+  const [sede, setSede] = useState("");
+  const [carrera, setCarrera] = useState("");
+  const [anioIngreso, setAnioIngreso] = useState("");
+  const [correoEstudiante, setCorreoEstudiante] = useState("");
+  const [scanCarnetEstudiante, setScanCarnetEstudiante] = useState("");
+  //variables sostenedor
+  const [rutSostenedor, setRutSostenedor] = useState("");
+  const [nombreCompletoSostenedor, setNombreCompletoSostenedor] = useState("");
+  const [parentezco, setParentezco] = useState("");
+  const [scanCarnetSostenedor, setScanCarnetSostenedor] = useState("");
+
 
   const delayedOnClick = ()=>{
     setIsOpen(isOpen => !isOpen);
@@ -30,6 +47,24 @@ function Registro() {
 
   }, [isOpen, setPos])
 
+  const displayInf = () =>{
+    console.log({
+      rutEstudiante: rutEstudiante,
+      nombreCompletoEstudiante: nombreCompletoEstudiante,
+      sede: sede,
+      carrera: carrera,
+      anioIngreso: anioIngreso,
+      correoEstudiante: correoEstudiante,
+      rutSostenedor: rutSostenedor,
+      nombreCompletoSostenedor: nombreCompletoSostenedor,
+      parentezco: parentezco
+    });
+    
+    axios.get("api/registro").then((response) => {
+      console.log(response);
+    });
+  }
+
   return (
   //   <form onSubmit={hasAccount ? handleLogin : handleSignup}>
     <>
@@ -43,9 +78,14 @@ function Registro() {
         <Grid item>
           {
             isActive ? 
-              <RegistroEstudiante pos={pos} nombre={nombre} setNombre={setNombre} isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive}/> 
+              <RegistroEstudiante pos={pos} isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} rutEstudiante={rutEstudiante} setRutEstudiante={setRutEstudiante}
+                nombreCompletoEstudiante={nombreCompletoEstudiante} setNombreCompletoEstudiante={setNombreCompletoEstudiante} sede={sede} setSede={setSede} carrera={carrera} setCarrera={setCarrera}
+                anioIngreso={anioIngreso} setAnioIngreso={setAnioIngreso} correoEstudiante={correoEstudiante} setCorreoEstudiante={setCorreoEstudiante} scanCarnetEstudiante={scanCarnetEstudiante}
+                setScanCarnetEstudiante={setScanCarnetEstudiante} /> 
             : 
-              <RegistroSostenedor isOpen={!isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive}/> 
+              <RegistroSostenedor isOpen={!isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} rutSostenedor={rutSostenedor} setRutSostenedor={setRutSostenedor}
+                nombreCompletoSostenedor={nombreCompletoSostenedor} setNombreCompletoSostenedor={setNombreCompletoSostenedor} parentezco={parentezco} setParentezco={setParentezco}
+                scanCarnetSostenedor={scanCarnetEstudiante} setScanCarnetSostenedor={setScanCarnetSostenedor} displayInf={displayInf}/> 
           }          
         </Grid>
         <Grid item>
