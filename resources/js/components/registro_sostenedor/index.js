@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 //import { Select, InputLabel, MenuItem} from "@mui/material";
 
 function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompletoSostenedor, setNombreCompletoSostenedor, parentezco,
-    setParentezco, scanCarnetSostenedor, setScanCarnetSostenedor,completeRegister}) {
+    setParentezco, scanCarnetSostenedor, setScanCarnetSostenedor,completeRegister, errores}) {
 
   const paperStyle = {
     padding: 20,
-    height: "365px",
+    height: "485px",
     width: 550,
     margin: "20px auto",
     border: "1px solid #003057",
@@ -30,6 +30,13 @@ function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompl
       }
     }
   }
+
+  const handleSubirArchivo = e => {
+    if(e.target.files[0]){
+        setScanCarnetSostenedor(e.target.files[0]);
+        e.target.value = null;
+    }
+}    
 
   return (
   //   <form onSubmit={hasAccount ? handleLogin : handleSignup}>
@@ -60,6 +67,7 @@ function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompl
                             required
                             autoFocus
                         />
+                        <span className="errorMsg">{errores.NombreSostenedor}</span>
                     </Grid>
                     <Grid item>
                         <Grid container direction={"row"} spacing={2}>
@@ -76,6 +84,7 @@ function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompl
                                 required
                                 autoFocus
                             />
+                            <span className="errorMsg">{errores.RutSostenedor}</span>
                             </Grid>
                             <Grid item xs={8}>
                                 <TextField
@@ -90,6 +99,7 @@ function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompl
                                 required
                                 autoFocus
                                 />
+                                <span className="errorMsg">{errores.parentezco}</span>
                             </Grid>                      
                         </Grid>                    
                     </Grid>                                    
@@ -100,13 +110,13 @@ function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompl
                                 className="TextField-without-border-radius"
                                 id="outlined-disabled"
                                 name="filename"
-                                label="Copia Carnet sostenedor"                        
+                                label={ scanCarnetSostenedor === "" ? "Copia Carnet sostenedor" : ""}
                                 variant="outlined"
-                                value={scanCarnetSostenedor}
-                                onChange={(e) => {setScanCarnetSostenedor(e.target.value);}}
                                 fullWidth
+                                value={scanCarnetSostenedor.name}
                                 disabled
                             />
+                            <span className="errorMsg">{errores.CarnetSostenedor}</span>  
                             </Grid>
                             <Grid item xs={4}>
                             <Button
@@ -119,8 +129,10 @@ function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompl
                             <input
                                 type="file"
                                 hidden
+                                onChange={handleSubirArchivo}
+                                accept="image/x-png,image/jpeg,application/pdf"
                             />
-                            </Button>        
+                            </Button>                                       
                             </Grid>        
                         </Grid>              
                     </Grid>                                                                                                                                      

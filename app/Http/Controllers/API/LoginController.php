@@ -20,24 +20,29 @@ class LoginController extends Controller
 
        public function login(Request $request){ 
         
-        $fields = $request->validate([
-            'email'=>'required|string',
-            'password'=>'required|string'
+        $validator = Validator::make($request->all(), [
+            'correo'=>'required|string',
+            'contraseña'=>'required|string',
         ]);
 
+        if($validator->fails()){
+            return response()->json([
+                "errors" => $validator->messages(),
+            ]);
+        }
+
         //Estas variables solo se utilizan si es que existe algún error
-        $emailError = [ "email" => ["Este correo no corresponde a ningún usuario"]];
-        $passwordError = [ "password" => ["Esta contraseña no corresponde al correo ingresado"]];
+        $emailError = [ "correo" => ["Este correo no corresponde a ningún usuario"]];
+        $passwordError = [ "contraseña" => ["Esta contraseña no corresponde al correo ingresado"]];
         
-        $user = Usuario::where('email',$fields['email'])->first();
+        $user = Usuario::where('email',$request['correo'])->first();
 
 
         if($user == null){
-            return response()->json(['status'=>'Unauthorised', 
-                                    "errors" => $emailError], 401); 
+            return response()->json(["errors" => $emailError]); 
         }
 
-        if(Hash::check($fields['password'],$user['password'])){ 
+        if(Hash::check($request['contraseña'],$user['password'])){ 
 
             $user->tokens()->delete();
             $token = $user->createToken('auth_token')->plainTextToken;
@@ -48,8 +53,7 @@ class LoginController extends Controller
             , 'token_type' => 'Bearer', ])->withCookie($cookie);
         } 
         else{ 
-            return response()->json(['status'=>'Unauthorised', 
-                                    "errors" => $passwordError], 401); 
+            return response()->json(["errors" => $passwordError]); 
         } 
     }
 
