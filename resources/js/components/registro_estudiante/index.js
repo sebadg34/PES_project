@@ -45,7 +45,7 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                 <Paper elevation={0} style={paperStyle}>
                 <Grid align="center" container direction={"column"} spacing={3}>
                     <Grid item>
-                    <h4>{"Cualquier cosa"}</h4>
+                    <h4>{"Identificación del estudiante"}</h4>
                     </Grid>                      
                 </Grid>                    
                 <Grid container direction={"column"} spacing={3}>

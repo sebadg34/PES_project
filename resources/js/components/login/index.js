@@ -26,25 +26,14 @@ function Login() {
     const avatarStyle = { backgroundColor: "#003057" };
         
     const handleLogin = () => {
-
       
       setErrorEmail("");
       setErrorPassword("");
 
-      AuthService.login(email, password).then(
-        () => {
+      AuthService.login(email, password).then(() => {
           history.push("/home");
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-        
+        });
+
     }
 
 

@@ -5,25 +5,16 @@ import {Grid, Typography, Divider} from '@material-ui/core'
 import { Button } from '@material-ui/core'
 import MenuItems from "../menuitems";
 import { useHistory } from "react-router-dom";
+import AuthService from "../auth/AuthService";
 
 function MenuContainer() {
 
   let history = useHistory();
 
   const handleLogout = () => {
-
-    const request = {
-      method: 'POST',
-      headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({})
-     }
-
-    fetch("api/logout", request)
-    .then(response => response.json())
-    .then(data => {
-      localStorage.removeItem("user");
-      console.log(data);
-    });    
+    AuthService.logout().then(() => {
+        history.push("/");
+    });
   }
 
 
@@ -49,7 +40,6 @@ function MenuContainer() {
                     style={{maxWidth: '150px', minWidth: '150px', float:"right"}}
                     variant="contained"
                     color="primary"
-                    href="/"
                     onClick={handleLogout}
                     >
                     Cerrar sesión

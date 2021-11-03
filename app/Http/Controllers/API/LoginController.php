@@ -53,7 +53,7 @@ class LoginController extends Controller
         } 
     }
 
-    public function user(){ 
+    public function user(){
         return Auth::guard("usuario")->user();
     }
 
@@ -69,7 +69,7 @@ class LoginController extends Controller
     public function check()
     {
         $check = Auth::guard("usuario")->check();
-        return response()->json(['autenticado' => $check]);
+        return response()->json(['message' => $check]);
 
     }    
 
