@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 //import { Select, InputLabel, MenuItem} from "@mui/material";
 
 function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompletoSostenedor, setNombreCompletoSostenedor, parentezco,
-    setParentezco, scanCarnetSostenedor, setScanCarnetSostenedor,displayInf}) {
+    setParentezco, scanCarnetSostenedor, setScanCarnetSostenedor,completeRegister}) {
 
   const paperStyle = {
     padding: 20,
@@ -131,7 +131,7 @@ function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompl
                             variant="contained"
                             color="primary"
                             //href="/registro-sostenedor"
-                            onClick={displayInf}
+                            onClick={completeRegister}
                         >
                             {"Finalizar"}
                         </Button>

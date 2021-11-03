@@ -14,12 +14,12 @@ class Formulario extends Model
         'nombreCompletoEstudiante',
         'sede',
         'carrera',
-        'añoIngreso',
-        'correoEstudiante',
+        'anioIngreso',
+        'email',
         'scanCarnetEstudiante',
         'rutSostenedor',
         'nombreCompletoSostenedor',
-        'Parentezco',
+        'parentezco',
         'scanCarnetSostenedor'
     ];
 
