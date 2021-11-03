@@ -19,10 +19,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('logout', [App\Http\Controllers\API\LoginController::class,'logout'])->name('logout');
     Route::get('check', [App\Http\Controllers\API\LoginController::class,'check'])->name('check');
     Route::get('ver-registro', [App\Http\Controllers\API\RegistroController::class,'verRegistro'])->name('ver-registro');
+    Route::post('registro', [App\Http\Controllers\API\RegistroController::class,'registro'])->name('registro');
 });
 
 Route::post('login', [App\Http\Controllers\API\LoginController::class,'login'])->name('login');
-Route::post('registro', [App\Http\Controllers\API\RegistroController::class,'registro'])->name('registro');
 
 
 //Ruta que toman los usuarios no autenticados

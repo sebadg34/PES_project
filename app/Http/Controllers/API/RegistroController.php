@@ -33,7 +33,9 @@ class RegistroController extends Controller
             ]);
         }
 
-        event(new Registered($formulario = $this->create($request->all())));
+        $id = Auth::guard("usuario")->user()->id;
+
+        event(new Registered($formulario = $this->create($request->all(), $id)));
 
         return response()->json([
             "message" => "success", 200]);
@@ -73,11 +75,8 @@ class RegistroController extends Controller
         
     }
 
-    protected function create(array $data)
+    public function create(array $data, $id)
     {
-
-        $id = Auth::guard("usuario")->user()->id;
-
         return Formulario::create([
             "id_usuario" => $id,
             'email' => $data['email'],
