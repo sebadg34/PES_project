@@ -1,18 +1,13 @@
 import React, {
     Fragment,
     useState,
-    useContext,
-    useEffect,
-    useCallback,
   } from "react";
 import clsx from "clsx";
 import {
     AppBar as MaterialAppBar,
     Box,
-    Grid,
     IconButton,
     Menu,
-    MenuItem,
     Toolbar,
     Typography,
     Drawer,
@@ -21,14 +16,10 @@ import {
     ListItemIcon,
     ListItemText,
     ListItem,
-    Tooltip,
     
   } from "@material-ui/core";
 import {
     Menu as MenuIcon,
-    ChevronLeft as ChevronLeftIcon,
-    ChevronRight as ChevronRightIcon,
-    People as PeopleIcon,
     LaptopChromebook as LaptopChromebookIcon,
     Home as HomeIcon, 
 } from "@material-ui/icons";
@@ -36,9 +27,7 @@ import {
 import { Stack } from '@mui/material';
 
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
-  
-import { Link } from "react-router-dom";
-   
+     
 function AppBarCustom(props) {
 
     const { children } = props;
@@ -49,7 +38,6 @@ function AppBarCustom(props) {
     const menuId = "primary-search-account-menu";
     const isMenuOpen = Boolean(anchorEl);
 
-    const theme = useTheme();
     const [open, setOpen] = useState(false);
     const [openAccesos, setOpenAccesos] = useState(false);
     const [openNoticas, setOpenNoticias] = useState(false);
@@ -70,11 +58,6 @@ function AppBarCustom(props) {
     const handleClickClose = () => {
         setOpenAccesos(false);
     };
-
-    function cerrarMenuConTodo() {
-        handleDrawerClose();
-        handleClickClose();
-    }
 
     function handleMenuClose() {
         setAnchorEl(null);

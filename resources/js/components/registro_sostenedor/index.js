@@ -3,7 +3,8 @@ import {Grid, Paper, TextField, Button } from '@material-ui/core';
 import { motion } from "framer-motion";
 //import { Select, InputLabel, MenuItem} from "@mui/material";
 
-function RegistroSostenedor({isOpen}) {
+function RegistroSostenedor({isOpen,rutSostenedor, setRutSostenedor, nombreCompletoSostenedor, setNombreCompletoSostenedor, parentezco,
+    setParentezco, scanCarnetSostenedor, setScanCarnetSostenedor,completeRegister}) {
 
   const paperStyle = {
     padding: 20,
@@ -53,8 +54,8 @@ function RegistroSostenedor({isOpen}) {
                             variant="outlined"
                             id="nameSostenedor"
                             name="nameSostenedor"
-                            //onChange={(e) => {setEmail(e.target.value);}}
-                            //value={email}
+                            onChange={(e) => {setNombreCompletoSostenedor(e.target.value);}}
+                            value={nombreCompletoSostenedor}
                             fullWidth
                             required
                             autoFocus
@@ -69,8 +70,8 @@ function RegistroSostenedor({isOpen}) {
                                 label="Rut"
                                 placeholder="Ingresa el Rut"
                                 variant="outlined"
-                                //value={password}
-                                //onChange={(e) => {setPassword(e.target.value);}}
+                                value={rutSostenedor}
+                                onChange={(e) => {setRutSostenedor(e.target.value);}}
                                 fullWidth
                                 required
                                 autoFocus
@@ -83,8 +84,8 @@ function RegistroSostenedor({isOpen}) {
                                 label="Parentesco"
                                 placeholder="Ingresa el parentesco"
                                 variant="outlined"
-                                //value={password}
-                                //onChange={(e) => {setPassword(e.target.value);}}
+                                value={parentezco}
+                                onChange={(e) => {setParentezco(e.target.value);}}
                                 fullWidth
                                 required
                                 autoFocus
@@ -101,8 +102,8 @@ function RegistroSostenedor({isOpen}) {
                                 name="filename"
                                 label="Copia Carnet sostenedor"                        
                                 variant="outlined"
-                                //value={password}
-                                //onChange={(e) => {setPassword(e.target.value);}}
+                                value={scanCarnetSostenedor}
+                                onChange={(e) => {setScanCarnetSostenedor(e.target.value);}}
                                 fullWidth
                                 disabled
                             />
@@ -130,7 +131,7 @@ function RegistroSostenedor({isOpen}) {
                             variant="contained"
                             color="primary"
                             //href="/registro-sostenedor"
-                        //   onClick={hasAccount ? handleLogin : handleSignup}
+                            onClick={completeRegister}
                         >
                             {"Finalizar"}
                         </Button>

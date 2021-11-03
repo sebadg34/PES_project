@@ -42,3 +42,8 @@
 .Mui-disabled{
   height: 58;
 }
+
+.errorMsg{
+  color: crimson;
+  font-weight: bold;
+}

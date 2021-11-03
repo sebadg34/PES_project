@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./App";
 import "../../css/app.css";
-import AppBarCustom from "./appbar";
 import { MuiThemeProvider, createTheme } from "@material-ui/core";
 
 const theme = createTheme({
@@ -39,9 +38,7 @@ const theme = createTheme({
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
-        <AppBarCustom>
-            <App />
-        </AppBarCustom>
+        <App />
     </MuiThemeProvider>,
     document.getElementById('root')
 );
