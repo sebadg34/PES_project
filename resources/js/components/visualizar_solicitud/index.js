@@ -9,7 +9,7 @@ function VisualizarSolicitud() {
     <>
         <Grid container direction={"column"} spacing={4}>
             <Grid item>
-                <h1>ESTADO: <span style={{ color: "green" }}>DELICIOSO</span></h1>
+                <h1>ESTADO: <span style={{ color: "green" }}>INGRESADO</span></h1>
             </Grid>
             <Grid item>
                 <Grid container direction={"row"} spacing={10} style={{ height: 120 }} >

@@ -81,8 +81,8 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                         </Grid>
                         <Grid item xs={8}>
                             <TextField
-                            id="correo"
-                            name="correo"
+                            id="email"
+                            name="email"
                             label="Correo electrónico"
                             placeholder="Ingresa tu correo electrónico"
                             variant="outlined"
@@ -149,7 +149,7 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                             {label: "2019", value: "2019"}
                             ]}
                             classNamePrefix="select"
-                            onChange={event => setAnioIngreso(event)}
+                            onChange={event => setAnioIngreso(event.value)}
                         />                        
                         </Grid>
                     </Grid>
@@ -177,7 +177,7 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                             {label: "URL", value: "URL"},
                             {label: "DOCUMENTO", value: "DOCUMENTO"}
                             ]}
-                            onChange={event => setSede(event)}          
+                            onChange={event => setSede(event.value)}          
                         />                    
                         </Grid>
                     </Grid>
@@ -201,11 +201,11 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                             },                 
                             })}                      
                             options={[
-                            {label: "2020", value: "2020"},
-                            {label: "2019", value: "2019"}
+                            {label: "ICI", value: "ICI"},
+                            {label: "ICCI", value: "ICCI"}
                             ]}
                             classNamePrefix="select"
-                            onChange={event => setCarrera(event)}
+                            onChange={event => setCarrera(event.value)}
                         />                        
                         </Grid>
                     </Grid>
