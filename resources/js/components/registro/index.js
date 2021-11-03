@@ -7,6 +7,7 @@ import RegistroSostenedor from "../registro_sostenedor";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import axios from "axios";
+import RegisterService from "../_hooks/RegisterService";
 
 function Registro() {
 
@@ -22,7 +23,7 @@ function Registro() {
   const [sede, setSede] = useState("");
   const [carrera, setCarrera] = useState("");
   const [anioIngreso, setAnioIngreso] = useState("");
-  const [correoEstudiante, setCorreoEstudiante] = useState("");
+  const [email, setEmail] = useState("");
   const [scanCarnetEstudiante, setScanCarnetEstudiante] = useState("");
   //variables sostenedor
   const [rutSostenedor, setRutSostenedor] = useState("");
@@ -47,22 +48,9 @@ function Registro() {
 
   }, [isOpen, setPos])
 
-  const displayInf = () =>{
-    console.log({
-      rutEstudiante: rutEstudiante,
-      nombreCompletoEstudiante: nombreCompletoEstudiante,
-      sede: sede,
-      carrera: carrera,
-      anioIngreso: anioIngreso,
-      correoEstudiante: correoEstudiante,
-      rutSostenedor: rutSostenedor,
-      nombreCompletoSostenedor: nombreCompletoSostenedor,
-      parentezco: parentezco
-    });
-    
-    axios.get("api/registro").then((response) => {
-      console.log(response);
-    });
+  const completeRegister = () =>{
+      RegisterService.register(rutEstudiante, nombreCompletoEstudiante, sede, carrera, anioIngreso, email, rutSostenedor,
+      nombreCompletoSostenedor, parentezco);
   }
 
   return (
@@ -80,12 +68,12 @@ function Registro() {
             isActive ? 
               <RegistroEstudiante pos={pos} isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} rutEstudiante={rutEstudiante} setRutEstudiante={setRutEstudiante}
                 nombreCompletoEstudiante={nombreCompletoEstudiante} setNombreCompletoEstudiante={setNombreCompletoEstudiante} sede={sede} setSede={setSede} carrera={carrera} setCarrera={setCarrera}
-                anioIngreso={anioIngreso} setAnioIngreso={setAnioIngreso} correoEstudiante={correoEstudiante} setCorreoEstudiante={setCorreoEstudiante} scanCarnetEstudiante={scanCarnetEstudiante}
+                anioIngreso={anioIngreso} setAnioIngreso={setAnioIngreso} email={email} setEmail={setEmail} scanCarnetEstudiante={scanCarnetEstudiante}
                 setScanCarnetEstudiante={setScanCarnetEstudiante} /> 
             : 
               <RegistroSostenedor isOpen={!isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} rutSostenedor={rutSostenedor} setRutSostenedor={setRutSostenedor}
                 nombreCompletoSostenedor={nombreCompletoSostenedor} setNombreCompletoSostenedor={setNombreCompletoSostenedor} parentezco={parentezco} setParentezco={setParentezco}
-                scanCarnetSostenedor={scanCarnetEstudiante} setScanCarnetSostenedor={setScanCarnetSostenedor} displayInf={displayInf}/> 
+                scanCarnetSostenedor={scanCarnetEstudiante} setScanCarnetSostenedor={setScanCarnetSostenedor} completeRegister={completeRegister}/> 
           }          
         </Grid>
         <Grid item>

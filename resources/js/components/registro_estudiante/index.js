@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 //import { Select, InputLabel, MenuItem} from "@mui/material";
 
 function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombreCompletoEstudiante, setNombreCompletoEstudiante, sede, setSede, carrera, setCarrera,
-    anioIngreso, setAnioIngreso, correoEstudiante, setCorreoEstudiante, scanCarnetEstudiante, setScanCarnetEstudiante}) {
+    anioIngreso, setAnioIngreso, email, setEmail, scanCarnetEstudiante, setScanCarnetEstudiante}) {
 
     const paperStyle = {
         padding: 20,
@@ -86,8 +86,8 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                             label="Correo electrónico"
                             placeholder="Ingresa tu correo electrónico"
                             variant="outlined"
-                            value={correoEstudiante}
-                            onChange={(e) => {setCorreoEstudiante(e.target.value);}}
+                            value={email}
+                            onChange={(e) => {setEmail(e.target.value);}}
                             fullWidth
                             required
                             autoFocus
