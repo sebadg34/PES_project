@@ -1,15 +1,17 @@
 import { React, useEffect, useState } from 'react';
-import {Grid, Paper, TextField, Typography, Button, Divider } from '@material-ui/core';
+import {Grid, Typography, Divider } from '@material-ui/core';
 import { motion } from "framer-motion";
 import RegistroEstudiante from '../registro_estudiante';
 import RegistroSostenedor from "../registro_sostenedor";
-//import { Select, InputLabel, MenuItem} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import axios from "axios";
 import RegisterService from "../_hooks/RegisterService";
+import Swal from 'sweetalert2'
+import { useHistory } from "react-router-dom";
 
 function Registro() {
+
+  let history = useHistory();
 
   const [isOpen, setIsOpen] = useState(true)
   const [isActive, setIsActive] = useState(true)
@@ -31,6 +33,7 @@ function Registro() {
   const [parentezco, setParentezco] = useState("");
   const [scanCarnetSostenedor, setScanCarnetSostenedor] = useState("");
 
+  const [errores, setErrores] = useState([])
 
   const delayedOnClick = ()=>{
     setIsOpen(isOpen => !isOpen);
@@ -38,6 +41,38 @@ function Registro() {
         setIsActive(isActive => !isActive);
       }, 430);
   }
+
+  const completeRegister = () =>{
+
+    setErrores([]);
+
+    const formdata = new FormData();
+    formdata.append("RutEstudiante",rutEstudiante);
+    formdata.append("NombreEstudiante", nombreCompletoEstudiante);
+    formdata.append("sede", sede.value ? sede.value : "");
+    formdata.append("carrera", carrera.value ? carrera.value : "");
+    formdata.append("AñoIngreso",anioIngreso.value ? anioIngreso.value : "");
+    formdata.append("email",email);
+    formdata.append("CarnetEstudiante", scanCarnetEstudiante);
+    formdata.append("RutSostenedor", rutSostenedor);
+    formdata.append("NombreSostenedor", nombreCompletoSostenedor);
+    formdata.append("parentezco", parentezco);
+    formdata.append("CarnetSostenedor",scanCarnetSostenedor);
+
+    RegisterService.register(formdata)
+    .then((data) => {
+      if("errors" in data){
+        setErrores(data.errors);
+      }else{
+        Swal.fire(
+          'Registro completado',
+          'Tu registro fue completado satisfactoriamente',
+          'success'
+        )
+        history.push("/home");
+      }
+    })
+  };  
 
   useEffect(() => {
     
@@ -48,10 +83,12 @@ function Registro() {
 
   }, [isOpen, setPos])
 
-  const completeRegister = () =>{
-      RegisterService.register(rutEstudiante, nombreCompletoEstudiante, sede, carrera, anioIngreso, email, rutSostenedor,
-      nombreCompletoSostenedor, parentezco);
-  }
+  
+  // useEffect(() => {
+    
+  //   console.log(errores);
+
+  // }, [errores])
 
   return (
   //   <form onSubmit={hasAccount ? handleLogin : handleSignup}>
@@ -69,11 +106,11 @@ function Registro() {
               <RegistroEstudiante pos={pos} isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} rutEstudiante={rutEstudiante} setRutEstudiante={setRutEstudiante}
                 nombreCompletoEstudiante={nombreCompletoEstudiante} setNombreCompletoEstudiante={setNombreCompletoEstudiante} sede={sede} setSede={setSede} carrera={carrera} setCarrera={setCarrera}
                 anioIngreso={anioIngreso} setAnioIngreso={setAnioIngreso} email={email} setEmail={setEmail} scanCarnetEstudiante={scanCarnetEstudiante}
-                setScanCarnetEstudiante={setScanCarnetEstudiante} /> 
+                setScanCarnetEstudiante={setScanCarnetEstudiante} errores={errores}/> 
             : 
               <RegistroSostenedor isOpen={!isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} rutSostenedor={rutSostenedor} setRutSostenedor={setRutSostenedor}
                 nombreCompletoSostenedor={nombreCompletoSostenedor} setNombreCompletoSostenedor={setNombreCompletoSostenedor} parentezco={parentezco} setParentezco={setParentezco}
-                scanCarnetSostenedor={scanCarnetEstudiante} setScanCarnetSostenedor={setScanCarnetSostenedor} completeRegister={completeRegister}/> 
+                scanCarnetSostenedor={scanCarnetSostenedor} setScanCarnetSostenedor={setScanCarnetSostenedor} completeRegister={completeRegister} errores={errores}/> 
           }          
         </Grid>
         <Grid item>

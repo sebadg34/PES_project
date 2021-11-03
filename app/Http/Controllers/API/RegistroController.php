@@ -3,34 +3,95 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
 use App\Models\Formulario; 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
+use Auth;
+use App\Models\Usuario; 
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class RegistroController extends Controller
 {
     public function registro(Request $request)
-    {
-        
-        $formulario = new Formulario();
-        $formulario -> rutEstudiante = $request -> rutEstudiante;
-        $formulario -> nombreCompletoEstudiante = $request -> nombreCompletoEstudiante;
-        $formulario -> sede = $request -> sede;
-        $formulario -> carrera = $request -> carrera;
-        $formulario -> anioIngreso = $request -> anioIngreso;
-        $formulario -> email = $request -> email;
-        $formulario -> rutSostenedor = $request -> rutSostenedor;
-        $formulario -> nombreCompletoSostenedor = $request -> nombreCompletoSostenedor;
-        $formulario -> parentezco = $request -> parentezco;
+    {        
+        $validator = Validator::make($request->all(), [
+            'RutEstudiante'=>'required|string',
+            'NombreEstudiante'=>'required|string',
+            'sede'=>'required|string',
+            'carrera'=>'required|string',
+            'AñoIngreso'=>'required|string',
+            'email'=>'required|string',
+            'RutSostenedor'=>'required|string',
+            'NombreSostenedor'=>'required|string',
+            'parentezco'=>'required|string',
+            'CarnetEstudiante' => 'required|mimes:png,jpg,jpeg,pdf|max:2048',
+            'CarnetSostenedor' => 'required|mimes:png,jpg,jpeg,pdf|max:2048'
+        ]);
 
-        //$formulario -> scanCarnetSostenedor = $request -> scanCarnetSostenedor;
-        //$formulario -> scanCarnetEstudiante = $request -> scanCarnetEstudiante;
+        if($validator->fails()){
+            return response()->json([
+                "errors" => $validator->messages(),
+            ]);
+        }
 
-        $formulario -> save();
+        event(new Registered($formulario = $this->create($request->all())));
 
         return response()->json([
-            'message' =>"Registro exitoso de formulario",
-        ]);
+            "message" => "success", 200]);
+
     }
 
     public function verRegistro(){
+
+        $id = Auth::guard("usuario")->user()->id;
+
+        $formulario = Formulario::where('id_usuario',$id)->first();
+
+        if($formulario == null){
+            return response()->json(['message'=>'Este usuario no ha completado el formulario'], 200);             
+        }
+
+        $formularioJson = [
+            "id" => $formulario->id,
+            "id_usuario" => $formulario->id_usuario,
+            "email" => $formulario->email,
+            "rutEstudiante" => $formulario->rutEstudiante,
+            "rutSostenedor" => $formulario->rutSostenedor,
+            "parentezco" => $formulario->parentezco,
+            "nombreCompletoEstudiante" => $formulario->nombreCompletoEstudiante,
+            "nombreCompletoSostenedor" => $formulario->nombreCompletoSostenedor,
+            "sede" => $formulario->sede,
+            "carrera" => $formulario->carrera,
+            "anioIngreso" => $formulario->anioIngreso,
+        ];
+      
+        //Dan error :(
+        //$formulario->scanCarnetEstudiante;
+        //$formulario->scanCarnetSostenedor;
+
+        return response()->json(['data'=> $formularioJson], 200);             
+        
         
     }
+
+    protected function create(array $data)
+    {
+
+        $id = Auth::guard("usuario")->user()->id;
+
+        return Formulario::create([
+            "id_usuario" => $id,
+            'email' => $data['email'],
+            'rutEstudiante' => $data['RutEstudiante'],
+            'rutSostenedor' => $data['RutSostenedor'],
+            'parentezco' => $data['parentezco'],
+            'nombreCompletoEstudiante' => $data['NombreEstudiante'],
+            'nombreCompletoSostenedor' => $data['NombreSostenedor'],
+            'sede' => $data['sede'],
+            'carrera' => $data['carrera'],
+            'anioIngreso' => $data['AñoIngreso'],
+            'scanCarnetEstudiante' => base64_encode($data['CarnetEstudiante']),
+            'scanCarnetSostenedor' => base64_encode($data['CarnetSostenedor']),
+        ]);
+    }    
+
 }

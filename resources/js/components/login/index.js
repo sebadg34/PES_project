@@ -2,7 +2,6 @@ import { React, useState } from 'react';
 import {Grid, Paper, Avatar, TextField, Typography, Button, Divider} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
 import AuthService from "../auth/AuthService";
 
 function Login() {
@@ -10,8 +9,7 @@ function Login() {
   
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errorEmail, setErrorEmail] = useState("");
-    const [errorPassword, setErrorPassword] = useState("");
+    const [errores, setErrores] = useState([])
   
     let history = useHistory();
 
@@ -27,12 +25,15 @@ function Login() {
         
     const handleLogin = () => {
       
-      setErrorEmail("");
-      setErrorPassword("");
+      setErrores([]);
 
-      AuthService.login(email, password).then(() => {
+      AuthService.login(email, password).then((data) => {
+        if("errors" in data){
+          setErrores(data.errors);
+        }else{
           history.push("/home");
-        });
+        }          
+      });
 
     }
 
@@ -75,7 +76,7 @@ function Login() {
                           required
                           autoFocus
                         />
-                        <span className="errorMsg">{errorEmail}</span>
+                        <span className="errorMsg">{errores.correo}</span>
                       </Grid>
                       <Grid item>
                         <TextField
@@ -89,9 +90,10 @@ function Login() {
                           onChange={(e) => {setPassword(e.target.value);}}
                           fullWidth
                           required
+                          autoComplete="off"
                           autoFocus
                         />
-                        <span className="errorMsg">{errorPassword}</span>
+                        <span className="errorMsg">{errores.contraseña}</span>
                       </Grid>
                       <Grid item align="center">
                         <Button

@@ -14,7 +14,8 @@ class CreateFormulariosTable extends Migration
     public function up()
     {
         Schema::create('formularios', function (Blueprint $table) {
-            $table->id();
+            $table->id("id");
+            $table->integer("id_usuario");
             $table->string('email');
             //$table->foreign('email')->references('email')->on('usuarios');
             $table->string('rutEstudiante')->unique();
@@ -28,6 +29,9 @@ class CreateFormulariosTable extends Migration
             $table->binary('scanCarnetEstudiante')->nullable();
             $table->binary('scanCarnetSostenedor')->nullable();
             $table->timestamps();
+
+            $table->foreign('id_usuario')->references('id')->on('usuarios');
+
         });
     }
 

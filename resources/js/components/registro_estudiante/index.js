@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 //import { Select, InputLabel, MenuItem} from "@mui/material";
 
 function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombreCompletoEstudiante, setNombreCompletoEstudiante, sede, setSede, carrera, setCarrera,
-    anioIngreso, setAnioIngreso, email, setEmail, scanCarnetEstudiante, setScanCarnetEstudiante}) {
+    anioIngreso, setAnioIngreso, email, setEmail, scanCarnetEstudiante, setScanCarnetEstudiante, errores}) {
 
     const paperStyle = {
         padding: 20,
-        height: "595px",
+        height: "780px",
         width: 550,
         margin: "20px auto",
         border: "1px solid #003057",
@@ -31,6 +31,13 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
       }
     }
   }
+
+    const handleSubirArchivo = e => {
+        if(e.target.files[0]){
+            setScanCarnetEstudiante(e.target.files[0]);
+            e.target.value = null;
+        }
+    }  
 
   return (
   //   <form onSubmit={hasAccount ? handleLogin : handleSignup}>
@@ -62,6 +69,7 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                         required
                         autoFocus
                     />
+                    <span className="errorMsg">{errores.NombreEstudiante}</span>
                     </Grid>
                     <Grid item>
                     <Grid container direction={"row"} spacing={2}>
@@ -78,21 +86,23 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                             required
                             autoFocus
                         />
+                        <span className="errorMsg">{errores.RutEstudiante}</span>
                         </Grid>
-                        <Grid item xs={8}>
-                            <TextField
-                            id="email"
-                            name="email"
-                            label="Correo electrónico"
-                            placeholder="Ingresa tu correo electrónico"
-                            variant="outlined"
-                            value={email}
-                            onChange={(e) => {setEmail(e.target.value);}}
-                            fullWidth
-                            required
-                            autoFocus
-                            />
-                        </Grid>                      
+                            <Grid item xs={8}>
+                                <TextField
+                                id="email"
+                                name="email"
+                                label="Correo electrónico"
+                                placeholder="Ingresa tu correo electrónico"
+                                variant="outlined"
+                                value={email}
+                                onChange={(e) => {setEmail(e.target.value);}}
+                                fullWidth
+                                required
+                                autoFocus
+                                />
+                                <span className="errorMsg">{errores.email}</span>
+                            </Grid>                      
                         </Grid>                    
                     </Grid>                                    
                     <Grid item>
@@ -102,13 +112,13 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                             className="TextField-without-border-radius"
                             id="outlined-disabled"
                             name="filename"
-                            label="Copia Carnet"                        
+                            label={ scanCarnetEstudiante === "" ? "Copia Carnet" : ""}                        
                             variant="outlined"
-                            value={scanCarnetEstudiante}
-                            onChange={(e) => {setScanCarnetEstudiante(e.target.value);}}
+                            value={scanCarnetEstudiante.name}
                             fullWidth
                             disabled
                         />
+                        <span className="errorMsg">{errores.CarnetEstudiante}</span>     
                         </Grid>
                         <Grid item xs={4}>
                         <Button
@@ -120,9 +130,12 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                         Adjuntar (.jpg, .png, o .pdf)
                         <input
                             type="file"
+                            accept="image/x-png,image/jpeg,application/pdf"
+                            onChange={handleSubirArchivo}
                             hidden
                         />
-                        </Button>        
+                        </Button>   
+            
                         </Grid>        
                     </Grid>              
                     </Grid>                         
@@ -135,6 +148,7 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                         <Select
                             placeholder="Selecciona un año"
                             name="year"
+                            defaultValue={anioIngreso}
                             theme={(theme) => ({
                             ...theme,
                             colors: {
@@ -149,8 +163,9 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                             {label: "2019", value: "2019"}
                             ]}
                             classNamePrefix="select"
-                            onChange={event => setAnioIngreso(event.value)}
-                        />                        
+                            onChange={event => setAnioIngreso(event)}
+                        />                 
+                        <span className="errorMsg">{errores.AñoIngreso}</span>       
                         </Grid>
                     </Grid>
                     </Grid>     
@@ -161,8 +176,8 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                         </Grid>
                         <Grid item>
                         <Select
-                            //defaultValue={props.rowData.nombreRelator}
                             name="sede"
+                            defaultValue={sede}
                             theme={(theme) => ({
                             ...theme,
                             colors: {
@@ -174,11 +189,13 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                             })}
                             placeholder="Selecciona una sede"
                             options={[
-                            {label: "URL", value: "URL"},
-                            {label: "DOCUMENTO", value: "DOCUMENTO"}
+                            {label: "SEDE ANTOFAGASTA", value: "ANTOFAGASTA"},
+                            {label: "SEDE COQUIMBO", value: "COQUIMBO"},
+                            {label: "SEDE SAN PEDRO DE ATACAMA", value: "SAN PEDRO"}
                             ]}
-                            onChange={event => setSede(event.value)}          
-                        />                    
+                            onChange={event => setSede(event)}          
+                        />          
+                        <span className="errorMsg">{errores.sede}</span>          
                         </Grid>
                     </Grid>
                     </Grid>            
@@ -191,6 +208,7 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                         <Select
                             placeholder="Selecciona una carrera"
                             name="year"
+                            defaultValue={carrera}
                             theme={(theme) => ({
                             ...theme,
                             colors: {
@@ -205,8 +223,9 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                             {label: "ICCI", value: "ICCI"}
                             ]}
                             classNamePrefix="select"
-                            onChange={event => setCarrera(event.value)}
-                        />                        
+                            onChange={event => setCarrera(event)}
+                        />           
+                        <span className="errorMsg">{errores.carrera}</span>             
                         </Grid>
                     </Grid>
                     </Grid>                                                                                                        
