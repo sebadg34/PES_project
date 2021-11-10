@@ -26,12 +26,12 @@ function Registro() {
   const [carrera, setCarrera] = useState("");
   const [anioIngreso, setAnioIngreso] = useState("");
   const [email, setEmail] = useState("");
-  const [scanCarnetEstudiante, setScanCarnetEstudiante] = useState("");
+  const [scanCarnetEstudiante, setScanCarnetEstudiante] = useState({name: "COPIA CARNET ESTUDIANTE"});
   //variables sostenedor
   const [rutSostenedor, setRutSostenedor] = useState("");
   const [nombreCompletoSostenedor, setNombreCompletoSostenedor] = useState("");
-  const [parentezco, setParentezco] = useState("");
-  const [scanCarnetSostenedor, setScanCarnetSostenedor] = useState("");
+  const [parentesco, setParentesco] = useState("");
+  const [scanCarnetSostenedor, setScanCarnetSostenedor] = useState({name: "COPIA CARNET SOSTENEDOR"});
 
   const [errores, setErrores] = useState([])
 
@@ -56,7 +56,7 @@ function Registro() {
     formdata.append("CarnetEstudiante", scanCarnetEstudiante);
     formdata.append("RutSostenedor", rutSostenedor);
     formdata.append("NombreSostenedor", nombreCompletoSostenedor);
-    formdata.append("parentezco", parentezco);
+    formdata.append("parentesco", parentesco.value ? parentesco.value : "");
     formdata.append("CarnetSostenedor",scanCarnetSostenedor);
 
     RegisterService.register(formdata)
@@ -109,7 +109,7 @@ function Registro() {
                 setScanCarnetEstudiante={setScanCarnetEstudiante} errores={errores}/> 
             : 
               <RegistroSostenedor isOpen={!isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} rutSostenedor={rutSostenedor} setRutSostenedor={setRutSostenedor}
-                nombreCompletoSostenedor={nombreCompletoSostenedor} setNombreCompletoSostenedor={setNombreCompletoSostenedor} parentezco={parentezco} setParentezco={setParentezco}
+                nombreCompletoSostenedor={nombreCompletoSostenedor} setNombreCompletoSostenedor={setNombreCompletoSostenedor} parentesco={parentesco} setParentesco={setParentesco}
                 scanCarnetSostenedor={scanCarnetSostenedor} setScanCarnetSostenedor={setScanCarnetSostenedor} completeRegister={completeRegister} errores={errores}/> 
           }          
         </Grid>

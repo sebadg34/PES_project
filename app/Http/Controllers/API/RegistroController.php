@@ -22,7 +22,7 @@ class RegistroController extends Controller
             'email'=>'required|string',
             'RutSostenedor'=>'required|string',
             'NombreSostenedor'=>'required|string',
-            'parentezco'=>'required|string',
+            'parentesco'=>'required|string',
             'CarnetEstudiante' => 'required|mimes:png,jpg,jpeg,pdf|max:2048',
             'CarnetSostenedor' => 'required|mimes:png,jpg,jpeg,pdf|max:2048'
         ]);
@@ -58,7 +58,7 @@ class RegistroController extends Controller
             "email" => $formulario->email,
             "rutEstudiante" => $formulario->rutEstudiante,
             "rutSostenedor" => $formulario->rutSostenedor,
-            "parentezco" => $formulario->parentezco,
+            "parentesco" => $formulario->parentezco,
             "nombreCompletoEstudiante" => $formulario->nombreCompletoEstudiante,
             "nombreCompletoSostenedor" => $formulario->nombreCompletoSostenedor,
             "sede" => $formulario->sede,
@@ -82,7 +82,7 @@ class RegistroController extends Controller
             'email' => $data['email'],
             'rutEstudiante' => $data['RutEstudiante'],
             'rutSostenedor' => $data['RutSostenedor'],
-            'parentezco' => $data['parentezco'],
+            'parentezco' => $data['parentesco'],
             'nombreCompletoEstudiante' => $data['NombreEstudiante'],
             'nombreCompletoSostenedor' => $data['NombreSostenedor'],
             'sede' => $data['sede'],
