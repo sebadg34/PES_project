@@ -7,9 +7,16 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RegisterService from "../_hooks/RegisterService";
 import Swal from 'sweetalert2'
+import { Button } from '@material-ui/core'
 import { useHistory } from "react-router-dom";
 
 function Registro() {
+
+  const handleHome = () => {
+        history.push("/home");
+   
+  }
+
 
   let history = useHistory();
 
@@ -97,6 +104,15 @@ function Registro() {
         <Grid item>
           <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
               Registro del beneficio
+              <Button
+                    className="linkItem"
+                    style={{maxWidth: '150px', minWidth: '150px', float:"right"}}
+                    variant="contained"
+                    color="primary"
+                    onClick={handleHome}
+                    >
+                    volver
+                  </Button>  
           </Typography>
           <Divider light />
         </Grid>

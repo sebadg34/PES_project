@@ -2,7 +2,7 @@
 import React from "react";
 import axios from 'axios';
 const Authenticate = async () => {
-    const url = "localhost:8000/api/check";
+    const url = "127.0.0.1:8000/api/check";
     const res = await fetch(url, {
       method: "GET",
       headers: {

@@ -31,11 +31,8 @@ function MenuContainer() {
                 <Grid item>
                   <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
                       Perfil estudiante
-                  </Typography>                            
-                  <Divider light />        
-                </Grid>
-                <Grid item>
-                  <Button
+
+                      <Button
                     className="linkItem"
                     style={{maxWidth: '150px', minWidth: '150px', float:"right"}}
                     variant="contained"
@@ -43,7 +40,12 @@ function MenuContainer() {
                     onClick={handleLogout}
                     >
                     Cerrar sesión
-                  </Button>                        
+                  </Button>    
+                  </Typography>                            
+                  <Divider light />        
+                </Grid>
+                <Grid item>
+                                      
                 </Grid>                            
               </Grid>               
             </Grid>
