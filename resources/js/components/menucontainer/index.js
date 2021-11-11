@@ -34,7 +34,7 @@ function MenuContainer() {
 
                       <Button
                     className="linkItem"
-                    style={{maxWidth: '150px', minWidth: '150px', float:"right"}}
+                    style={{maxWidth: '150px', minWidth: '150px', float:"right", outline: "none"}}
                     variant="contained"
                     color="primary"
                     onClick={handleLogout}

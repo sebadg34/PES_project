@@ -340,6 +340,9 @@ const useStyles = makeStyles((theme) => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
+        '&:focus': {
+            outline: "none",
+        },        
     },
     nested: {
         paddingLeft: theme.spacing(4),
@@ -396,8 +399,8 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         zIndex: theme.zIndex.drawer + 2,
-        margin: theme.spacing(1),
-    },
+        margin: theme.spacing(1),    
+    },    
     input: {
         display: "none",
     },

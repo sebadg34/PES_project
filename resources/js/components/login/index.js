@@ -98,7 +98,7 @@ function Login() {
                       <Grid item align="center">
                         <Button
                           className="linkItem"
-                          style={{maxWidth: '250px', minWidth: '250px'}}
+                          style={{maxWidth: '250px', minWidth: '250px', outline: "none"}}
                           variant="contained"
                           color="primary"
                           onClick={handleLogin}

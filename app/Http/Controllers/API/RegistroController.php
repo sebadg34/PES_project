@@ -14,14 +14,14 @@ class RegistroController extends Controller
     public function registro(Request $request)
     {        
         $validator = Validator::make($request->all(), [
-            'RutEstudiante'=>'required|string',
-            'NombreEstudiante'=>'required|string',
+            'RutEstudiante'=>'required|regex:/^[0-9]{1,2}(.([0-9]{3})){2}-[0-9]{1}$/',
+            'NombreEstudiante'=>'required|regex:/^[a-zA-ZñáéíóúÁÉÍÓÚ ]+(\s[a-zA-ZñáéíóúÁÉÍÓÚ ]*)*[a-zA-ZñáéíóúÁÉÍÓÚ]$/',
             'sede'=>'required|string',
             'carrera'=>'required|string',
             'AñoIngreso'=>'required|string',
-            'email'=>'required|string',
-            'RutSostenedor'=>'required|string',
-            'NombreSostenedor'=>'required|string',
+            'email'=>'required|email',
+            'RutSostenedor'=>'required|regex:/^[0-9]{1,2}(.([0-9]{3})){2}-[0-9]{1}$/',
+            'NombreSostenedor'=>'required|regex:/^[a-zA-ZñáéíóúÁÉÍÓÚ ]+(\s[a-zA-ZñáéíóúÁÉÍÓÚ ]*)*[a-zA-ZñáéíóúÁÉÍÓÚ]$/',
             'parentesco'=>'required|string',
             'CarnetEstudiante' => 'required|mimes:png,jpg,jpeg,pdf|max:2048',
             'CarnetSostenedor' => 'required|mimes:png,jpg,jpeg,pdf|max:2048'

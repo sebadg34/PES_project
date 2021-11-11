@@ -7,18 +7,22 @@ import AppBarCustom from "../appbar";
 function ProtectedRoute({component: Component, ...rest }) {
 
     const [user, setUser] = useState(localStorage.getItem("user"));
-    const [pending, setPending ] = useState(false);
+    const [ pending, setPending ] = useState(true);
 
     useEffect(() => {
 
         if(user){
-          setPending(false);
+            if(localStorage.getItem("access_token")){
+                setPending(false);
+            }
+        }else{
+            setPending(false);
         }
     
-      }, [user]);
+    }, [user]);
 
 
-    if(pending){
+    if(pending){     
         return <Loading />
     }
 
@@ -26,7 +30,10 @@ console.log(localStorage.getItem('user'));
 
 
     return <Route {...rest} render={(props) => {
-        if (user) {
+        if (user) {   
+            if(rest.path === "/visualizar-solicitud"){
+                return (<Component />)
+            }
             return (
             <AppBarCustom>
                 <Component />
