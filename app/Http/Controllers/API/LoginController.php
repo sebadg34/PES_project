@@ -46,7 +46,7 @@ class LoginController extends Controller
 
             $user->tokens()->delete();
             $token = $user->createToken('auth_token')->plainTextToken;
-            $cookie = cookie("jwt", $token, 60 * 1);
+            $cookie = cookie("jwt", $token, 60 * 24 * 5);
 
             return response()->json(['message' => 'Hi '.$user->email.', welcome to home'
             ,'access_token' => $token
