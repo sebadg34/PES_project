@@ -5,7 +5,7 @@ import Loading from "../loading";
 import AppBarCustom from "../appbar";
 import { useIdleTimer } from 'react-idle-timer'
 import Swal from 'sweetalert2'
-import AuthService from "../auth/AuthService";
+import AuthService from "./AuthService";
 import { useHistory } from "react-router-dom";
 
 function ProtectedRoute({component: Component, ...rest }) {

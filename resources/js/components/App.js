@@ -5,10 +5,12 @@ import MenuContainer from "./menucontainer";
 import Registro from "./registro";
 import VisualizarSolicitud from "./visualizar_solicitud";
 import CambiarSostenedor from "./cambiar_sostenedor";
-import ProtectedRoute from "./auth/ProtectedRoute";
+import ProtectedRoute from "./_hooks/ProtectedRoute";
 import RouteLogin from "./login/RouteLogin";
+import axios from "axios";
 
 function App(){
+    axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
     return (
         <Router>

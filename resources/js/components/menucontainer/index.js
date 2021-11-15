@@ -5,7 +5,7 @@ import {Grid, Typography, Divider} from '@material-ui/core'
 import { Button } from '@material-ui/core'
 import MenuItems from "../menuitems";
 import { useHistory } from "react-router-dom";
-import AuthService from "../auth/AuthService";
+import AuthService from "../_hooks/AuthService";
 
 function MenuContainer() {
 
