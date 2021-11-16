@@ -14,14 +14,21 @@ function VisualizarSolicitud() {
     const [carrera, setCarrera] = useState("");
     const [anioIngreso, setAnioIngreso] = useState("");
     const [email, setEmail] = useState("");
-    const [scanCarnetEstudiante, setScanCarnetEstudiante] = useState("");
     //variables sostenedor
     const [rutSostenedor, setRutSostenedor] = useState("");
     const [nombreCompletoSostenedor, setNombreCompletoSostenedor] = useState("");
     const [parentesco, setParentesco] = useState("");
-    const [scanCarnetSostenedor, setScanCarnetSostenedor] = useState("");
 
     const [pending, setPending ] = useState(true);
+
+    const [datos, setDatos] = useState([]);
+
+    function bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    }
 
     let getRegister = async () =>{
         const register = await RegisterService.getRegister();
@@ -37,6 +44,11 @@ function VisualizarSolicitud() {
         setNombreCompletoSostenedor(register.data.nombreCompletoSostenedor);
         setParentesco(register.data.parentesco);
         
+        setDatos([
+            {nombre: register.data.scanCarnetEstudiante ,carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE)},
+            {nombre: register.data.scanCarnetSostenedor ,carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS)}
+        ]);
+
         setPending(false);
 
     }
@@ -276,23 +288,19 @@ function VisualizarSolicitud() {
                             title="Archivos adjuntos"
                             options={{search: false, paging: false}}           
                             columns={[
-                                { title: 'Nombre archivo', field: 'nombreArchivo' },
-                                { title: 'Peso', field: 'peso' },
-                                { title: 'Persona correspondiente', field: 'Persona'},
+                                { title: 'Tipo carnet', field: 'carnet' },
+                                { title: 'Peso archivo', field: 'peso' },
                             ]}
-                            data={[
-                                { name: 'Mehmet', surname: 'Baran', birthYear: "1987"},
-                                { name: 'Zerya Betül', surname: 'Baran', birthYear: "2017"},
-                            ]}
+                            data={datos}
                             detailPanel={rowData => {
                                 return (
                                 <iframe
                                     width="100%"
                                     height="1120"
-                                    src="https://fi.ort.edu.uy/innovaportal/file/2021/1/metodologia_xp.pdf"
-                                    frameborder="0"
+                                    src={"/storage/carnet/" + rowData.nombre}
+                                    frameBorder="0"
                                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen
+                                    allowFullScreen
                                 />
                                 )
                             }}

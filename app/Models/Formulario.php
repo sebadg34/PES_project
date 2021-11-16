@@ -20,7 +20,7 @@ class Formulario extends Model
         'scanCarnetEstudiante',
         'rutSostenedor',
         'nombreCompletoSostenedor',
-        'parentezco',
+        'parentesco',
         'scanCarnetSostenedor'
     ];
 

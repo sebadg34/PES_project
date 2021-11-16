@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 use Auth;
 use App\Models\Usuario; 
-use Illuminate\Http\Resources\Json\JsonResource;
+
+use Storage;
+use Illuminate\Support\Facades\File;
 
 class RegistroController extends Controller
 {
@@ -33,9 +35,15 @@ class RegistroController extends Controller
             ]);
         }
 
+        $carnetEstudiante = $request->file('CarnetEstudiante');
+        $CE_path = $carnetEstudiante->store("carnet", 'public');
+
+        $carnetSostenedor = $request->file('CarnetSostenedor');
+        $CS_path = $carnetSostenedor->store("carnet", 'public');
+
         $id = Auth::guard("usuario")->user()->id;
 
-        event(new Registered($formulario = $this->create($request->all(), $id)));
+        event(new Registered($formulario = $this->create($request->all(), $id, $CE_path, $CS_path)));
 
         return response()->json([
             "message" => "success", 200]);
@@ -52,44 +60,31 @@ class RegistroController extends Controller
             return response()->json(['message'=>'Este usuario no ha completado el formulario'], 200);             
         }
 
-        $formularioJson = [
-            "id" => $formulario->id,
-            "id_usuario" => $formulario->id_usuario,
-            "email" => $formulario->email,
-            "rutEstudiante" => $formulario->rutEstudiante,
-            "rutSostenedor" => $formulario->rutSostenedor,
-            "parentesco" => $formulario->parentezco,
-            "nombreCompletoEstudiante" => $formulario->nombreCompletoEstudiante,
-            "nombreCompletoSostenedor" => $formulario->nombreCompletoSostenedor,
-            "sede" => $formulario->sede,
-            "carrera" => $formulario->carrera,
-            "anioIngreso" => $formulario->anioIngreso,
-        ];
-      
-        //Dan error :(
-        //$formulario->scanCarnetEstudiante;
-        //$formulario->scanCarnetSostenedor;
+        //$formulario->merge(['variable' => 'value']);
 
-        return response()->json(['data'=> $formularioJson], 200);             
+        $pesoCE = Storage::size("public/carnet/" . $formulario->scanCarnetEstudiante);
+        $pesoCS = Storage::size("public/carnet/" . $formulario->scanCarnetSostenedor);
+      
+        return response()->json(['data'=> $formulario, "pesoCE" => $pesoCE, "pesoCS" => $pesoCS], 200);             
         
         
     }
 
-    public function create(array $data, $id)
+    public function create(array $data, $id, $CE_path, $CS_path)
     {
         return Formulario::create([
             "id_usuario" => $id,
             'email' => $data['email'],
             'rutEstudiante' => $data['RutEstudiante'],
             'rutSostenedor' => $data['RutSostenedor'],
-            'parentezco' => $data['parentesco'],
+            'parentesco' => $data['parentesco'],
             'nombreCompletoEstudiante' => $data['NombreEstudiante'],
             'nombreCompletoSostenedor' => $data['NombreSostenedor'],
             'sede' => $data['sede'],
             'carrera' => $data['carrera'],
             'anioIngreso' => $data['AñoIngreso'],
-            'scanCarnetEstudiante' => base64_encode($data['CarnetEstudiante']),
-            'scanCarnetSostenedor' => base64_encode($data['CarnetSostenedor']),
+            'scanCarnetEstudiante' => basename($CE_path),
+            'scanCarnetSostenedor' => basename($CS_path),
         ]);
     }    
 

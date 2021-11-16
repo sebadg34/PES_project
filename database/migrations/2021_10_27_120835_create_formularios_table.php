@@ -20,14 +20,14 @@ class CreateFormulariosTable extends Migration
             //$table->foreign('email')->references('email')->on('usuarios');
             $table->string('rutEstudiante')->unique();
             $table->string('rutSostenedor');
-            $table->string('parentezco');
+            $table->string('parentesco');
             $table->string('nombreCompletoEstudiante');
             $table->string('nombreCompletoSostenedor');
             $table->string('sede');
             $table->string('carrera');
             $table->string('anioIngreso');
-            $table->binary('scanCarnetEstudiante')->nullable();
-            $table->binary('scanCarnetSostenedor')->nullable();
+            $table->string('scanCarnetEstudiante');
+            $table->string('scanCarnetSostenedor');
             $table->timestamps();
 
             $table->foreign('id_usuario')->references('id')->on('usuarios');
