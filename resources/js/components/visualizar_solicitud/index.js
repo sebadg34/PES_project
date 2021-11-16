@@ -1,9 +1,27 @@
 import { React, useState, useEffect } from 'react';
-import {Grid, TextField, Typography, Divider } from '@material-ui/core';
+import {Grid, TextField, Typography, Divider, makeStyles } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import RegisterService from "../_hooks/RegisterService";
 import Loading from "../loading";
 import AppBarCustom from "../appbar";
+
+const useStyles = makeStyles(theme => ({
+    root: {
+      "& .MuiPaper-root": {
+        backgroundColor: "#003057",           
+        color: "white",
+        //borderRadius: "100px",
+        //boxShadow: "10px 10px 5px 0px rgba(0,0,0,0.75);"
+      },
+      "& .MuiButtonBase-root": {
+        outline: "none",
+        //backgroundColor: "#003057",           
+        //color: "white",
+        //borderRadius: "100px",
+        //boxShadow: "10px 10px 5px 0px rgba(0,0,0,0.75);"
+      }
+    }
+  }));
 
 function VisualizarSolicitud() {
 
@@ -22,6 +40,8 @@ function VisualizarSolicitud() {
     const [pending, setPending ] = useState(true);
 
     const [datos, setDatos] = useState([]);
+
+    const classes = useStyles();
 
     function bytesToSize(bytes) {
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -283,10 +303,25 @@ function VisualizarSolicitud() {
                             </Grid>                           
                         </Grid>                    
                     </Grid>         
-                    <Grid item>
+                    <Grid item className={classes.root}>
                         <MaterialTable
                             title="Archivos adjuntos"
-                            options={{search: false, paging: false}}           
+                            options={{
+                                    search: false, 
+                                    paging: false,
+                                    draggable: false,
+                                    // headerStyle: {
+                                    //     backgroundColor: '#003057',
+                                    //     color: 'White',
+                                    // },
+                                    rowStyle: (rowData) => {
+                                        return {
+                                           color: 'Black',
+                                           //fontFamily: "Mulish-Regular",
+                                           backgroundColor: 'White',
+                                        };
+                                     },                                                                        
+                                    }}           
                             columns={[
                                 { title: 'Tipo carnet', field: 'carnet' },
                                 { title: 'Peso archivo', field: 'peso' },

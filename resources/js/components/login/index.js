@@ -15,7 +15,6 @@ function Login() {
 
     const paperStyle = {
       padding: 20,
-      height: "390px",
       width: 400,
       margin: "20px auto",
       border: "1px solid #003057",
