@@ -18,17 +18,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        // Crear 10 usuarios aleatorios (default Estudiantes).
         Usuario::factory()->count(10)->create();
-
-
-        $user = Usuario::create([
+        
+        // Crear usuario estudiante de prueba.
+        Usuario::create([
             'email' => 'prueba@ucn.cl',
             'password' => bcrypt('prueba'),
+            'isAdmin' => 0,
         ]);
 
-        
+        // Crear usuario admin de prueba.
+        Usuario::create([
+            'email' => 'admin@ucn.cl',
+            'password' => bcrypt('prueba'),
+            'isAdmin' => 1,
+        ]);
 
-        // Formulario::factory()->count(10)->create();
     }
 }
