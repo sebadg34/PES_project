@@ -9,6 +9,13 @@ const register = (datos) => {
     });
 };
 
+const cambiarSostenedor = (datos) => {
+
+    return axios.post(API_URL + "cambiar-sostenedor", datos).then((response) =>{
+        return response.data;
+    });
+};
+
 const getRegister = () => {
 
     return axios.get(API_URL + "ver-registro").then((response) =>{
@@ -18,5 +25,6 @@ const getRegister = () => {
 
 export default {
     register,
-    getRegister
+    getRegister,
+    cambiarSostenedor
 };

@@ -23,7 +23,7 @@ function Perfil() {
         {
           id: 3,
           title: "Cambiar de sostenedor",
-          url: "/registro",
+          url: "/cambiar-sostenedor",
           img: imgChange,
         },
         {

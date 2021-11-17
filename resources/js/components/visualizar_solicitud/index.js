@@ -10,15 +10,9 @@ const useStyles = makeStyles(theme => ({
       "& .MuiPaper-root": {
         backgroundColor: "#003057",           
         color: "white",
-        //borderRadius: "100px",
-        //boxShadow: "10px 10px 5px 0px rgba(0,0,0,0.75);"
       },
       "& .MuiButtonBase-root": {
         outline: "none",
-        //backgroundColor: "#003057",           
-        //color: "white",
-        //borderRadius: "100px",
-        //boxShadow: "10px 10px 5px 0px rgba(0,0,0,0.75);"
       }
     }
   }));

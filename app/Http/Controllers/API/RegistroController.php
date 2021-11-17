@@ -50,6 +50,35 @@ class RegistroController extends Controller
 
     }
 
+    public function cambiarSostenedor(Request $request)
+    {        
+        $validator = Validator::make($request->all(), [
+            'RutSostenedor'=>'required|regex:/^[0-9]{1,2}(.([0-9]{3})){2}-[0-9]{1}$/',
+            'NombreSostenedor'=>'required|regex:/^[a-zA-ZñáéíóúÁÉÍÓÚ ]+(\s[a-zA-ZñáéíóúÁÉÍÓÚ ]*)*[a-zA-ZñáéíóúÁÉÍÓÚ]$/',
+            'parentesco'=>'required|string',
+            'CarnetSostenedor' => 'required|mimes:png,jpg,jpeg,pdf|max:2048'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                "errors" => $validator->messages(),
+            ]);
+        }
+
+        $carnetSostenedor = $request->file('CarnetSostenedor');
+        Storage::delete("public/carnet/" . $request->filename);
+        $carnetSostenedor = $request->file('CarnetSostenedor');
+        $CS_path = $carnetSostenedor->store("carnet", 'public');
+
+        $id = Auth::guard("usuario")->user()->id;
+
+        $this->update($request->all(), $id, $CS_path);
+        
+        return response()->json([
+            "message" => "success", 200]);
+
+    }    
+
     public function verRegistro(){
 
         $id = Auth::guard("usuario")->user()->id;
@@ -59,8 +88,6 @@ class RegistroController extends Controller
         if($formulario == null){
             return response()->json(['message'=>'Este usuario no ha completado el formulario'], 200);             
         }
-
-        //$formulario->merge(['variable' => 'value']);
 
         $pesoCE = Storage::size("public/carnet/" . $formulario->scanCarnetEstudiante);
         $pesoCS = Storage::size("public/carnet/" . $formulario->scanCarnetSostenedor);
@@ -87,5 +114,15 @@ class RegistroController extends Controller
             'scanCarnetSostenedor' => basename($CS_path),
         ]);
     }    
+
+    public function update(array $data, $id, $CS_path)
+    {    
+        return Formulario::where("id_usuario", $id)->update([
+            'rutSostenedor' => $data['RutSostenedor'],
+            'nombreCompletoSostenedor' => $data['NombreSostenedor'],
+            'parentesco' => $data['parentesco'],
+            'scanCarnetSostenedor' => basename($CS_path),            
+        ]);
+    }        
 
 }
