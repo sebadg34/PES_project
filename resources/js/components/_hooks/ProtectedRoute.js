@@ -21,9 +21,8 @@ function ProtectedRoute({component: Component, roles, ...rest }) {
       
         document.cookie = cookiename + "=new_value;path=/;" + expires;
         return document.cookie.indexOf(cookiename + '=') == -1;
-      }
+    }
 
-    /*
     const [ pending, setPending ] = useState(true);
 
     //60 * 1000 ms = 1 min (60000 ms) * 15  = 15 minutos (900000 ms)
@@ -44,15 +43,9 @@ function ProtectedRoute({component: Component, roles, ...rest }) {
         AuthService.logout().then(() => {
             history.push("/");
         });
-      }    
+    }    
  
     useIdleTimer({ timeout, onActive: handleOnActive, onIdle: handleOnIdle })
-
-
-   
-
-
- 
 
     useEffect(() => {
 
@@ -107,17 +100,22 @@ function ProtectedRoute({component: Component, roles, ...rest }) {
     if(pending){     
         return <Loading />
     }
-*/
+
     console.log(localStorage.getItem('user'));
 
-
-    
+    console.log("roles",roles);
+    console.log("isAdmin", JSON.parse(localStorage.getItem('isAdmin')));
     // verificar si la ruta depende del rol y si el rol es correcto
-    if (roles && roles != localStorage.getItem('isAdmin')) {
+    if (roles != JSON.parse(localStorage.getItem('isAdmin'))) {
         // Si el rol no esta autorizado, volver a la pag principal
         return <Redirect to={{ pathname: '/'}} />
     }
 
+    // // verificar si la ruta depende del rol y si el rol es correcto
+    // if (roles && roles != localStorage.getItem('isAdmin')) {
+    //     // Si el rol no esta autorizado, volver a la pag principal
+    //     return <Redirect to={{ pathname: '/'}} />
+    // }    
     
     return <Route {...rest} render={(props) => {
         if (user) {   

@@ -15,7 +15,7 @@ function RouteLogin({component: Component, ...rest }) {
         }
         else {
             // En caso de entrar al login ya logeado, redirigir al home correspondiente al rol
-            if(localStorage.getItem('isAdmin') == true){
+            if(JSON.parse(localStorage.getItem('isAdmin')) == true){
                 console.log("redireccionando admin a su pag")
                 return <Redirect to={{ pathname: '/administracion', state: { from: props.location } }} />
             }else{

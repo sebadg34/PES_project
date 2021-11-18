@@ -31,7 +31,7 @@ function Login() {
         if("errors" in data){
           setErrores(data.errors);
         }else{
-          if(localStorage.getItem('isAdmin') == false){
+          if(JSON.parse(localStorage.getItem('isAdmin')) == false){
             console.log("ESTUDIANTE ENTRANDO");
             history.push("/home");
           }else{

@@ -28,4 +28,6 @@ require("./components/registro_sostenedor/index");
 require("./components/visualizar_solicitud/index");
 require("./components/cambiar_sostenedor/index");
 require("./components/loading/index");
+require("./components/auxiliars/role");
+require("./components/homeAdmin/index");
 // require("../../public/js/app");

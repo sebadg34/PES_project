@@ -20,13 +20,13 @@ function App(){
             
                 <RouteLogin exact path={"/"} component={Login} />
                 
-                <ProtectedRoute exact path={"/registro"} roles={[Role.User]} component={Registro} />
-                <ProtectedRoute exact path={"/visualizar-solicitud"} roles={[Role.User]} component={VisualizarSolicitud} />
-                <ProtectedRoute exact path={"/cambiar-sostenedor"} roles={[Role.User]} component={CambiarSostenedor} />
-                <ProtectedRoute exact path={"/home"} roles={[Role.User]} component={MenuContainer}/>
+                <ProtectedRoute exact path={"/registro"} roles={Role.User} component={Registro} />
+                <ProtectedRoute exact path={"/visualizar-solicitud"} roles={Role.User} component={VisualizarSolicitud} />
+                <ProtectedRoute exact path={"/cambiar-sostenedor"} roles={Role.User} component={CambiarSostenedor} />
+                <ProtectedRoute exact path={"/home"} roles={Role.User} component={MenuContainer}/>
 
 
-                <ProtectedRoute exact path={"/administracion"} roles={[Role.Admin]} component={homeAdmin}/>
+                <ProtectedRoute exact path={"/administracion"} roles={Role.Admin} component={homeAdmin}/>
 
             </Switch>
         </Router>

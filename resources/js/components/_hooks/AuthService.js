@@ -32,8 +32,7 @@ const logout = () => {
   return axios.get("logout")
     .then((response) => {
         console.log("LOGOUT EXITOSO");
-        localStorage.removeItem("user");
-        localStorage.removeItem("access_token");
+        localStorage.clear();
         console.log(response.data);
       return response.data;
     });
