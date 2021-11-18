@@ -1,7 +1,5 @@
 import axios from "axios";
 
-
-
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.post["Accept"] = "application/json";
 axios.defaults.headers.get["Content-Type"] = "application/json";
@@ -32,7 +30,6 @@ const logout = () => {
 
   return axios.get("logout")
     .then((response) => {
-      
         console.log("LOGOUT EXITOSO");
         localStorage.removeItem("user");
         localStorage.removeItem("access_token");
@@ -51,7 +48,6 @@ const check = () => {
       }
   });
 };
-
 
 const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));

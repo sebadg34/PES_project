@@ -36,12 +36,27 @@ function ProtectedRoute({component: Component, ...rest }) {
       }    
 
     useIdleTimer({ timeout, onActive: handleOnActive, onIdle: handleOnIdle })
-  
+
+    function doesHttpOnlyCookieExist(cookiename) {
+        var d = new Date();
+        d.setTime(d.getTime() + (1000));
+        var expires = "expires=" + d.toUTCString();
+      
+        document.cookie = cookiename + "=new_value;path=/;" + expires;
+        return document.cookie.indexOf(cookiename + '=') == -1;
+      }
+
     useEffect(() => {
 
         if(user){
-            if(localStorage.getItem("access_token")){
+            if(!doesHttpOnlyCookieExist("jwt")){
+                localStorage.clear();
+                setUser(null);
                 setPending(false);
+            }else{
+                if(localStorage.getItem("access_token")){
+                    setPending(false);
+                }
             }
         }else{
             setPending(false);
@@ -51,7 +66,7 @@ function ProtectedRoute({component: Component, ...rest }) {
 
     useEffect(() => {
 
-        console.log(isIdle);
+        //console.log(isIdle);
         if(isIdle && !messageActive){
             setMessageActive(true);  
             sessionTimeoutRef.current = setTimeout(handleLogout, timeoutLogout);          

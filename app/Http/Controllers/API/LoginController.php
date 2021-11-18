@@ -46,7 +46,7 @@ class LoginController extends Controller
 
             $user->tokens()->delete();
             $token = $user->createToken('auth_token')->plainTextToken;
-            $cookie = cookie("jwt", $token, 60 * 24 * 5);
+            $cookie = cookie("jwt", $token, 0);
 
             return response()->json(['message' => 'Hi '.$user->email.', welcome to home'
             ,'access_token' => $token
@@ -76,13 +76,4 @@ class LoginController extends Controller
         return response()->json(['message' => $check]);
 
     }    
-
-    // public function logout()
-    // {
-    //     auth()->usuario()->tokens()->delete();
-
-    //     return [
-    //         'message' => 'You have successfully logged out and the token was successfully deleted'
-    //     ];
-    // }
 }
