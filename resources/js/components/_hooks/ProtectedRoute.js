@@ -8,11 +8,22 @@ import Swal from 'sweetalert2'
 import AuthService from "./AuthService";
 import { useHistory } from "react-router-dom";
 
-function ProtectedRoute({component: Component, ...rest }) {
+function ProtectedRoute({component: Component, roles, ...rest }) {
 
     let history = useHistory();
 
     const [user, setUser] = useState(localStorage.getItem("user"));
+    
+    function doesHttpOnlyCookieExist(cookiename) {
+        var d = new Date();
+        d.setTime(d.getTime() + (1000));
+        var expires = "expires=" + d.toUTCString();
+      
+        document.cookie = cookiename + "=new_value;path=/;" + expires;
+        return document.cookie.indexOf(cookiename + '=') == -1;
+      }
+
+    /*
     const [ pending, setPending ] = useState(true);
 
     //60 * 1000 ms = 1 min (60000 ms) * 15  = 15 minutos (900000 ms)
@@ -34,17 +45,14 @@ function ProtectedRoute({component: Component, ...rest }) {
             history.push("/");
         });
       }    
-
+ 
     useIdleTimer({ timeout, onActive: handleOnActive, onIdle: handleOnIdle })
 
-    function doesHttpOnlyCookieExist(cookiename) {
-        var d = new Date();
-        d.setTime(d.getTime() + (1000));
-        var expires = "expires=" + d.toUTCString();
-      
-        document.cookie = cookiename + "=new_value;path=/;" + expires;
-        return document.cookie.indexOf(cookiename + '=') == -1;
-      }
+
+   
+
+
+ 
 
     useEffect(() => {
 
@@ -58,6 +66,7 @@ function ProtectedRoute({component: Component, ...rest }) {
                     setPending(false);
                 }
             }
+            
         }else{
             setPending(false);
         }
@@ -98,9 +107,18 @@ function ProtectedRoute({component: Component, ...rest }) {
     if(pending){     
         return <Loading />
     }
-
+*/
     console.log(localStorage.getItem('user'));
 
+
+    
+    // verificar si la ruta depende del rol y si el rol es correcto
+    if (roles && roles != localStorage.getItem('isAdmin')) {
+        // Si el rol no esta autorizado, volver a la pag principal
+        return <Redirect to={{ pathname: '/'}} />
+    }
+
+    
     return <Route {...rest} render={(props) => {
         if (user) {   
             if(rest.path === "/visualizar-solicitud" || rest.path === "/cambiar-sostenedor"){

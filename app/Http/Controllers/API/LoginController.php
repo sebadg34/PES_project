@@ -50,6 +50,7 @@ class LoginController extends Controller
 
             return response()->json(['message' => 'Hi '.$user->email.', welcome to home'
             ,'access_token' => $token
+            ,'isAdmin' => $user->isAdmin
             , 'token_type' => 'Bearer', ])->withCookie($cookie);
         } 
         else{ 
@@ -73,7 +74,7 @@ class LoginController extends Controller
     public function check()
     {
         $check = Auth::guard("usuario")->check();
-        return response()->json(['message' => $check]);
+        return response()->json(['message' => $check,'isAdmin' => $user->isAdmin]);
 
     }    
 }

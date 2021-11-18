@@ -3,6 +3,7 @@ import {Grid, Paper, Avatar, TextField, Typography, Button, Divider} from '@mate
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useHistory } from "react-router-dom";
 import AuthService from "../_hooks/AuthService";
+import { useReducedMotion } from 'framer-motion';
 
 function Login() {
 
@@ -30,7 +31,14 @@ function Login() {
         if("errors" in data){
           setErrores(data.errors);
         }else{
-          history.push("/home");
+          if(localStorage.getItem('isAdmin') == false){
+            console.log("ESTUDIANTE ENTRANDO");
+            history.push("/home");
+          }else{
+            console.log("ADMIN ENTRANDO");
+            history.push("/administracion");
+          }
+          
         }          
       });
 

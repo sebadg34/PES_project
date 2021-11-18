@@ -21,6 +21,7 @@ const login = (email, password) => {
         console.log("LOGIN EXITOSO");
         localStorage.setItem("user", JSON.stringify(response.data));
         localStorage.setItem("access_token",response.data.access_token);
+        localStorage.setItem("isAdmin",response.data.isAdmin);
       }
       return response.data;
     });
