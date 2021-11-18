@@ -103,8 +103,6 @@ function ProtectedRoute({component: Component, roles, ...rest }) {
 
     console.log(localStorage.getItem('user'));
 
-    console.log("roles",roles);
-    console.log("isAdmin", JSON.parse(localStorage.getItem('isAdmin')));
     // verificar si la ruta depende del rol y si el rol es correcto
     if (roles != JSON.parse(localStorage.getItem('isAdmin'))) {
         // Si el rol no esta autorizado, volver a la pag principal
