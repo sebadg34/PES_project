@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Usuario;
 
 class Formulario extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        "id_usuario",
+        "usuario_id",
         'rutEstudiante',
         'nombreCompletoEstudiante',
         'sede',
@@ -21,7 +22,8 @@ class Formulario extends Model
         'rutSostenedor',
         'nombreCompletoSostenedor',
         'parentesco',
-        'scanCarnetSostenedor'
+        'scanCarnetSostenedor',
+        'estado'
     ];
 
     public function formulario()

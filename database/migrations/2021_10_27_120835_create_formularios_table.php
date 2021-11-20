@@ -15,7 +15,9 @@ class CreateFormulariosTable extends Migration
     {
         Schema::create('formularios', function (Blueprint $table) {
             $table->id("id");
-            $table->integer("id_usuario");
+            
+            $table->foreignId('usuario_id')->references('id')->on('usuarios');
+
             $table->string('email');
             //$table->foreign('email')->references('email')->on('usuarios');
             $table->string('rutEstudiante')->unique();
@@ -28,10 +30,12 @@ class CreateFormulariosTable extends Migration
             $table->string('anioIngreso');
             $table->string('scanCarnetEstudiante');
             $table->string('scanCarnetSostenedor');
+            // Los estados pueden ser Registrada, En proceso, rechazada y aceptada, 
+            // al crear formulario, por default sera registrado
+            $table->string('estado')->default("Registrada");
             $table->timestamps();
 
-            $table->foreign('id_usuario')->references('id')->on('usuarios');
-
+            
         });
     }
 

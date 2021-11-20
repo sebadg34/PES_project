@@ -83,7 +83,7 @@ class RegistroController extends Controller
 
         $id = Auth::guard("usuario")->user()->id;
 
-        $formulario = Formulario::where('id_usuario',$id)->first();
+        $formulario = Formulario::where('usuario_id',$id)->first();
 
         if($formulario == null){
             return response()->json(['message'=>'Este usuario no ha completado el formulario'], 200);             
@@ -101,7 +101,7 @@ class RegistroController extends Controller
     public function create(array $data, $id, $CE_path, $CS_path)
     {
         return Formulario::create([
-            "id_usuario" => $id,
+            "usuario_id" => $id,
             'email' => $data['email'],
             'rutEstudiante' => $data['RutEstudiante'],
             'rutSostenedor' => $data['RutSostenedor'],
@@ -118,7 +118,7 @@ class RegistroController extends Controller
 
     public function update(array $data, $id, $CS_path)
     {    
-        return Formulario::where("id_usuario", $id)->update([
+        return Formulario::where("usuario_id", $id)->update([
             'rutSostenedor' => $data['RutSostenedor'],
             'nombreCompletoSostenedor' => $data['NombreSostenedor'],
             'parentesco' => $data['parentesco'],

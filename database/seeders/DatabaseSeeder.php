@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         // Crear 10 usuarios aleatorios (default Estudiantes).
         Usuario::factory()->count(10)->create();
+        Usuario::factory()->hasFormulario(1)->count(10)->create();
         
         // Crear usuario estudiante de prueba.
         Usuario::create([
