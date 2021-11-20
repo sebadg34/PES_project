@@ -92,10 +92,11 @@ class RegistroController extends Controller
         $pesoCE = Storage::size("public/carnet/" . $formulario->scanCarnetEstudiante);
         $pesoCS = Storage::size("public/carnet/" . $formulario->scanCarnetSostenedor);
       
-        return response()->json(['data'=> $formulario, "pesoCE" => $pesoCE, "pesoCS" => $pesoCS], 200);             
+        return response()->json(['data' => $formulario, "pesoCE" => $pesoCE, "pesoCS" => $pesoCS], 200);             
         
         
     }
+
 
     public function create(array $data, $id, $CE_path, $CS_path)
     {
@@ -123,6 +124,13 @@ class RegistroController extends Controller
             'parentesco' => $data['parentesco'],
             'scanCarnetSostenedor' => basename($CS_path),            
         ]);
-    }        
+    }   
+    
+    
+    public function getRegistros(){
+        $formularios = Formulario::all();
+        return response()->json(['data' => $formularios], 200);      
+    }
+
 
 }

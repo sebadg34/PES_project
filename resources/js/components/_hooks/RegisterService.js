@@ -23,8 +23,16 @@ const getRegister = () => {
     });
 };
 
+const getRegisters = () => {
+
+    return axios.get(API_URL + "registros").then((response) =>{
+        return response.data;
+    });
+};
+
 export default {
     register,
     getRegister,
-    cambiarSostenedor
+    cambiarSostenedor,
+    getRegisters
 };
