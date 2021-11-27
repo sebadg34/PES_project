@@ -117,7 +117,7 @@ function ProtectedRoute({component: Component, roles, ...rest }) {
     
     return <Route {...rest} render={(props) => {
         if (user) {   
-            if(rest.path === "/visualizar-solicitud" || rest.path === "/cambiar-sostenedor"){
+            if(rest.path === "/visualizar-solicitud" || rest.path === "/cambiar-sostenedor" || rest.path === "/administracion"){
                 return (<Component />)
             }
             return (

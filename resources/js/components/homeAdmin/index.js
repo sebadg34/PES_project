@@ -1,42 +1,35 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, Global } from "@emotion/react";
-import { React, useState, useEffect } from 'react';
-import {Grid, Typography, Divider} from '@material-ui/core'
+import { useState, useEffect } from 'react';
+import {Grid, Typography, Divider, makeStyles} from '@material-ui/core'
 import { Button } from '@material-ui/core'
-import MenuItems from "../menuitems";
 import { useHistory } from "react-router-dom";
 import AuthService from "../_hooks/AuthService";
 import MaterialTable from 'material-table';
 import RegisterService from "../_hooks/RegisterService";
 import Loading from "../loading";
+import AppBarCustom from "../appbar";
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    "& .MuiPaper-root": {
+      backgroundColor: "#003057",           
+      color: "white",
+    },
+    "& .MuiButtonBase-root": {
+      outline: "none",
+    }
+  }
+}));
 
 function homeAdmin() {
 
-/*
-    //variables estudiante
-    const [rutEstudiante, setRutEstudiante] = useState("");
-    const [nombreCompletoEstudiante, setNombreCompletoEstudiante] = useState("");
-    const [sede, setSede] = useState("");
-    const [carrera, setCarrera] = useState("");
-    const [anioIngreso, setAnioIngreso] = useState("");
-    const [email, setEmail] = useState("");
-    //variables sostenedor
-    const [rutSostenedor, setRutSostenedor] = useState("");
-    const [nombreCompletoSostenedor, setNombreCompletoSostenedor] = useState("");
-    const [parentesco, setParentesco] = useState("");
-    const [pending, setPending ] = useState(true);
-    const [datos, setDatos] = useState([]);
-    
+  const [fetchedForms, setFetchedForms] = useState("");
+  const [pending, setPending ] = useState(true);
+  const [selectedRow, setSelectedRow] = useState(null);
 
-*/
-
-
-const [fetchedForms, setFetchedForms] = useState("");
-const [pending, setPending ] = useState(true);
-const [selectedRow, setSelectedRow] = useState(null);
-
+  const classes = useStyles();
   let history = useHistory();
 
   const handleLogout = () => {
@@ -54,27 +47,7 @@ const [selectedRow, setSelectedRow] = useState(null);
     console.log(forms);
 
     setFetchedForms(forms.data);
-
-    /*
-       setRutEstudiante(register.data.rutEstudiante);
-       setNombreCompletoEstudiante(register.data.nombreCompletoEstudiante);
-       setSede(register.data.sede);
-       setCarrera(register.data.carrera);
-       setAnioIngreso(register.data.anioIngreso);
-       setEmail(register.data.email);
-       setRutSostenedor(register.data.rutSostenedor);
-       setNombreCompletoSostenedor(register.data.nombreCompletoSostenedor);
-       setParentesco(register.data.parentesco);
-       
-       setDatos([
-           {nombre: register.data.scanCarnetEstudiante ,carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE)},
-           {nombre: register.data.scanCarnetSostenedor ,carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS)}
-       ]);
-   
-       setPending(false);
-     */
-
-       setPending(false);
+    setPending(false);
   }
 
 
@@ -84,11 +57,17 @@ const [selectedRow, setSelectedRow] = useState(null);
 
 }, [])
 
-if(pending){     
-  return <Loading />
-}
+  if(pending){     
+    return <Loading />
+  }
+
+  const filaSeleccionada = (evt, selectedRow) => {
+    setSelectedRow(selectedRow.tableData.id);
+    alert(selectedRow.email);
+  }  
 
   return (
+    <AppBarCustom>
     <div
       className="App"
       css={css`
@@ -122,15 +101,14 @@ if(pending){
 
       </Grid>
 
-    
-
-
+      {/* <div className={classes.root}> */}
+      <div>
 
       <MaterialTable
         title="Solicitudes"
         columns={[
           { title: 'ID', field: 'id' },
-          { title: 'Rut', field: 'rutEstudiante' },
+          { title: 'Rut', field: 'rutEstudiante', cellStyle: { width: 150, minWidth: 150 }},
           { title: 'Nombre', field: 'nombreCompletoEstudiante' },
           { title: 'Correo', field: 'email' },
           { title: 'Sede', field: 'sede' },
@@ -158,18 +136,17 @@ if(pending){
 
           },
         }}
-        onRowClick={((evt, selectedRow) => setSelectedRow(selectedRow.tableData.id))}
-        options={{
+        options={{          
           rowStyle: rowData => ({
-            backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF'
+            color: 'Black',
+            backgroundColor: (selectedRow === rowData.tableData.id) ? '#c8d7e3' : '#FFF'
           })
-
-
           //filtering: true
         }}
+        onRowClick={((evt, selectedRow) => filaSeleccionada(evt, selectedRow))}
       />
 
-
+      </div>
 
 
       <Global
@@ -196,6 +173,7 @@ if(pending){
         `}
       />
     </div>
+    </AppBarCustom>
   );
 }
 
