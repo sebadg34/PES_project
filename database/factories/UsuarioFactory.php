@@ -25,7 +25,7 @@ class UsuarioFactory extends Factory
         static $password;
         return [
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => $password ?: $password = bcrypt('prueba'), // password
+            'password' => $password ?: $password = bcrypt('prueba'), // password de prueba "prueba"
         ];
     }
 

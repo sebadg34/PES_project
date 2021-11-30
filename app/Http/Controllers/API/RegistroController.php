@@ -37,7 +37,6 @@ class RegistroController extends Controller
 
         $carnetEstudiante = $request->file('CarnetEstudiante');
         $CE_path = $carnetEstudiante->store("carnet", 'public');
-
         $carnetSostenedor = $request->file('CarnetSostenedor');
         $CS_path = $carnetSostenedor->store("carnet", 'public');
 

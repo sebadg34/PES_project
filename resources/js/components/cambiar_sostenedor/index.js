@@ -9,6 +9,7 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import { useHistory } from "react-router-dom";
 import Swal from 'sweetalert2'
 
+
 const useStyles = makeStyles(theme => ({
     root: {
       "& .MuiPaper-root": {
@@ -23,6 +24,12 @@ const useStyles = makeStyles(theme => ({
 
 function CambiarSostenedor(){
 
+
+   
+    const handleHome = () => {
+        history.push("/home");
+
+    }
     const paperStyle = {
         padding: 20,
         width: 550,
@@ -121,6 +128,15 @@ function CambiarSostenedor(){
                     <Grid item>
                         <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
                                     Cambiar datos del sostenedor
+                                    <Button
+                                className="linkItem"
+                                style={{ maxWidth: '150px', minWidth: '150px', float: "right", outline: "none" }}
+                                variant="contained"
+                                color="primary"
+                                onClick={handleHome}
+                            >
+                                volver
+                            </Button>
                         </Typography>
                         <Divider light />                  
                     </Grid>                         
