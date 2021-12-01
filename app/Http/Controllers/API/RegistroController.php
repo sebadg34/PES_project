@@ -96,6 +96,22 @@ class RegistroController extends Controller
         
     }
 
+    public function verRegistroByID($id){
+
+        $formulario = Formulario::where('id',$id)->first();
+
+        if($formulario == null){
+            return response()->json(['message'=>'Este formulario no existe'], 200);             
+        }
+
+        $pesoCE = Storage::size("public/carnet/" . $formulario->scanCarnetEstudiante);
+        $pesoCS = Storage::size("public/carnet/" . $formulario->scanCarnetSostenedor);
+      
+        return response()->json(['data' => $formulario, "pesoCE" => $pesoCE, "pesoCS" => $pesoCS], 200);             
+        
+        
+    }
+
 
     public function create(array $data, $id, $CE_path, $CS_path)
     {

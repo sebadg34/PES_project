@@ -10,18 +10,67 @@ import MaterialTable from 'material-table';
 import RegisterService from "../_hooks/RegisterService";
 import Loading from "../loading";
 import AppBarCustom from "../appbar";
+import PatchedPagination from "./PatchedPagination";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    "& .MuiPaper-root": {
-      backgroundColor: "#003057",           
-      color: "white",
-    },
+    // "& .MuiPaper-root": {
+    //   backgroundColor: "#003057",           
+    //   color: "white",
+    // },
     "& .MuiButtonBase-root": {
       outline: "none",
     }
   }
 }));
+
+const datosLocalizacion = {
+  body: {
+    emptyDataSourceMessage: 'No hay datos por mostrar',
+    addTooltip: 'Añadir',
+    deleteTooltip: 'Eliminar',
+    editTooltip: 'Editar',
+    filterRow: {
+      filterTooltip: 'Filtrar',
+    },
+    editRow: {
+      deleteText: '¿Quieres eliminar este usuario del curso?',
+      cancelTooltip: 'Cancelar',
+      saveTooltip: 'Guardar',
+    },
+  },
+  grouping: {
+    placeholder: "Arrastre un encabezado aquí para agrupar",
+    groupedBy: 'Agrupado por',
+  },
+  header: {
+    actions: '',
+  },
+  pagination: {
+    firstAriaLabel: 'Primera página',
+    firstTooltip: 'Primera página',
+    labelDisplayedRows: '{from}-{to} de {count}',
+    labelRowsPerPage: 'Filas por página:',
+    labelRowsSelect: 'filas',
+    lastAriaLabel: 'Última página',
+    lastTooltip: 'Última página',
+    nextAriaLabel: 'Pagina siguiente',
+    nextTooltip: 'Pagina siguiente',
+    previousAriaLabel: 'Pagina anterior',
+    previousTooltip: 'Pagina anterior',
+  },
+  toolbar: {
+    addRemoveColumns: 'Agregar o eliminar columnas',
+    exportAriaLabel: 'Exportar',
+    exportName: 'Exportar a CSV',
+    exportTitle: 'Exportar',
+    nRowsSelected: '{0} filas seleccionadas',
+    searchPlaceholder: 'Buscar',
+    searchTooltip: 'Buscar',
+    showColumnsAriaLabel: 'Mostrar columnas',
+    showColumnsTitle: 'Mostrar columnas',
+  },
+};   
 
 function homeAdmin() {
 
@@ -44,7 +93,6 @@ function homeAdmin() {
   let getForms = async () => {
 
     const forms = await RegisterService.getRegisters();
-    console.log(forms);
 
     setFetchedForms(forms.data);
     setPending(false);
@@ -61,9 +109,10 @@ function homeAdmin() {
     return <Loading />
   }
 
-  const filaSeleccionada = (evt, selectedRow) => {
+  const filaSeleccionada = (evt, selectedRow) => {    
     setSelectedRow(selectedRow.tableData.id);
-    alert(selectedRow.email);
+    const timer = setTimeout(() => history.push("/estudiantes/" + selectedRow.id), 500);
+    return () => clearTimeout(timer);    
   }  
 
   return (
@@ -101,50 +150,33 @@ function homeAdmin() {
 
       </Grid>
 
-      {/* <div className={classes.root}> */}
-      <div>
+      <div className={classes.root}>
 
-      <MaterialTable
-        title="Solicitudes"
-        columns={[
-          { title: 'ID', field: 'id' },
-          { title: 'Rut', field: 'rutEstudiante', cellStyle: { width: 150, minWidth: 150 }},
-          { title: 'Nombre', field: 'nombreCompletoEstudiante' },
-          { title: 'Correo', field: 'email' },
-          { title: 'Sede', field: 'sede' },
-          { title: 'Carrera', field: 'carrera' },
-          { title: 'Estado', field: 'estado' }
+        <MaterialTable
+          title="Solicitudes"
+          columns={[
+            { title: 'ID', field: 'id' },
+            { title: 'Rut', field: 'rutEstudiante', cellStyle: { width: 150, minWidth: 150 }},
+            //{ title: 'Nombre', field: 'nombreCompletoEstudiante', cellStyle: { width: 320, minWidth: 320 }},
+            { title: 'Nombre', field: 'nombreCompletoEstudiante'},
+            { title: 'Correo', field: 'email' },
+            { title: 'Sede', field: 'sede' },
+            { title: 'Carrera', field: 'carrera' },
+            { title: 'Estado', field: 'estado' }
 
-        ]}
-        data={fetchedForms}
-        localization={{
-          toolbar: {
-            searchTooltip: 'Buscar',
-            searchPlaceholder: 'Buscar'
-          },
-          pagination: {
-            labelDisplayedRows: '{from}-{to} de {count}',
-            labelRowsSelect: 'filas',
-            firstAriaLabel: 'Primera pagina',
-            firstTooltip: 'Primera pagina',
-            previousAriaLabel: 'Página anterior',
-            previousTooltip: 'Página anterior',
-            nextAriaLabel: 'Página siguiente',
-            nextTooltip: 'Página siguiente',
-            lastAriaLabel: 'Ultima página',
-            lastTooltip: 'Última página'
-
-          },
-        }}
-        options={{          
-          rowStyle: rowData => ({
-            color: 'Black',
-            backgroundColor: (selectedRow === rowData.tableData.id) ? '#c8d7e3' : '#FFF'
-          })
-          //filtering: true
-        }}
-        onRowClick={((evt, selectedRow) => filaSeleccionada(evt, selectedRow))}
-      />
+          ]}
+          data={fetchedForms}
+          localization={datosLocalizacion}
+          components={{Pagination: PatchedPagination}}
+          options={{          
+            rowStyle: rowData => ({
+              color: 'Black',
+              backgroundColor: (selectedRow === rowData.tableData.id) ? '#c8d7e3' : '#FFF'
+            })
+            //filtering: true
+          }}
+          onRowClick={((evt, selectedRow) => filaSeleccionada(evt, selectedRow))}
+        />
 
       </div>
 
