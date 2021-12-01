@@ -30,4 +30,5 @@ require("./components/cambiar_sostenedor/index");
 require("./components/loading/index");
 require("./components/auxiliars/role");
 require("./components/homeAdmin/index");
+require("./components/visualizar_solicitud_admin/index");
 // require("../../public/js/app");

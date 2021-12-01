@@ -23,6 +23,13 @@ const getRegister = () => {
     });
 };
 
+const getRegisterByID = (id) => {
+
+    return axios.get(API_URL + "ver-registro/" + id).then((response) =>{
+        return response.data;
+    });
+};
+
 const getRegisters = () => {
 
     return axios.get(API_URL + "registros").then((response) =>{
@@ -34,5 +41,6 @@ export default {
     register,
     getRegister,
     cambiarSostenedor,
-    getRegisters
+    getRegisters,
+    getRegisterByID,
 };

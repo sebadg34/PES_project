@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Login from "./login";
 import MenuContainer from "./menucontainer";
@@ -9,7 +9,8 @@ import CambiarSostenedor from "./cambiar_sostenedor";
 import ProtectedRoute from "./_hooks/ProtectedRoute";
 import RouteLogin from "./login/RouteLogin";
 import axios from "axios";
-import { history, Role } from "./auxiliars/role";
+import { Role } from "./auxiliars/role";
+import VisualizarSolicitudAdmin from "./visualizar_solicitud_admin";
 
 function App(){
     axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
@@ -27,6 +28,7 @@ function App(){
 
 
                 <ProtectedRoute exact path={"/administracion"} roles={Role.Admin} component={homeAdmin}/>
+                <ProtectedRoute exact path={"/estudiantes/:id"} roles={Role.Admin} component={VisualizarSolicitudAdmin}/>
 
             </Switch>
         </Router>
