@@ -1,10 +1,13 @@
 import { React, useState, useEffect } from 'react';
-import {Grid, TextField, Typography, Divider, makeStyles } from '@material-ui/core';
+import {Grid, TextField, Typography, Divider, makeStyles, Button} from '@material-ui/core';
 import MaterialTable from 'material-table';
 import RegisterService from "../_hooks/RegisterService";
 import Loading from "../loading";
 import AppBarCustom from "../appbar";
 import { useParams } from 'react-router-dom';
+import {
+    Delete
+} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -14,8 +17,11 @@ const useStyles = makeStyles(theme => ({
       },
       "& .MuiButtonBase-root": {
         outline: "none",
+      },
+      "& .MuiTableCell-body":{
+          color: "white",
       }
-    }
+    }   
   }));
 
 function VisualizarSolicitudAdmin() {
@@ -37,6 +43,7 @@ function VisualizarSolicitudAdmin() {
     const [pending, setPending ] = useState(true);
 
     const [datos, setDatos] = useState([]);
+    const [archivosAdjuntos, setArchivosAdjuntos] = useState([]);
 
     const classes = useStyles();
 
@@ -70,6 +77,20 @@ function VisualizarSolicitudAdmin() {
 
     }
         
+    const handleUpload = async (e, rowData) => {
+
+        const archivo = e.target.files[0];
+
+        setArchivosAdjuntos(archivosAdjuntos.map(item => 
+            {
+              if (item.tableData.id == rowData.tableData.id){
+                return {...item, archivo: archivo, newFileName: archivo.name, peso: bytesToSize(archivo.size)}; //gets everything that was already in item, and updates "done"
+              }
+              return item;
+            }));
+        e.target.files = null;
+        
+    };    
 
     useEffect(() => {
 
@@ -337,7 +358,70 @@ function VisualizarSolicitudAdmin() {
                                 )
                             }}
                             />
-                    </Grid>                                                                    
+                    </Grid>       
+                    <Grid item className={classes.root}>
+                        <MaterialTable
+                            title="Adjuntar archivos"
+                            localization={{  
+                                body: {
+                                    emptyDataSourceMessage: 'No hay documentos por mostrar',
+                                    deleteTooltip: 'Eliminar documento',
+                                    editRow: {
+                                        deleteText: '¿Quieres eliminar este documento?',
+                                        cancelTooltip: 'Cancelar',
+                                        saveTooltip: 'Eliminar',
+                                    },                                    
+                                },
+                                header: { 
+                                    actions: '' 
+                                }
+                            }}
+                            icons={{
+                                Delete: () => <Delete style={{ color: "crimson" }} />
+                            }}                            
+                            options={{
+                                    search: false, 
+                                    paging: false,
+                                    draggable: false,                              
+                                    rowStyle: (rowData) => {
+                                            return {
+                                                color: 'Black',
+                                                backgroundColor: 'White',
+                                            };
+                                        },                                                                
+                                    }}           
+                            columns={[                          
+                                { title: "", field: "cambiarImagen", render: (rowData) =>             
+                                <Button variant="contained" component="label" color="primary">
+                                Adjuntar archivo
+                                  <input type="file" 
+                                  accept="image/x-png,image/jpeg,application/pdf"
+                                  onChange={(e) => handleUpload(e, rowData)}
+                                  hidden/>
+                                </Button>, editable:"never"},
+                                { title: 'Nombre archivo', field: 'newFileName', cellStyle: { width: 500, minWidth: 500 }},
+                                { title: 'Peso', field: 'peso'},
+                            ]}
+                            data={archivosAdjuntos}         
+                            actions={[
+                                ({
+                                    icon: "add_box",
+                                    iconProps: { style: { color: "white" } },
+                                    tooltip: "Agregar un documento",
+                                    position: "toolbar",
+                                    onClick: () => {
+                                        setArchivosAdjuntos([...archivosAdjuntos, {archivo: "", newFileName: "SELECCIONA UN ARCHIVO (.PDF, .JPG, .PNG)", peso: "-"}]);
+                                    }
+                                }),                                ,                                                                                                                     
+                            ]}
+                            editable={{
+                                onRowDelete: async (oldData) => {
+                                    setArchivosAdjuntos(archivosAdjuntos.filter(({ tableData }) => tableData.id !== oldData.tableData.id));
+                                }
+                            }}                                                                     
+                            />
+                            {/* <span className="errorMsg">{errores.CarnetSostenedor}</span>                                        */}
+                    </Grid>                                                                                          
                 </Grid>
             </AppBarCustom>
         </>
