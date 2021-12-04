@@ -2,6 +2,7 @@ import { React } from 'react';
 import {Grid, Paper, TextField, Button } from '@material-ui/core';
 import Select from "react-select";
 import { motion } from "framer-motion";
+import {Carreras} from "../auxiliars/carreras"
 
 function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombreCompletoEstudiante, setNombreCompletoEstudiante, sede, setSede, carrera, setCarrera,
      anioIngreso, setAnioIngreso, email, setEmail, scanCarnetEstudiante, setScanCarnetEstudiante, errores}) {
@@ -215,10 +216,7 @@ function RegistroEstudiante({isOpen, pos, rutEstudiante, setRutEstudiante, nombr
                                     primary: '#003057',
                                 },                 
                                 })}                      
-                                options={[
-                                {label: "ICI", value: "ICI"},
-                                {label: "ICCI", value: "ICCI"}
-                                ]}
+                                options={Carreras}
                                 classNamePrefix="select"
                                 onChange={event => setCarrera(event)}
                             />           
