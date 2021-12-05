@@ -11,6 +11,13 @@ import RegisterService from "../_hooks/RegisterService";
 import Loading from "../loading";
 import AppBarCustom from "../appbar";
 import PatchedPagination from "./PatchedPagination";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -152,26 +159,31 @@ function homeAdmin() {
 
       <div className={classes.root}>
 
+
         <MaterialTable
           title="Solicitudes"
+          
           columns={[
-            { title: 'ID', field: 'id' },
-            { title: 'Rut', field: 'rutEstudiante', cellStyle: { width: 150, minWidth: 150 }},
+            { title: 'ID', field: 'id',cellStyle: {margin: "auto", width: "0%", padding:"auto"}},
+            { title: 'Rut', field: 'rutEstudiante', cellStyle: { width: "10%", minWidth: 50 }},
             //{ title: 'Nombre', field: 'nombreCompletoEstudiante', cellStyle: { width: 320, minWidth: 320 }},
             { title: 'Nombre', field: 'nombreCompletoEstudiante'},
             { title: 'Correo', field: 'email' },
             { title: 'Sede', field: 'sede' },
-            { title: 'Carrera', field: 'carrera' },
-            { title: 'Estado', field: 'estado' }
+            { title: 'Carrera', field: 'carrera' , cellStyle: {fontSize: 14}},
+            { title: 'Estado', field: 'estado'}
 
           ]}
+          
           data={fetchedForms}
           localization={datosLocalizacion}
           components={{Pagination: PatchedPagination}}
           options={{          
             rowStyle: rowData => ({
               color: 'Black',
-              backgroundColor: (selectedRow === rowData.tableData.id) ? '#c8d7e3' : '#FFF'
+              backgroundColor: (selectedRow === rowData.tableData.id) ? '#c8d7e3' : '#FFF',
+              border: 0,
+              padding: 0
             })
             //filtering: true
           }}
@@ -201,12 +213,19 @@ function homeAdmin() {
           .container {
             width: 100%;
             margin: auto;
+            max-width : 1440px;
+          }
+
+          .MuiTableCell-root {
+            padding: 12px;
           }
         `}
       />
     </div>
     </AppBarCustom>
   );
+
+  
 }
 
 export default homeAdmin;
