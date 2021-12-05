@@ -8,14 +8,41 @@ import imgStart from "../start.svg";
 import { components } from 'react-select';
 import RegisterService from "../_hooks/RegisterService";
 import MenuItem from "../auxiliars/menuItem"
+import Swal from 'sweetalert2'
 
 function Perfil() {
         console.log("CREANDO BOTONES?");
   const [estadoRegistro, setEstadoRegistro] = useState("");
   //const [items, setItems] = useState();
   
-  
-  
+  const [desplegar, setDesplegar] = useState("");
+
+  const whyDisabled = (title) => {
+    console.log(estadoRegistro);
+    if(estadoRegistro == ""){
+      Swal.fire(
+        'Opción deshabilitada',
+        'No puede ' + title + " sin antes registrar una solicitud",
+        'error'
+      )
+    }
+    else if(estadoRegistro == "Registrada"){
+      Swal.fire(
+        'Opción deshabilitada',
+        'No puede ' + title + " con la solicitud ya creada",
+        'error'
+      )
+    }
+    else {
+      Swal.fire(
+        'Opción deshabilitada',
+        'No puede ' + title + " mientras que la solicitud esté en proceso",
+        'error'
+      )
+    }
+    
+
+}
 
   useLayoutEffect(() => {
 
@@ -39,7 +66,6 @@ function Perfil() {
           console.log("NO TIENE REGISTRO, LIMITAR FUNCIONALIDADES");
         }
         
-      
         
 
     });
@@ -63,24 +89,29 @@ function Perfil() {
       title: "Registro del beneficio",
       url: "/registro",
       img: imgSignUp,
+      desplegar: estadoRegistro === "" ? true : false,
     },
     {
       id: 2,
       title: "Visualizar solicitud",
       url: "/visualizar-solicitud",
       img: imgCheck,
+      desplegar: estadoRegistro != "" ? true : false,
     },
     {
       id: 3,
       title: "Cambiar de sostenedor",
       url: "/cambiar-sostenedor",
       img: imgChange,
+      desplegar: estadoRegistro === "Registrada"   ? true : false ,
+    
     },
     {
       id: 4,
       title: "Iniciar activación de solicitud",
       url: "/registro",
       img: imgStart,
+      desplegar: estadoRegistro ===  "Registrada" ? true : false ,
     }
   ];
 
@@ -96,7 +127,7 @@ function Perfil() {
         },
       };
 
-
+  /* 
       if(estadoRegistro != ""){
         // registrado, muestra todo excepto registrar
         if(estadoRegistro == "Registrada"){
@@ -115,7 +146,7 @@ function Perfil() {
         items.splice(items.findIndex(obj => obj.id === 3), 1);
         items.splice(items.findIndex(obj => obj.id === 4), 1);
        }
-
+  */
     return (
       
     <>
@@ -132,7 +163,11 @@ function Perfil() {
             <img src={item.img} alt="food burger" />
             <motion.div className="item-content">
                 <motion.div className="item-title-box">
-                    <a className="item-title linkItem" href={item.url}>{item.title}</a>
+
+                    {item.desplegar ? 
+                    <a className="item-title linkItem" href={item.url}>{item.title}</a> :
+                    <h4 style= {{color: "#898989"}} className="button" onClick={() => whyDisabled(item.title)}>{item.title}</h4>
+                    }
                 {/* <motion.h5 className="item-price">${item.price}</motion.h5> */}
                 </motion.div>
                 {/* <motion.p className="item-desc">{item.desc}</motion.p> */}
