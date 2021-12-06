@@ -165,7 +165,7 @@ function homeAdmin() {
           
           columns={[
             { title: 'ID', field: 'id',cellStyle: {margin: "auto", width: "0%", padding:"auto"}},
-            { title: 'Rut', field: 'rutEstudiante', cellStyle: { width: "10%", minWidth: 50 }},
+            { title: 'Rut', field: 'rutEstudiante', cellStyle: { minWidth: 80 }},
             //{ title: 'Nombre', field: 'nombreCompletoEstudiante', cellStyle: { width: 320, minWidth: 320 }},
             { title: 'Nombre', field: 'nombreCompletoEstudiante'},
             { title: 'Correo', field: 'email' },

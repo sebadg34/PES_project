@@ -99,21 +99,21 @@ function VisualizarSolicitud() {
 
                             {estado === "Registrada"
                                 ?
-                                <span style={{ color: "green" }}>{" "}{estado}</span>
+                                <span style={{ color: "green" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                 :
                                 estado === "En proceso"
                                     ?
-                                    <span style={{ color: "orange" }}>{" "}{estado}</span>
+                                    <span style={{ color: "orange" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                     :
                                     estado === "Aceptada"
                                         ?
-                                        <span style={{ color: "blue" }}>{" "}{estado}</span>
+                                        <span style={{ color: "blue" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                         :
                                         estado === "Cancelada"
                                             ?
-                                            <span style={{ color: "red" }}>{" "}{estado}</span>
+                                            <span style={{ color: "red" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                             :
-                                            <span style={{ color: "black" }}>{" "}{estado}</span>
+                                            <span style={{ color: "black" }}>{" "}{estado.toLocaleUpperCase()}</span>
                             }
 
                             <Button

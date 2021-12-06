@@ -21,12 +21,15 @@ class RegistroController extends Controller
             'sede'=>'required|string',
             'carrera'=>'required|string',
             'AñoIngreso'=>'required|string',
-            'email'=>'required|email',
+            'email'=>'required|regex:/^([a-zA-Z0-9_\-\.]+)@(alumnos.)?ucn.cl$/',
             'RutSostenedor'=>'required|regex:/^[0-9]{1,2}(.([0-9]{3})){2}-[0-9]{1}$/',
             'NombreSostenedor'=>'required|regex:/^[a-zA-ZñáéíóúÁÉÍÓÚ ]+(\s[a-zA-ZñáéíóúÁÉÍÓÚ ]*)*[a-zA-ZñáéíóúÁÉÍÓÚ]$/',
             'parentesco'=>'required|string',
             'CarnetEstudiante' => 'required|mimes:png,jpg,jpeg,pdf|max:2048',
             'CarnetSostenedor' => 'required|mimes:png,jpg,jpeg,pdf|max:2048'
+        ],
+        [
+            'email.regex' => 'Utilice el correo institucional',
         ]);
 
         if($validator->fails()){

@@ -1,13 +1,10 @@
-import { React, useEffect, useState , useLayoutEffect} from 'react';
+import { React, useState , useLayoutEffect} from 'react';
 import { motion } from "framer-motion";
 import imgSignUp from "../sign-up.svg";
 import imgCheck from "../check.svg";
-import imgWaiting from "../waiting.svg";
 import imgChange from "../change-sos.svg";
 import imgStart from "../start.svg";
-import { components } from 'react-select';
 import RegisterService from "../_hooks/RegisterService";
-import MenuItem from "../auxiliars/menuItem"
 import Swal from 'sweetalert2'
 
 function Perfil() {
@@ -22,21 +19,21 @@ function Perfil() {
     if(estadoRegistro == ""){
       Swal.fire(
         'Opción deshabilitada',
-        'No puede ' + title + " sin antes registrar una solicitud",
+        'No puede ' + title.toLowerCase() + " sin antes registrar una solicitud",
         'error'
       )
     }
     else if(estadoRegistro == "Registrada"){
       Swal.fire(
         'Opción deshabilitada',
-        'No puede ' + title + " con la solicitud ya creada",
+        'La solicitud ya fue creada',
         'error'
       )
     }
     else {
       Swal.fire(
         'Opción deshabilitada',
-        'No puede ' + title + " mientras que la solicitud esté en proceso",
+        'No puede ' + title.toLowerCase() + " mientras que la solicitud esté en proceso",
         'error'
       )
     }

@@ -27,7 +27,10 @@ import {
 import { Stack } from '@mui/material';
 
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
-     
+
+import logo from "../logo.png";
+import { height } from "@mui/system";
+
 function AppBarCustom(props) {
 
     const { children } = props;
@@ -98,7 +101,7 @@ function AppBarCustom(props) {
             <div className={classes.root}>
             <MaterialAppBar
                 position="fixed"
-                variant="outlined"      
+                //variant="outlined"      
                 elevation={0}
 
                 className={clsx(classes.appBar, { [classes.appBarShift]: open })}
@@ -117,6 +120,8 @@ function AppBarCustom(props) {
                     >
                     <MenuIcon />
                     </IconButton>
+
+                    <img src={logo} width="80" height="80"/>
 
                     <div className={classes.grow} />
 
@@ -388,6 +393,7 @@ const useStyles = makeStyles((theme) => ({
         color: "black",
     },
     toolbar: {
+        height: "83px",
         display: "flex",
         alignItems: "center",
         justifyContent: "flex-end",
