@@ -39,7 +39,7 @@ function VisualizarSolicitudAdmin() {
     const [rutSostenedor, setRutSostenedor] = useState("");
     const [nombreCompletoSostenedor, setNombreCompletoSostenedor] = useState("");
     const [parentesco, setParentesco] = useState("");
-
+    const [estado, setEstado] = useState("");
     const [pending, setPending ] = useState(true);
 
     const [datos, setDatos] = useState([]);
@@ -67,7 +67,7 @@ function VisualizarSolicitudAdmin() {
         setRutSostenedor(register.data.rutSostenedor);
         setNombreCompletoSostenedor(register.data.nombreCompletoSostenedor);
         setParentesco(register.data.parentesco);
-        
+        setEstado(register.data.estado);
         setDatos([
             {nombre: register.data.scanCarnetEstudiante ,carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE)},
             {nombre: register.data.scanCarnetSostenedor ,carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS)}
@@ -108,7 +108,7 @@ function VisualizarSolicitudAdmin() {
             <AppBarCustom>
                 <Grid container direction={"column"} spacing={4}>
                     <Grid item>
-                        <h1>ESTADO: <span style={{ color: "gray" }}>INGRESADO</span></h1>
+                        <h1>ESTADO: <span style={{ color: "gray" }}>{estado}</span></h1>
                     </Grid>
                     <Grid item>
                         <Grid container direction={"row"} spacing={10} style={{ height: 120 }} >
