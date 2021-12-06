@@ -93,7 +93,29 @@ function VisualizarSolicitud() {
             <AppBarCustom>
                 <Grid container direction={"column"} spacing={4}>
                     <Grid item>
-                        <h1>ESTADO: <span style={{ color: "gray" }}>{estado}</span>
+
+
+                        <h1>ESTADO:
+
+                            {estado === "Registrada"
+                                ?
+                                <span style={{ color: "green" }}>{" "}{estado}</span>
+                                :
+                                estado === "En proceso"
+                                    ?
+                                    <span style={{ color: "orange" }}>{" "}{estado}</span>
+                                    :
+                                    estado === "Aceptada"
+                                        ?
+                                        <span style={{ color: "blue" }}>{" "}{estado}</span>
+                                        :
+                                        estado === "Cancelada"
+                                            ?
+                                            <span style={{ color: "red" }}>{" "}{estado}</span>
+                                            :
+                                            <span style={{ color: "black" }}>{" "}{estado}</span>
+                            }
+
                             <Button
                                 className="linkItem"
                                 style={{ maxWidth: '150px', minWidth: '150px', float: "right", outline: "none" }}

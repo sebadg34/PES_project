@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import {Grid, TextField, Typography, Divider, makeStyles, Button} from '@material-ui/core';
+import { Grid, TextField, Typography, Divider, makeStyles, Button } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import RegisterService from "../_hooks/RegisterService";
 import Loading from "../loading";
@@ -11,18 +11,18 @@ import {
 
 const useStyles = makeStyles(theme => ({
     root: {
-      "& .MuiPaper-root": {
-        backgroundColor: "#003057",           
-        color: "white",
-      },
-      "& .MuiButtonBase-root": {
-        outline: "none",
-      },
-      "& .MuiTableCell-body":{
-          color: "white",
-      }
-    }   
-  }));
+        "& .MuiPaper-root": {
+            backgroundColor: "#003057",
+            color: "white",
+        },
+        "& .MuiButtonBase-root": {
+            outline: "none",
+        },
+        "& .MuiTableCell-body": {
+            color: "white",
+        }
+    }
+}));
 
 function VisualizarSolicitudAdmin() {
 
@@ -40,7 +40,7 @@ function VisualizarSolicitudAdmin() {
     const [nombreCompletoSostenedor, setNombreCompletoSostenedor] = useState("");
     const [parentesco, setParentesco] = useState("");
     const [estado, setEstado] = useState("");
-    const [pending, setPending ] = useState(true);
+    const [pending, setPending] = useState(true);
 
     const [datos, setDatos] = useState([]);
     const [archivosAdjuntos, setArchivosAdjuntos] = useState([]);
@@ -54,7 +54,7 @@ function VisualizarSolicitudAdmin() {
         return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     }
 
-    let getRegister = async () =>{
+    let getRegister = async () => {
         const register = await RegisterService.getRegisterByID(id);
         console.log(register);
 
@@ -69,28 +69,27 @@ function VisualizarSolicitudAdmin() {
         setParentesco(register.data.parentesco);
         setEstado(register.data.estado);
         setDatos([
-            {nombre: register.data.scanCarnetEstudiante ,carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE)},
-            {nombre: register.data.scanCarnetSostenedor ,carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS)}
+            { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE) },
+            { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS) }
         ]);
 
         setPending(false);
 
     }
-        
+
     const handleUpload = async (e, rowData) => {
 
         const archivo = e.target.files[0];
 
-        setArchivosAdjuntos(archivosAdjuntos.map(item => 
-            {
-              if (item.tableData.id == rowData.tableData.id){
-                return {...item, archivo: archivo, newFileName: archivo.name, peso: bytesToSize(archivo.size)}; //gets everything that was already in item, and updates "done"
-              }
-              return item;
-            }));
+        setArchivosAdjuntos(archivosAdjuntos.map(item => {
+            if (item.tableData.id == rowData.tableData.id) {
+                return { ...item, archivo: archivo, newFileName: archivo.name, peso: bytesToSize(archivo.size) }; //gets everything that was already in item, and updates "done"
+            }
+            return item;
+        }));
         e.target.files = null;
-        
-    };    
+
+    };
 
     useEffect(() => {
 
@@ -98,17 +97,38 @@ function VisualizarSolicitudAdmin() {
 
     }, [])
 
-    if(pending){     
+    if (pending) {
         return <Loading />
     }
 
     return (
-    //   <form onSubmit={hasAccount ? handleLogin : handleSignup}>
+        //   <form onSubmit={hasAccount ? handleLogin : handleSignup}>
         <>
             <AppBarCustom>
                 <Grid container direction={"column"} spacing={4}>
                     <Grid item>
-                        <h1>ESTADO: <span style={{ color: "gray" }}>{estado}</span></h1>
+                        <h1>ESTADO:
+                            {estado === "Registrada"
+                                ?
+                                <span style={{ color: "green" }}>{" "}{estado}</span>
+                                :
+                                estado === "En proceso"
+                                    ?
+                                    <span style={{ color: "orange" }}>{" "}{estado}</span>
+                                    :
+                                    estado === "Aceptada"
+                                        ?
+                                        <span style={{ color: "blue" }}>{" "}{estado}</span>
+                                        :
+                                        estado === "Cancelada"
+                                            ?
+                                            <span style={{ color: "red" }}>{" "}{estado}</span>
+                                            :
+                                            <span style={{ color: "black" }}>{" "}{estado}</span>
+                            }
+
+
+                        </h1>
                     </Grid>
                     <Grid item>
                         <Grid container direction={"row"} spacing={10} style={{ height: 120 }} >
@@ -117,15 +137,15 @@ function VisualizarSolicitudAdmin() {
                                     Datos estudiante
                                 </Typography>
                                 <Divider light />
-                            </Grid>   
+                            </Grid>
                             <Grid item xs={6}>
                                 <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
                                     Datos sostenedor
                                 </Typography>
                                 <Divider light />
-                            </Grid>                           
-                        </Grid>                    
-                    </Grid>     
+                            </Grid>
+                        </Grid>
+                    </Grid>
                     <Grid item>
                         <Grid container direction={"row"} spacing={10}>
                             <Grid item xs={6}>
@@ -136,17 +156,17 @@ function VisualizarSolicitudAdmin() {
                                     <Grid item>
                                         <TextField
                                             id="nombreCompleto"
-                                            name="nombreCompleto"                               
+                                            name="nombreCompleto"
                                             variant="outlined"
                                             type="text"
-                                            value={nombreCompletoEstudiante}                                    
+                                            value={nombreCompletoEstudiante}
                                             fullWidth
                                             disabled
                                             autoFocus
-                                        />                    
+                                        />
                                     </Grid>
                                 </Grid>
-                            </Grid>   
+                            </Grid>
                             <Grid item xs={6}>
                                 <Grid container direction={"column"} spacing={1}>
                                     <Grid item>
@@ -155,19 +175,19 @@ function VisualizarSolicitudAdmin() {
                                     <Grid item>
                                         <TextField
                                             id="nombreCompletoSOS"
-                                            name="nombreCompletoSOS"                                    
+                                            name="nombreCompletoSOS"
                                             variant="outlined"
                                             type="text"
-                                            value={nombreCompletoSostenedor}                                    
+                                            value={nombreCompletoSostenedor}
                                             fullWidth
                                             disabled
                                             autoFocus
-                                        />                    
+                                        />
                                     </Grid>
                                 </Grid>
-                            </Grid>                           
-                        </Grid>                    
-                    </Grid>         
+                            </Grid>
+                        </Grid>
+                    </Grid>
                     <Grid item>
                         <Grid container direction={"row"} spacing={10}>
                             <Grid item xs={6}>
@@ -178,17 +198,17 @@ function VisualizarSolicitudAdmin() {
                                     <Grid item>
                                         <TextField
                                             id="rut"
-                                            name="rut"                                        
+                                            name="rut"
                                             variant="outlined"
                                             type="text"
-                                            value={rutEstudiante}                                    
+                                            value={rutEstudiante}
                                             fullWidth
                                             disabled
                                             autoFocus
-                                        />                    
+                                        />
                                     </Grid>
                                 </Grid>
-                            </Grid>   
+                            </Grid>
                             <Grid item xs={6}>
                                 <Grid container direction={"column"} spacing={1}>
                                     <Grid item>
@@ -197,19 +217,19 @@ function VisualizarSolicitudAdmin() {
                                     <Grid item>
                                         <TextField
                                             id="rutSOS"
-                                            name="rutSOS"                             
+                                            name="rutSOS"
                                             variant="outlined"
                                             type="text"
-                                            value={rutSostenedor}                                    
+                                            value={rutSostenedor}
                                             fullWidth
                                             disabled
                                             autoFocus
-                                        />                    
+                                        />
                                     </Grid>
                                 </Grid>
-                            </Grid>                           
-                        </Grid>                    
-                    </Grid>     
+                            </Grid>
+                        </Grid>
+                    </Grid>
                     <Grid item>
                         <Grid container direction={"row"} spacing={10}>
                             <Grid item xs={6}>
@@ -220,17 +240,17 @@ function VisualizarSolicitudAdmin() {
                                     <Grid item>
                                         <TextField
                                             id="sede"
-                                            name="sede"                            
+                                            name="sede"
                                             variant="outlined"
                                             type="text"
-                                            value={sede}                                    
+                                            value={sede}
                                             fullWidth
                                             disabled
                                             autoFocus
-                                        />                    
+                                        />
                                     </Grid>
                                 </Grid>
-                            </Grid>   
+                            </Grid>
                             <Grid item xs={6}>
                                 <Grid container direction={"column"} spacing={1}>
                                     <Grid item>
@@ -239,19 +259,19 @@ function VisualizarSolicitudAdmin() {
                                     <Grid item>
                                         <TextField
                                             id="parentesco"
-                                            name="parentesco"                                    
+                                            name="parentesco"
                                             variant="outlined"
                                             type="text"
-                                            value={parentesco}                                    
+                                            value={parentesco}
                                             fullWidth
                                             disabled
                                             autoFocus
-                                        />                    
+                                        />
                                     </Grid>
                                 </Grid>
-                            </Grid>                           
-                        </Grid>                    
-                    </Grid>            
+                            </Grid>
+                        </Grid>
+                    </Grid>
                     <Grid item>
                         <Grid container direction={"row"} spacing={10}>
                             <Grid item xs={6}>
@@ -262,19 +282,19 @@ function VisualizarSolicitudAdmin() {
                                     <Grid item>
                                         <TextField
                                             id="carrera"
-                                            name="carrera"                                  
+                                            name="carrera"
                                             variant="outlined"
                                             type="text"
-                                            value={carrera}                                    
+                                            value={carrera}
                                             fullWidth
                                             disabled
                                             autoFocus
-                                        />                    
+                                        />
                                     </Grid>
                                 </Grid>
-                            </Grid>                           
-                        </Grid>                    
-                    </Grid>         
+                            </Grid>
+                        </Grid>
+                    </Grid>
                     <Grid item>
                         <Grid container direction={"row"} spacing={10}>
                             <Grid item xs={6}>
@@ -285,19 +305,19 @@ function VisualizarSolicitudAdmin() {
                                     <Grid item>
                                         <TextField
                                             id="year"
-                                            name="year"                                        
+                                            name="year"
                                             variant="outlined"
                                             type="text"
-                                            value={anioIngreso}                                    
+                                            value={anioIngreso}
                                             fullWidth
                                             disabled
                                             autoFocus
-                                        />                    
+                                        />
                                     </Grid>
                                 </Grid>
-                            </Grid>                           
-                        </Grid>                    
-                    </Grid>    
+                            </Grid>
+                        </Grid>
+                    </Grid>
                     <Grid item>
                         <Grid container direction={"row"} spacing={10}>
                             <Grid item xs={6}>
@@ -308,38 +328,38 @@ function VisualizarSolicitudAdmin() {
                                     <Grid item>
                                         <TextField
                                             id="correo"
-                                            name="correo"                                        
+                                            name="correo"
                                             variant="outlined"
                                             type="text"
-                                            value={email}                                    
+                                            value={email}
                                             fullWidth
                                             disabled
                                             autoFocus
-                                        />                    
+                                        />
                                     </Grid>
                                 </Grid>
-                            </Grid>                           
-                        </Grid>                    
-                    </Grid>         
+                            </Grid>
+                        </Grid>
+                    </Grid>
                     <Grid item className={classes.root}>
                         <MaterialTable
                             title="Archivos adjuntos"
                             options={{
-                                    search: false, 
-                                    paging: false,
-                                    draggable: false,
-                                    // headerStyle: {
-                                    //     backgroundColor: '#003057',
-                                    //     color: 'White',
-                                    // },
-                                    rowStyle: (rowData) => {
-                                        return {
-                                           color: 'Black',
-                                           //fontFamily: "Mulish-Regular",
-                                           backgroundColor: 'White',
-                                        };
-                                     },                                                                        
-                                    }}           
+                                search: false,
+                                paging: false,
+                                draggable: false,
+                                // headerStyle: {
+                                //     backgroundColor: '#003057',
+                                //     color: 'White',
+                                // },
+                                rowStyle: (rowData) => {
+                                    return {
+                                        color: 'Black',
+                                        //fontFamily: "Mulish-Regular",
+                                        backgroundColor: 'White',
+                                    };
+                                },
+                            }}
                             columns={[
                                 { title: 'Tipo carnet', field: 'carnet' },
                                 { title: 'Peso archivo', field: 'peso' },
@@ -347,22 +367,22 @@ function VisualizarSolicitudAdmin() {
                             data={datos}
                             detailPanel={rowData => {
                                 return (
-                                <iframe
-                                    width="100%"
-                                    height="1120"
-                                    src={"/storage/carnet/" + rowData.nombre}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
+                                    <iframe
+                                        width="100%"
+                                        height="1120"
+                                        src={"/storage/carnet/" + rowData.nombre}
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
                                 )
                             }}
-                            />
-                    </Grid>       
+                        />
+                    </Grid>
                     <Grid item className={classes.root}>
                         <MaterialTable
                             title="Adjuntar archivos"
-                            localization={{  
+                            localization={{
                                 body: {
                                     emptyDataSourceMessage: 'No hay documentos por mostrar',
                                     deleteTooltip: 'Eliminar documento',
@@ -370,39 +390,41 @@ function VisualizarSolicitudAdmin() {
                                         deleteText: '¿Quieres eliminar este documento?',
                                         cancelTooltip: 'Cancelar',
                                         saveTooltip: 'Eliminar',
-                                    },                                    
+                                    },
                                 },
-                                header: { 
-                                    actions: '' 
+                                header: {
+                                    actions: ''
                                 }
                             }}
                             icons={{
                                 Delete: () => <Delete style={{ color: "crimson" }} />
-                            }}                            
+                            }}
                             options={{
-                                    search: false, 
-                                    paging: false,
-                                    draggable: false,                              
-                                    rowStyle: (rowData) => {
-                                            return {
-                                                color: 'Black',
-                                                backgroundColor: 'White',
-                                            };
-                                        },                                                                
-                                    }}           
-                            columns={[                          
-                                { title: "", field: "cambiarImagen", render: (rowData) =>             
-                                <Button variant="contained" component="label" color="primary">
-                                Adjuntar archivo
-                                  <input type="file" 
-                                  accept="image/x-png,image/jpeg,application/pdf"
-                                  onChange={(e) => handleUpload(e, rowData)}
-                                  hidden/>
-                                </Button>, editable:"never"},
-                                { title: 'Nombre archivo', field: 'newFileName', cellStyle: { width: 500, minWidth: 500 }},
-                                { title: 'Peso', field: 'peso'},
+                                search: false,
+                                paging: false,
+                                draggable: false,
+                                rowStyle: (rowData) => {
+                                    return {
+                                        color: 'Black',
+                                        backgroundColor: 'White',
+                                    };
+                                },
+                            }}
+                            columns={[
+                                {
+                                    title: "", field: "cambiarImagen", render: (rowData) =>
+                                        <Button variant="contained" component="label" color="primary">
+                                            Adjuntar archivo
+                                            <input type="file"
+                                                accept="image/x-png,image/jpeg,application/pdf"
+                                                onChange={(e) => handleUpload(e, rowData)}
+                                                hidden />
+                                        </Button>, editable: "never"
+                                },
+                                { title: 'Nombre archivo', field: 'newFileName', cellStyle: { width: 500, minWidth: 500 } },
+                                { title: 'Peso', field: 'peso' },
                             ]}
-                            data={archivosAdjuntos}         
+                            data={archivosAdjuntos}
                             actions={[
                                 ({
                                     icon: "add_box",
@@ -410,18 +432,18 @@ function VisualizarSolicitudAdmin() {
                                     tooltip: "Agregar un documento",
                                     position: "toolbar",
                                     onClick: () => {
-                                        setArchivosAdjuntos([...archivosAdjuntos, {archivo: "", newFileName: "SELECCIONA UN ARCHIVO (.PDF, .JPG, .PNG)", peso: "-"}]);
+                                        setArchivosAdjuntos([...archivosAdjuntos, { archivo: "", newFileName: "SELECCIONA UN ARCHIVO (.PDF, .JPG, .PNG)", peso: "-" }]);
                                     }
-                                }),                                ,                                                                                                                     
+                                }), ,
                             ]}
                             editable={{
                                 onRowDelete: async (oldData) => {
                                     setArchivosAdjuntos(archivosAdjuntos.filter(({ tableData }) => tableData.id !== oldData.tableData.id));
                                 }
-                            }}                                                                     
-                            />
-                            {/* <span className="errorMsg">{errores.CarnetSostenedor}</span>                                        */}
-                    </Grid>                                                                                          
+                            }}
+                        />
+                        {/* <span className="errorMsg">{errores.CarnetSostenedor}</span>                                        */}
+                    </Grid>
                 </Grid>
             </AppBarCustom>
         </>
@@ -429,4 +451,4 @@ function VisualizarSolicitudAdmin() {
 }
 
 
-export default VisualizarSolicitudAdmin ;
+export default VisualizarSolicitudAdmin;
