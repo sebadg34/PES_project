@@ -39,7 +39,7 @@ function VisualizarSolicitud() {
     const [rutSostenedor, setRutSostenedor] = useState("");
     const [nombreCompletoSostenedor, setNombreCompletoSostenedor] = useState("");
     const [parentesco, setParentesco] = useState("");
-
+    const [estado, setEstado] = useState("");
     const [pending, setPending] = useState(true);
 
     const [datos, setDatos] = useState([]);
@@ -66,7 +66,7 @@ function VisualizarSolicitud() {
         setRutSostenedor(register.data.rutSostenedor);
         setNombreCompletoSostenedor(register.data.nombreCompletoSostenedor);
         setParentesco(register.data.parentesco);
-
+        setEstado(register.data.estado);
         setDatos([
             { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE) },
             { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS) }
@@ -93,7 +93,7 @@ function VisualizarSolicitud() {
             <AppBarCustom>
                 <Grid container direction={"column"} spacing={4}>
                     <Grid item>
-                        <h1>ESTADO: <span style={{ color: "gray" }}>INGRESADO</span>
+                        <h1>ESTADO: <span style={{ color: "gray" }}>{estado}</span>
                             <Button
                                 className="linkItem"
                                 style={{ maxWidth: '150px', minWidth: '150px', float: "right", outline: "none" }}
