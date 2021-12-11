@@ -171,7 +171,7 @@ function homeAdmin() {
             { title: 'Correo', field: 'email' },
             { title: 'Sede', field: 'sede' },
             { title: 'Carrera', field: 'carrera' , cellStyle: {fontSize: 14}},
-            { title: 'Estado', field: 'estado'}
+            { title: 'Estado solicitud', field: 'estado'}
 
           ]}
           

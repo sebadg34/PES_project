@@ -111,15 +111,6 @@ function AppBarCustom(props) {
                     variant="dense"
                     style={{ backgroundColor: "#FFFFFF", paddingLeft: "18px" }}
                 >
-                    <IconButton
-                    // color="black"
-                    aria-label="open drawer"
-                    onClick={handleDrawerOpen}
-                    edge="start"
-                    className={clsx(classes.menuButton)}
-                    >
-                    <MenuIcon />
-                    </IconButton>
 
                     <img src={logo} width="80" height="80"/>
 
@@ -201,19 +192,28 @@ function AppBarCustom(props) {
             </MaterialAppBar>
             {renderMenu()}
             <Drawer
-                variant="permanent"
+                variant="permanent"                
                 className={clsx(classes.drawer, {
                 [classes.drawerOpen]: open,
                 [classes.drawerClose]: !open,
                 })}
                 classes={{
                 paper: clsx({
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
+                    [classes.drawerOpenLateral]: open,
+                    [classes.drawerCloseLateral]: !open,
                 }),
                 }}
             >
                 <div className={classes.toolbar}>
+                    <IconButton
+                        // color="black"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        className={clsx(classes.menuButton)}
+                        >
+                        <MenuIcon />
+                    </IconButton>                    
                 </div>
                 
                 <ListItem
@@ -225,9 +225,9 @@ function AppBarCustom(props) {
                 >
                     
                     <ListItemIcon>
-                    <HomeIcon color="primary" />
+                    <HomeIcon style={{ color:"white" }} />
                     </ListItemIcon>
-                    <ListItemText style={{ color:"#000000" }}>
+                    <ListItemText style={{ color:"white" }}>
                     Inicio
                     </ListItemText>
                 </ListItem>
@@ -245,16 +245,15 @@ function AppBarCustom(props) {
                 >
                     
                     <ListItemIcon>
-                    <LaptopChromebookIcon color="primary" />
+                    <LaptopChromebookIcon style={{ color:"white" }} />
                     </ListItemIcon>
-                    <ListItemText style={{ color:"#000000" }}>
+                    <ListItemText style={{ color:"white" }}>
                     Cursos
                     </ListItemText>
                 </ListItem>
 
-                <Divider/>
+                <Divider style={{height:"7px", backgroundColor:"#3a4955"}}/>
 
-                <List style={{ backgroundColor: "#FFFFFF" }}></List>
             </Drawer>
             <main
                 className={clsx(classes.content, {
@@ -276,6 +275,7 @@ function AppBarCustom(props) {
 export default AppBarCustom;
 
 const drawerWidth = 250;
+const drawerWidthClose = 57;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
@@ -309,14 +309,20 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     appBar: {
-        overflow: "auto !important",
-        paddingRight: "0px !important",
-        zIndex: theme.zIndex.drawer + 3,
-    },
-    appBarShift: {
+        width: `calc(100% - ${drawerWidthClose}px)`,
+        transition: theme.transitions.create(['margin', 'width'], {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+      },
+      appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
-        width: `calc(100%px)`,
-    },
+        transition: theme.transitions.create(['margin', 'width'], {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+      },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
@@ -330,6 +336,15 @@ const useStyles = makeStyles((theme) => ({
         duration: theme.transitions.duration.enteringScreen,
         }),
     },
+    drawerOpenLateral: {
+        backgroundColor: "#425563",
+        width: drawerWidth,
+        transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+        }),
+        zIndex:1205,
+    },    
     drawerClose: {
         backgroundColor: "#FFFFFF",
         transition: theme.transitions.create("width", {
@@ -339,16 +354,26 @@ const useStyles = makeStyles((theme) => ({
         overflowX: "hidden",
         width: theme.spacing(7) + 1,
     },
+    drawerCloseLateral: {
+        backgroundColor: "#425563",
+        transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+        }),
+        overflowX: "hidden",
+        width: theme.spacing(7) + 1,
+        zIndex:1205,
+    },    
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
     },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: "-3px",
         '&:focus': {
             outline: "none",
         },        
-    },
+    },    
     nested: {
         paddingLeft: theme.spacing(4),
     },
