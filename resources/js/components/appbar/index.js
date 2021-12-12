@@ -20,16 +20,18 @@ import {
   } from "@material-ui/core";
 import {
     Menu as MenuIcon,
-    LaptopChromebook as LaptopChromebookIcon,
     Home as HomeIcon, 
 } from "@material-ui/icons";
 
+import SchoolIcon from '@mui/icons-material/School';
+import FacebookIcon from '@mui/icons-material/Facebook';
+
 import { Stack } from '@mui/material';
 
-import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import logo from "../logo.png";
-import { height } from "@mui/system";
+import dgelogo from "../dgelogo.jpg";
 
 function AppBarCustom(props) {
 
@@ -109,10 +111,11 @@ function AppBarCustom(props) {
                 <Box boxShadow={0}>
                 <Toolbar
                     variant="dense"
-                    style={{ backgroundColor: "#FFFFFF", paddingLeft: "18px" }}
+                    style={{ backgroundColor: "#FFFFFF", paddingLeft: "10px", paddingTop: "15px"}}
                 >
 
-                    <img src={logo} width="80" height="80"/>
+                    <img src={logo} width="100" height="100"/>
+                    <img src={dgelogo} width="100" height="100"/>
 
                     <div className={classes.grow} />
 
@@ -120,70 +123,75 @@ function AppBarCustom(props) {
 
                         <div className={classes.contenedorUser}>
                             <Stack direction="row" spacing={2}>
-                                <Typography
+                                <a
                                     className={classes.titleNoMargin}
-                                    variant="body2"
-                                    gutterBottom
-                                    color="inherit"
-                                    >
+                                    rel="noreferrer"
+                                    target="_blank"
+                                    href="https://www.google.com"                                                
+                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
+                                >
                                     Home
-                                </Typography>
+                                </a>                                
                                 <Divider
                                     orientation="vertical"
                                     style={{
-                                    height: "1.3rem",
+                                    height: "2rem",
                                     }}
                                 />                                
-                                <Typography
+                                <a
                                     className={classes.titleNoMargin}
-                                    variant="body2"
-                                    gutterBottom
-                                    color="inherit"
-                                    >
+                                    rel="noreferrer"
+                                    target="_blank"
+                                    href="https://miportal.ucn.cl"                                                
+                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
+                                >
                                     Mi portal
-                                </Typography>     
+                                </a>       
                                 <Divider
                                     orientation="vertical"
                                     style={{
-                                    height: "1.3rem",
+                                    height: "2rem",
                                     }}
                                 />                                       
-                                <Typography
+                                <a
                                     className={classes.titleNoMargin}
-                                    variant="body2"
-                                    gutterBottom
-                                    color="inherit"
-                                    >
+                                    rel="noreferrer"
+                                    target="_blank"
+                                    href="https://online.ucn.cl"                                                
+                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
+                                >
                                     Online UCN
-                                </Typography>  
+                                </a>      
                                 <Divider
                                     orientation="vertical"
                                     style={{
-                                    height: "1.3rem",
+                                    height: "2rem",
                                     }}
                                 />                                    
-                                <Typography
+                                <a
                                     className={classes.titleNoMargin}
-                                    variant="body2"
-                                    gutterBottom
-                                    color="inherit"
-                                    >
+                                    rel="noreferrer"
+                                    target="_blank"
+                                    href="https://noticias.ucn.cl"                                                
+                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
+                                >
                                     Noticias UCN
-                                </Typography>  
+                                </a>     
                                 <Divider
                                     orientation="vertical"
                                     style={{
-                                    height: "1.3rem",
+                                    height: "2rem",
                                     }}
                                 />                                    
-                                <Typography
+                                <a
                                     className={classes.titleNoMargin}
-                                    variant="body2"
-                                    gutterBottom
-                                    color="inherit"
-                                    >
+                                    rel="noreferrer"
+                                    target="_blank"
+                                    href="https://campusvirtual.ucn.cl"                                                
+                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
+                                >
                                     Campus UCN
-                                </Typography>                                                                                                                            
+                                </a>                                                                                                                            
                             </Stack>
                         </div>  
                     </div>
@@ -232,6 +240,8 @@ function AppBarCustom(props) {
                     </ListItemText>
                 </ListItem>
                 
+                <Divider style={{height:"7px", backgroundColor:"#3a4955"}}/>
+
                 <ListItem
                     key={2}
                     button
@@ -245,20 +255,41 @@ function AppBarCustom(props) {
                 >
                     
                     <ListItemIcon>
-                    <LaptopChromebookIcon style={{ color:"white" }} />
+                    <SchoolIcon style={{ color:"white" }} />
                     </ListItemIcon>
                     <ListItemText style={{ color:"white" }}>
-                    Cursos
+                    Beneficios
                     </ListItemText>
                 </ListItem>
-
+                
                 <Divider style={{height:"7px", backgroundColor:"#3a4955"}}/>
+
+                <ListItem
+                    key={2}
+                    button
+                    //component={Link}
+                    //to={Routes.CURSOS}
+                    
+                    className={classes.selectItem}
+                    onClick={() => {
+                    
+                    }}
+                >
+                    
+                    <ListItemIcon>
+                    <FacebookIcon style={{ color:"white" }} />
+                    </ListItemIcon>
+                    <ListItemText style={{ color:"white" }}>
+                    Facebook DGE
+                    </ListItemText>
+                </ListItem>
 
             </Drawer>
             <main
                 className={clsx(classes.content, {
                 [classes.contentShift]: open,
                 })}
+                style={{paddingTop:"60px"}}
             >
                 <div className={classes.drawerHeader} />
                 {children}
@@ -456,7 +487,8 @@ const useStyles = makeStyles((theme) => ({
     drawerHeader: {
         display: 'flex',
         alignItems: 'center',
-        padding: theme.spacing(0, 1),
+        //padding: theme.spacing(0, 1),
+        paddingTop: "30px",
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
