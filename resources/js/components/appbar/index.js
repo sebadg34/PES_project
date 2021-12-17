@@ -11,20 +11,36 @@ import {
     Toolbar,
     Typography,
     Drawer,
-    List,
     Divider,
+    List,
     ListItemIcon,
     ListItemText,
     ListItem,
     
   } from "@material-ui/core";
+
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
+
 import {
     Menu as MenuIcon,
     Home as HomeIcon, 
 } from "@material-ui/icons";
 
-import SchoolIcon from '@mui/icons-material/School';
-import FacebookIcon from '@mui/icons-material/Facebook';
+import {
+    School as SchoolIcon,
+    Facebook as FacebookIcon,
+    Instagram as InstagramIcon,
+    HealthAndSafety as Health,
+    SportsSoccer as Soccer,
+    ChildFriendly as Baby,
+    AllInclusive as Inclusive,
+    ColorLens
+} from '@mui/icons-material';
+
+import { styled } from '@mui/system';
+import SwitchUnstyled, { switchUnstyledClasses } from '@mui/base/SwitchUnstyled';
 
 import { Stack } from '@mui/material';
 
@@ -32,6 +48,71 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import logo from "../logo.png";
 import dgelogo from "../dgelogo.jpg";
+
+const Root = styled('span')`
+  font-size: 0;
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 20px;
+  margin: 10px;
+  cursor: pointer;
+
+  &.${switchUnstyledClasses.disabled} {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  & .${switchUnstyledClasses.track} {
+    background: #b3c3d3;
+    border-radius: 10px;
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  }
+
+  & .${switchUnstyledClasses.thumb} {
+    display: block;
+    width: 14px;
+    height: 14px;
+    top: 3px;
+    left: 3px;
+    border-radius: 16px;
+    background-color: #fff;
+    position: relative;
+    transition: all 200ms ease;
+  }
+
+  &.${switchUnstyledClasses.focusVisible} .${switchUnstyledClasses.thumb} {
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 1px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  &.${switchUnstyledClasses.checked} {
+    .${switchUnstyledClasses.thumb} {
+      left: 14px;
+      top: 3px;
+      background-color: #fff;
+    }
+
+    .${switchUnstyledClasses.track} {
+      background: #007fff;
+    }
+  }
+
+  & .${switchUnstyledClasses.input} {
+    cursor: inherit;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+    margin: 0;
+  }
+`;
 
 function AppBarCustom(props) {
 
@@ -44,21 +125,48 @@ function AppBarCustom(props) {
     const isMenuOpen = Boolean(anchorEl);
 
     const [open, setOpen] = useState(false);
+
+    const label = { componentsProps: { input: { 'aria-label': 'Demo switch' } } };
+
+    const [openBeneficios, setOpenBeneficios] = useState(false);
+    const [openSalud, setOpenSalud] = useState(false);
+    const [openDeportes, setOpenDeportes] = useState(false);
     const [openAccesos, setOpenAccesos] = useState(false);
-    const [openNoticas, setOpenNoticias] = useState(false);
+    const [openNoticias, setOpenNoticias] = useState(false);
 
     const handleDrawerOpen = () => {
         setOpen(!open);
         if (openAccesos === true) {
         setOpenAccesos(false);
         }
-        if (openNoticas === true) {
+        if (openNoticias === true) {
         setOpenNoticias(false);
         }
+        setOpenBeneficios(false);
+        setOpenSalud(false);
+        setOpenDeportes(false);
     };
-    const handleDrawerClose = () => {
-        setOpen(false);
+
+    const handleOpenBeneficios = () => {
+        setOpenBeneficios(!openBeneficios);
+        if(!open){
+            setOpen(true);
+        }
     };
+
+    const handleOpenSalud = () => {
+        setOpenSalud(!openSalud);
+        if(!open){
+            setOpen(true);
+        }
+    };    
+
+    const handleOpenDeportes = () => {
+        setOpenDeportes(!openDeportes);
+        if(!open){
+            setOpen(true);
+        }
+    };        
 
     const handleClickClose = () => {
         setOpenAccesos(false);
@@ -201,6 +309,9 @@ function AppBarCustom(props) {
             {renderMenu()}
             <Drawer
                 variant="permanent"                
+                ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
+                  }}                
                 className={clsx(classes.drawer, {
                 [classes.drawerOpen]: open,
                 [classes.drawerClose]: !open,
@@ -213,7 +324,8 @@ function AppBarCustom(props) {
                 }}
             >
                 <div className={classes.toolbar}>
-                    <IconButton
+                    <SwitchUnstyled component={Root} {...label} onClick={handleDrawerOpen}/>
+                    {/* <IconButton
                         // color="black"
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
@@ -221,7 +333,7 @@ function AppBarCustom(props) {
                         className={clsx(classes.menuButton)}
                         >
                         <MenuIcon />
-                    </IconButton>                    
+                    </IconButton>                     */}
                 </div>
                 
                 <ListItem
@@ -242,6 +354,105 @@ function AppBarCustom(props) {
                 
                 <Divider style={{height:"7px", backgroundColor:"#3a4955"}}/>
 
+                {/*Menus colapsables*/}
+                <ListItem button className={classes.selectItem} onClick={handleOpenBeneficios}>
+                    <ListItemIcon>
+                        <SchoolIcon style={{ color:"white" }} />
+                    </ListItemIcon>
+                    <ListItemText style={{ color:"white" }}>
+                        Beneficios
+                    </ListItemText>
+                    {openBeneficios ? <ExpandLess style={{ color:"white" }}/> : <ExpandMore style={{ color:"white" }}/>}
+                </ListItem>
+                <Collapse in={openBeneficios} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Noticias </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Beneficios Internos </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Beneficios Externos </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Preguntas Frecuentes </ListItemText>
+                        </ListItem>                                                                        
+                    </List>
+                </Collapse>
+
+                <ListItem button className={classes.selectItem} onClick={handleOpenSalud}>
+                    <ListItemIcon>
+                        <Health style={{ color:"white" }} />
+                    </ListItemIcon>
+                    <ListItemText style={{ color:"white" }}>
+                        Salud
+                    </ListItemText>
+                    {openSalud ? <ExpandLess style={{ color:"white" }}/> : <ExpandMore style={{ color:"white" }}/>}
+                </ListItem>
+                <Collapse in={openSalud} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Noticias </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Solicitud Hora </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Visado Certificados </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Agenda Pro </ListItemText>
+                        </ListItem>                                                                        
+                    </List>
+                </Collapse>
+
+                <ListItem button className={classes.selectItem} onClick={handleOpenDeportes}>
+                    <ListItemIcon>
+                        <Soccer style={{ color:"white" }} />
+                    </ListItemIcon>
+                    <ListItemText style={{ color:"white" }}>
+                        Deportes
+                    </ListItemText>
+                    {openDeportes ? <ExpandLess style={{ color:"white" }}/> : <ExpandMore style={{ color:"white" }}/>}
+                </ListItem>
+                <Collapse in={openDeportes} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Noticias </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Equipo Deportes UCN </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Deporte Selectivo </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Deporte Interno </ListItemText>
+                        </ListItem>    
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Actividades Complementarias </ListItemText>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }}> Infraestructura Deportiva </ListItemText>
+                        </ListItem>                                                                                                                            
+                    </List>
+                </Collapse>
+
                 <ListItem
                     key={2}
                     button
@@ -255,12 +466,52 @@ function AppBarCustom(props) {
                 >
                     
                     <ListItemIcon>
-                    <SchoolIcon style={{ color:"white" }} />
+                    <ColorLens style={{ color:"white" }} />
                     </ListItemIcon>
                     <ListItemText style={{ color:"white" }}>
-                    Beneficios
+                    Arte y Cultura
                     </ListItemText>
                 </ListItem>
+
+                <ListItem
+                    key={2}
+                    button
+                    //component={Link}
+                    //to={Routes.CURSOS}
+                    
+                    className={classes.selectItem}
+                    onClick={() => {
+                    
+                    }}
+                >
+                    
+                    <ListItemIcon>
+                    <Baby style={{ color:"white" }} />
+                    </ListItemIcon>
+                    <ListItemText style={{ color:"white" }}>
+                    Jardín Infantil Taqinki
+                    </ListItemText>
+                </ListItem>                
+
+                <ListItem
+                    key={2}
+                    button
+                    //component={Link}
+                    //to={Routes.CURSOS}
+                    
+                    className={classes.selectItem}
+                    onClick={() => {
+                    
+                    }}
+                >
+                    
+                    <ListItemIcon>
+                    <Inclusive style={{ color:"white" }} />
+                    </ListItemIcon>
+                    <ListItemText style={{ color:"white" }}>
+                    Inclusión UCN
+                    </ListItemText>
+                </ListItem>                
                 
                 <Divider style={{height:"7px", backgroundColor:"#3a4955"}}/>
 
@@ -283,6 +534,26 @@ function AppBarCustom(props) {
                     Facebook DGE
                     </ListItemText>
                 </ListItem>
+
+                <ListItem
+                    key={2}
+                    button
+                    //component={Link}
+                    //to={Routes.CURSOS}
+                    
+                    className={classes.selectItem}
+                    onClick={() => {
+                    
+                    }}
+                >
+                    
+                    <ListItemIcon>
+                    <InstagramIcon style={{ color:"white" }} />
+                    </ListItemIcon>
+                    <ListItemText style={{ color:"white" }}>
+                    Instagram DGE
+                    </ListItemText>
+                </ListItem>                
 
             </Drawer>
             <main
