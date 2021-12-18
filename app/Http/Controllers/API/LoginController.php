@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Auth;
 
+
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
+
+
 class LoginController extends Controller 
 {  public $successStatus = 200;
     /** 
@@ -47,6 +53,14 @@ class LoginController extends Controller
             $user->tokens()->delete();
             $token = $user->createToken('auth_token')->plainTextToken;
             $cookie = cookie("jwt", $token, 0);
+
+            $name = "Dino Cajic";
+            $sendToEmail = strtolower('sebadg98@gmail.com');
+            //$sendToEmail = strtolower('manuel.trigo@alumnos.ucn.cl');
+            
+            Mail::to($sendToEmail)->send(new SendMail($name));
+        
+            
 
             return response()->json(['message' => 'Hi '.$user->email.', welcome to home'
             ,'access_token' => $token
