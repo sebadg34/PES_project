@@ -1,61 +1,451 @@
-import React, {
-    Fragment,
-    useState,
-  } from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
+import { makeStyles, useTheme } from "@material-ui/styles";
+import Drawer from "@material-ui/core/Drawer";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import { Stack } from '@mui/material';
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+
 import {
-    AppBar as MaterialAppBar,
-    Box,
-    IconButton,
-    Menu,
-    Toolbar,
-    Typography,
-    Drawer,
-    Divider,
-    List,
-    ListItemIcon,
-    ListItemText,
-    ListItem,
-    
-  } from "@material-ui/core";
+  Home as HomeIcon, 
+} from "@material-ui/icons";
+
+import {
+  School as SchoolIcon,
+  Facebook as FacebookIcon,
+  Instagram as InstagramIcon,
+  HealthAndSafety as Health,
+  SportsSoccer as Soccer,
+  ChildFriendly as Baby,
+  AllInclusive as Inclusive,
+  ColorLens
+} from '@mui/icons-material';
+
+import logo from "../logo.png";
+import dgelogo from "../dgelogo.jpg";
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 
-import {
-    Menu as MenuIcon,
-    Home as HomeIcon, 
-} from "@material-ui/icons";
-
-import {
-    School as SchoolIcon,
-    Facebook as FacebookIcon,
-    Instagram as InstagramIcon,
-    HealthAndSafety as Health,
-    SportsSoccer as Soccer,
-    ChildFriendly as Baby,
-    AllInclusive as Inclusive,
-    ColorLens
-} from '@mui/icons-material';
-
 import { styled } from '@mui/system';
 import SwitchUnstyled, { switchUnstyledClasses } from '@mui/base/SwitchUnstyled';
 
-import { Stack } from '@mui/material';
+function AppBarCustom(props) {
 
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+  const { children } = props;
+  const classes = useStyles();
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const [switchEnable, setSwitchEnable] = useState(false);
 
-import logo from "../logo.png";
-import dgelogo from "../dgelogo.jpg";
+  const label = { componentsProps: { input: { 'aria-label': 'Demo switch' } } };
 
-const Root = styled('span')`
+  const [ elementosDrawer, setElementosDrawer ] = useState([
+    {
+        nombre: "Inicio",
+        tipo: "no colapsable",
+        divider: true,
+        icon: <HomeIcon/>
+    },    
+    {
+        nombre: "Beneficios",
+        tipo: "colapsable",
+        open: false,
+        elementos: [
+        {
+            nombreElemento: "Noticias",
+            path: ""
+        },
+        {
+            nombreElemento: "Beneficios internos",
+            path: ""
+        },
+        {
+            nombreElemento: "Beneficios externos",
+            path: ""
+        },
+        {
+            nombreElemento: "Preguntas frecuentes",
+            path: ""
+        }        
+        ],
+        divider: false,
+        icon: <SchoolIcon/>
+    },
+    {
+        nombre: "Salud",
+        tipo: "colapsable",
+        open: false,
+        elementos: [
+            {
+            nombreElemento: "Noticias",
+            path: ""
+            },
+            {
+            nombreElemento: "Solicitud hora",
+            path: ""
+            },
+            {
+            nombreElemento: "Visado certificados",
+            path: ""
+            },
+            {
+            nombreElemento: "Agenda PRO",
+            path: ""
+            }        
+        ],
+        divider: false,
+        icon: <Health/>
+    },
+    {
+        nombre: "Deportes",
+        tipo: "colapsable",
+        open: false,
+        elementos: [
+            {
+            nombreElemento: "Noticias",
+            path: ""
+            },
+            {
+            nombreElemento: "Equipo deportes UCN",
+            path: ""
+            },
+            {
+            nombreElemento: "Deporte selectivo",
+            path: ""
+            },
+            {
+            nombreElemento: "Deporte interno",
+            path: ""
+            },
+            {
+            nombreElemento: "Actividades complementarias",
+            path: ""
+            },    
+            {
+            nombreElemento: "Infraestructura deportiva",
+            path: ""
+            },                
+        ],
+        divider: false,
+        icon: <Soccer/>
+    },
+    {
+        nombre: "Arte y cultura",
+        tipo: "no colapsable",
+        divider: false,
+        icon: <ColorLens/>
+    },          
+    {
+        nombre: "Jardín infantil Taqinki",
+        tipo: "no colapsable",
+        divider: false,
+        icon: <Baby/>
+    },   
+    {
+        nombre: "Inclusión UCN",
+        tipo: "no colapsable",
+        divider: true,
+        icon: <Inclusive/>
+    },           
+    {
+        nombre: "Facebook DGE",
+        tipo: "no colapsable",
+        divider: false,
+        icon: <FacebookIcon/>
+    },     
+    {
+        nombre: "Instagram DGE",
+        tipo: "no colapsable",
+        divider: false,
+        icon: <InstagramIcon/>
+    },             
+  
+  ]);
+
+  function handleDrawer() {
+    setOpen(!open);
+    setSwitchEnable(!open);
+
+    setElementosDrawer([...elementosDrawer].map(object => {
+      if(object.tipo === "colapsable") {
+        return {
+          ...object,
+          open: false
+        }
+      }
+      else return object;
+    }));    
+  }
+
+  function handleElementOpen(nombre, open) {
+
+    setElementosDrawer([...elementosDrawer].map(object => {
+      if(object.nombre === nombre) {
+        return {
+          ...object,
+          open: !open
+        }
+      }
+      else return object;
+    }));
+
+    if(!open){
+      setSwitchEnable(true);
+      setOpen(true);
+    }
+
+  }  
+
+  return (
+    <div className={classes.root}>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open
+        })}
+      >
+        <Toolbar
+          variant="dense"
+          style={{ backgroundColor: "#FFFFFF", paddingLeft: "10px", paddingTop: "15px"}}
+        >
+
+          <img src={logo} width="100" height="100"/>
+          <img src={dgelogo} width="100" height="100"/>
+
+          <div className={classes.grow} />
+
+          <div className={classes.sectionDesktop}>                        
+              <div className={classes.contenedorUser}>
+                  <Stack direction="row" spacing={2}>
+                      {elementosAppBar.map((element, index) => (
+                        <>
+                          <a
+                              className={classes.titleNoMargin}
+                              rel="noreferrer"
+                              target="_blank"
+                              href={element.path}                                                
+                              style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
+                          >
+                              {element.nombre}
+                          </a>               
+                          { element.divider ?                  
+                            <Divider orientation="vertical" style={{ height: "2rem" }}/>    
+                            :
+                            ""
+                          }
+                        </>
+                      ))}                                                                                                                                                   
+                  </Stack>
+              </div>  
+          </div>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open
+        })}
+        classes={{
+          paper: clsx(classes.rootScrollbar, {
+            [classes.drawerOpenPaper]: open,
+            [classes.drawerClosePaper]: !open
+          })
+        }}
+        open={open}
+      >
+        <div className={classes.toolbar}>
+          <SwitchUnstyled component={RootSwitch} {...label} onClick={handleDrawer} checked={switchEnable} style={open? {marginRight: "12px"}:{marginRight: "4px"}}/>   
+        </div>
+        <List>
+          {elementosDrawer.map((element, index) => (
+            <>
+            <ListItem button key={index} onClick={element.tipo === "colapsable" ? () => handleElementOpen(element.nombre, element.open) : undefined}>
+              <ListItemIcon style={{ color:"white" }} >
+                {element.icon}
+              </ListItemIcon>
+              <ListItemText primary={element.nombre} style={{ color:"white" }} />
+              {element.tipo === "colapsable" ? 
+                <>
+                {element.open ? 
+                  <ExpandLess style={{ color:"white" }}/>
+                  : 
+                  <ExpandMore style={{ color:"white" }}/> 
+                }
+                </>
+                : 
+                ""
+              }              
+            </ListItem>  
+            {element.tipo === "colapsable" ? 
+                <Collapse in={element.open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {element.elementos.map((elementoInterior, indexElemento) => (
+                        <ListItem button key={indexElemento}>
+                            <ListItemIcon />                            
+                            <ListItemText style={{ color:"white" }} primaryTypographyProps={{style: { whiteSpace: "normal" }}}> 
+                              { elementoInterior.nombreElemento } 
+                            </ListItemText>
+                        </ListItem>            
+                    ))}                                                         
+                  </List>
+                </Collapse> 
+                : 
+                ""
+              }                                      
+            {element.divider ? <Divider style={{height:"7px", backgroundColor:"#3a4955"}}/> : ""}
+            </>
+          ))}
+        </List>
+      </Drawer>
+      <main className={classes.content} style={{paddingTop:"60px"}}>
+        <div className={classes.toolbar} />
+        {children}
+      </main>
+    </div>
+  );
+}
+
+export default AppBarCustom;
+
+const drawerWidth = 260;
+const drawerWidthClosed = 57; 
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex"
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    width: `calc(100% - ${drawerWidthClosed}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 36
+  },
+  hide: {
+    display: "none"
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap"
+  },
+  drawerOpen: {
+    backgroundColor: "#FFFFFF",
+    width: drawerWidth,
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  drawerClose: {
+    backgroundColor: "#FFFFFF",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1
+    }
+  },
+  drawerOpenPaper: {
+    backgroundColor: "#425563",
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    }),
+    overflowX: "hidden",
+  },
+  drawerClosePaper: {
+    backgroundColor: "#425563",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(7) + 1
+    }
+  },  
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 0px",
+    ...theme.mixins.toolbar
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  },
+  rootScrollbar: {
+    "&::-webkit-scrollbar": {
+      width: 9,
+    },
+    "&::-webkit-scrollbar-track": {
+      boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#003057",
+      outline: `1px solid #003057`,
+    },
+  },  
+  grow: {
+    flexGrow: 1,
+  },  
+  sectionDesktop: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+    display: "flex",
+    },
+  },
+  contenedorUser: {
+    marginTop: "5px",
+    marginBottom: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },    
+  titleNoMargin: {
+    margin: 0,
+    textAlign: "end",
+    color: "black",
+  },  
+}));
+
+const RootSwitch = styled('span')`
   font-size: 0;
   position: relative;
   display: inline-block;
-  width: 32px;
-  height: 20px;
+  width: 47px;
+  height: 25px;
   margin: 10px;
+  margin-left: 0px;
   cursor: pointer;
 
   &.${switchUnstyledClasses.disabled} {
@@ -65,7 +455,7 @@ const Root = styled('span')`
 
   & .${switchUnstyledClasses.track} {
     background: #b3c3d3;
-    border-radius: 10px;
+    border-radius: 14px;
     display: block;
     height: 100%;
     width: 100%;
@@ -74,11 +464,11 @@ const Root = styled('span')`
 
   & .${switchUnstyledClasses.thumb} {
     display: block;
-    width: 14px;
-    height: 14px;
+    width: 19px;
+    height: 19px;
     top: 3px;
     left: 3px;
-    border-radius: 16px;
+    border-radius: 12px;
     background-color: #fff;
     position: relative;
     transition: all 200ms ease;
@@ -91,7 +481,7 @@ const Root = styled('span')`
 
   &.${switchUnstyledClasses.checked} {
     .${switchUnstyledClasses.thumb} {
-      left: 14px;
+      left: 25px;
       top: 3px;
       background-color: #fff;
     }
@@ -114,654 +504,30 @@ const Root = styled('span')`
   }
 `;
 
-function AppBarCustom(props) {
-
-    const { children } = props;
-
-    const classes = useStyles();
-
-    const [anchorEl, setAnchorEl] = useState(null);
-    const menuId = "primary-search-account-menu";
-    const isMenuOpen = Boolean(anchorEl);
-
-    const [open, setOpen] = useState(false);
-
-    const label = { componentsProps: { input: { 'aria-label': 'Demo switch' } } };
-
-    const [openBeneficios, setOpenBeneficios] = useState(false);
-    const [openSalud, setOpenSalud] = useState(false);
-    const [openDeportes, setOpenDeportes] = useState(false);
-    const [openAccesos, setOpenAccesos] = useState(false);
-    const [openNoticias, setOpenNoticias] = useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(!open);
-        if (openAccesos === true) {
-        setOpenAccesos(false);
-        }
-        if (openNoticias === true) {
-        setOpenNoticias(false);
-        }
-        setOpenBeneficios(false);
-        setOpenSalud(false);
-        setOpenDeportes(false);
-    };
-
-    const handleOpenBeneficios = () => {
-        setOpenBeneficios(!openBeneficios);
-        if(!open){
-            setOpen(true);
-        }
-    };
-
-    const handleOpenSalud = () => {
-        setOpenSalud(!openSalud);
-        if(!open){
-            setOpen(true);
-        }
-    };    
-
-    const handleOpenDeportes = () => {
-        setOpenDeportes(!openDeportes);
-        if(!open){
-            setOpen(true);
-        }
-    };        
-
-    const handleClickClose = () => {
-        setOpenAccesos(false);
-    };
-
-    function handleMenuClose() {
-        setAnchorEl(null);
-    }
-
-    const GlobalCss = withStyles({
-        // @global is handled by jss-plugin-global.
-        "@global": {
-        // You should target [class*="MuiButton-root"] instead if you nest themes.
-        ".Mui-selected": {
-            borderRadius: "0 25px 25px 0",
-        },
-        ".MuiListItem-button:hover ": {
-            borderRadius: "0 25px 25px 0",
-        },
-        },
-    })(() => null);
-
-    const renderMenu = () => {
-        return (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            id={menuId}
-            transformOrigin={{ vertical: "bottom", horizontal: "right" }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            {/* <MenuItem onClick={handleCerrarSession}>Cerrar Sesión</MenuItem> */}
-        </Menu>
-        );
-    };
-
-    const renderAppMobile = () => {
-        return (
-        <Fragment>
-            <GlobalCss />
-            <div className={classes.root}>
-            <MaterialAppBar
-                position="fixed"
-                //variant="outlined"      
-                elevation={0}
-
-                className={clsx(classes.appBar, { [classes.appBarShift]: open })}
-            >
-                <Box boxShadow={0}>
-                <Toolbar
-                    variant="dense"
-                    style={{ backgroundColor: "#FFFFFF", paddingLeft: "10px", paddingTop: "15px"}}
-                >
-
-                    <img src={logo} width="100" height="100"/>
-                    <img src={dgelogo} width="100" height="100"/>
-
-                    <div className={classes.grow} />
-
-                    <div className={classes.sectionDesktop}>                        
-
-                        <div className={classes.contenedorUser}>
-                            <Stack direction="row" spacing={2}>
-                                <a
-                                    className={classes.titleNoMargin}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    href="https://www.google.com"                                                
-                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
-                                >
-                                    Home
-                                </a>                                
-                                <Divider
-                                    orientation="vertical"
-                                    style={{
-                                    height: "2rem",
-                                    }}
-                                />                                
-                                <a
-                                    className={classes.titleNoMargin}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    href="https://miportal.ucn.cl"                                                
-                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
-                                >
-                                    Mi portal
-                                </a>       
-                                <Divider
-                                    orientation="vertical"
-                                    style={{
-                                    height: "2rem",
-                                    }}
-                                />                                       
-                                <a
-                                    className={classes.titleNoMargin}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    href="https://online.ucn.cl"                                                
-                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
-                                >
-                                    Online UCN
-                                </a>      
-                                <Divider
-                                    orientation="vertical"
-                                    style={{
-                                    height: "2rem",
-                                    }}
-                                />                                    
-                                <a
-                                    className={classes.titleNoMargin}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    href="https://noticias.ucn.cl"                                                
-                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
-                                >
-                                    Noticias UCN
-                                </a>     
-                                <Divider
-                                    orientation="vertical"
-                                    style={{
-                                    height: "2rem",
-                                    }}
-                                />                                    
-                                <a
-                                    className={classes.titleNoMargin}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    href="https://campusvirtual.ucn.cl"                                                
-                                    style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
-                                >
-                                    Campus UCN
-                                </a>                                                                                                                            
-                            </Stack>
-                        </div>  
-                    </div>
-                </Toolbar>
-                </Box>
-            </MaterialAppBar>
-            {renderMenu()}
-            <Drawer
-                variant="permanent"                
-                ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                  }}                
-                className={clsx(classes.drawer, {
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open,
-                })}
-                classes={{
-                paper: clsx({
-                    [classes.drawerOpenLateral]: open,
-                    [classes.drawerCloseLateral]: !open,
-                }),
-                }}
-            >
-                <div className={classes.toolbar}>
-                    <SwitchUnstyled component={Root} {...label} onClick={handleDrawerOpen}/>
-                    {/* <IconButton
-                        // color="black"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton)}
-                        >
-                        <MenuIcon />
-                    </IconButton>                     */}
-                </div>
-                
-                <ListItem
-                    key={1}
-                    button
-                    // component={Link}
-                    // to={currentUser.rol === "ADMIN"? Routes.HOME : Routes.MISCURSOS}                    
-                    className={classes.selectItem}
-                >
-                    
-                    <ListItemIcon>
-                    <HomeIcon style={{ color:"white" }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color:"white" }}>
-                    Inicio
-                    </ListItemText>
-                </ListItem>
-                
-                <Divider style={{height:"7px", backgroundColor:"#3a4955"}}/>
-
-                {/*Menus colapsables*/}
-                <ListItem button className={classes.selectItem} onClick={handleOpenBeneficios}>
-                    <ListItemIcon>
-                        <SchoolIcon style={{ color:"white" }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color:"white" }}>
-                        Beneficios
-                    </ListItemText>
-                    {openBeneficios ? <ExpandLess style={{ color:"white" }}/> : <ExpandMore style={{ color:"white" }}/>}
-                </ListItem>
-                <Collapse in={openBeneficios} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Noticias </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Beneficios Internos </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Beneficios Externos </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Preguntas Frecuentes </ListItemText>
-                        </ListItem>                                                                        
-                    </List>
-                </Collapse>
-
-                <ListItem button className={classes.selectItem} onClick={handleOpenSalud}>
-                    <ListItemIcon>
-                        <Health style={{ color:"white" }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color:"white" }}>
-                        Salud
-                    </ListItemText>
-                    {openSalud ? <ExpandLess style={{ color:"white" }}/> : <ExpandMore style={{ color:"white" }}/>}
-                </ListItem>
-                <Collapse in={openSalud} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Noticias </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Solicitud Hora </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Visado Certificados </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Agenda Pro </ListItemText>
-                        </ListItem>                                                                        
-                    </List>
-                </Collapse>
-
-                <ListItem button className={classes.selectItem} onClick={handleOpenDeportes}>
-                    <ListItemIcon>
-                        <Soccer style={{ color:"white" }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color:"white" }}>
-                        Deportes
-                    </ListItemText>
-                    {openDeportes ? <ExpandLess style={{ color:"white" }}/> : <ExpandMore style={{ color:"white" }}/>}
-                </ListItem>
-                <Collapse in={openDeportes} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Noticias </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Equipo Deportes UCN </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Deporte Selectivo </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Deporte Interno </ListItemText>
-                        </ListItem>    
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Actividades Complementarias </ListItemText>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon />                            
-                            <ListItemText style={{ color:"white" }}> Infraestructura Deportiva </ListItemText>
-                        </ListItem>                                                                                                                            
-                    </List>
-                </Collapse>
-
-                <ListItem
-                    key={2}
-                    button
-                    //component={Link}
-                    //to={Routes.CURSOS}
-                    
-                    className={classes.selectItem}
-                    onClick={() => {
-                    
-                    }}
-                >
-                    
-                    <ListItemIcon>
-                    <ColorLens style={{ color:"white" }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color:"white" }}>
-                    Arte y Cultura
-                    </ListItemText>
-                </ListItem>
-
-                <ListItem
-                    key={2}
-                    button
-                    //component={Link}
-                    //to={Routes.CURSOS}
-                    
-                    className={classes.selectItem}
-                    onClick={() => {
-                    
-                    }}
-                >
-                    
-                    <ListItemIcon>
-                    <Baby style={{ color:"white" }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color:"white" }}>
-                    Jardín Infantil Taqinki
-                    </ListItemText>
-                </ListItem>                
-
-                <ListItem
-                    key={2}
-                    button
-                    //component={Link}
-                    //to={Routes.CURSOS}
-                    
-                    className={classes.selectItem}
-                    onClick={() => {
-                    
-                    }}
-                >
-                    
-                    <ListItemIcon>
-                    <Inclusive style={{ color:"white" }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color:"white" }}>
-                    Inclusión UCN
-                    </ListItemText>
-                </ListItem>                
-                
-                <Divider style={{height:"7px", backgroundColor:"#3a4955"}}/>
-
-                <ListItem
-                    key={2}
-                    button
-                    //component={Link}
-                    //to={Routes.CURSOS}
-                    
-                    className={classes.selectItem}
-                    onClick={() => {
-                    
-                    }}
-                >
-                    
-                    <ListItemIcon>
-                    <FacebookIcon style={{ color:"white" }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color:"white" }}>
-                    Facebook DGE
-                    </ListItemText>
-                </ListItem>
-
-                <ListItem
-                    key={2}
-                    button
-                    //component={Link}
-                    //to={Routes.CURSOS}
-                    
-                    className={classes.selectItem}
-                    onClick={() => {
-                    
-                    }}
-                >
-                    
-                    <ListItemIcon>
-                    <InstagramIcon style={{ color:"white" }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color:"white" }}>
-                    Instagram DGE
-                    </ListItemText>
-                </ListItem>                
-
-            </Drawer>
-            <main
-                className={clsx(classes.content, {
-                [classes.contentShift]: open,
-                })}
-                style={{paddingTop:"60px"}}
-            >
-                <div className={classes.drawerHeader} />
-                {children}
-            </main>
-            </div>
-        </Fragment>
-        );
-    };
-
-    return renderAppMobile();
-
-}
-
-export default AppBarCustom;
-
-const drawerWidth = 250;
-const drawerWidthClose = 57;
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "flex",
-    },
-    contentShift: {
-        transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    },
-    listScroll: {
-        overflowY: "auto",
-        margin: 0,
-        padding: 0,
-        listStyle: "none",
-        height: "100%",
-        "&::-webkit-scrollbar": {
-        width: "0.4em",
-        },
-        "&::-webkit-scrollbar-track": {
-        boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
-        webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
-        },
-        "&::-webkit-scrollbar-thumb": {
-        backgroundColor: "rgba(0,0,0,.1)",
-        outline: "1px solid slategrey",
-        },
-    },
-    grow: {
-        flexGrow: 1,
-    },
-    appBar: {
-        width: `calc(100% - ${drawerWidthClose}px)`,
-        transition: theme.transitions.create(['margin', 'width'], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-      },
-      appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-      },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: "nowrap",
-    },
-    drawerOpen: {
-        backgroundColor: "#FFFFFF",
-        width: drawerWidth,
-        transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerOpenLateral: {
-        backgroundColor: "#425563",
-        width: drawerWidth,
-        transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-        }),
-        zIndex:1205,
-    },    
-    drawerClose: {
-        backgroundColor: "#FFFFFF",
-        transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: "hidden",
-        width: theme.spacing(7) + 1,
-    },
-    drawerCloseLateral: {
-        backgroundColor: "#425563",
-        transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: "hidden",
-        width: theme.spacing(7) + 1,
-        zIndex:1205,
-    },    
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-    menuButton: {
-        marginRight: "-3px",
-        '&:focus': {
-            outline: "none",
-        },        
-    },    
-    nested: {
-        paddingLeft: theme.spacing(4),
-    },
-    nested2: {
-        paddingLeft: theme.spacing(8),
-    },
-    linksSecundarios: {
-        padding: 8,
-    },
-    infoButton: {
-        marginLeft: theme.spacing(2),
-    },
-    sectionDesktop: {
-        display: "flex",
-        [theme.breakpoints.up("md")]: {
-        display: "flex",
-        },
-    },
-    sectionMobile: {
-        display: "flex",
-        [theme.breakpoints.down("md")]: {
-        display: "none",
-        },
-    },
-    contenedorUser: {
-        marginTop: "5px",
-        marginBottom: "auto",
-        marginLeft: "auto",
-        marginRight: "auto",
-    },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: "25ch",
-    },
-    titleNoMargin: {
-        margin: 0,
-        textAlign: "end",
-        color: "black",
-    },
-    titleBold: {
-        color: "black",
-    },
-    toolbar: {
-        height: "83px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        padding: theme.spacing(0, 1),
-        ...theme.mixins.toolbar,
-    },
-    hide: {
-        display: "none",
-    },
-    button: {
-        zIndex: theme.zIndex.drawer + 2,
-        margin: theme.spacing(1),    
-    },    
-    input: {
-        display: "none",
-    },
-    homeLink: {
-        color: "white",
-        textDecoration: "none",
-    },
-    img: {
-        height: "40px",
-        marginTop: "12px",
-        marginBottom: "12px",
-        marginRight: theme.spacing(2),
-    },
-
-    selectItem: {
-        color: "primary",
-    },
-    search_div: {
-        marginLeft: theme.spacing(5),
-        width: "50%",
-    },
-    drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        //padding: theme.spacing(0, 1),
-        paddingTop: "30px",
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
-    },  
-}));
+const elementosAppBar = [
+  {
+      nombre: "Home",
+      path: "https://www.google.cl",
+      divider: true,
+  },    
+  {
+      nombre: "Mi Portal",
+      path: "https://miportal.ucn.cl",
+      divider: true,
+  },
+  {
+      nombre: "Online UCN",
+      path: "https://online.ucn.cl",
+      divider: true,
+  },
+  {
+      nombre: "Noticias UCN",
+      path: "https://noticias.ucn.cl",
+      divider: true,
+  },
+  {
+      nombre: "Campus UCN",
+      path: "https://campusvirtual.ucn.cl",
+      divider: false,
+  },                
+]
