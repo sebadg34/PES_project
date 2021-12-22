@@ -33,7 +33,7 @@ class SendMail extends Mailable
     public function build()
     {
         
-        return $this->from('PES@ucn.cl')
+        return $this->from('beneficiosUCN@gmail.com')
                     ->subject('correo de prueba')
                     ->view('random-email', ['name' => $this->name]);
     }

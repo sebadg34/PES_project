@@ -5,9 +5,9 @@ import RegisterService from "../_hooks/RegisterService";
 import Loading from "../loading";
 import AppBarCustom from "../appbar";
 import { useParams } from 'react-router-dom';
-import {
-    Delete
-} from "@material-ui/icons";
+import ArchivosService from "../_hooks/ArchivosService";
+import { Delete } from "@material-ui/icons";
+import Swal from 'sweetalert2'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -44,6 +44,8 @@ function VisualizarSolicitudAdmin() {
 
     const [datos, setDatos] = useState([]);
     const [archivosAdjuntos, setArchivosAdjuntos] = useState([]);
+
+    const [errores, setErrores] = useState([]);
 
     const classes = useStyles();
 
@@ -90,6 +92,37 @@ function VisualizarSolicitudAdmin() {
         e.target.files = null;
 
     };
+
+    const handleAdjuntarArchivos = async () => {
+
+        setErrores([]);
+
+        const formdata = new FormData();
+
+        for (let i = 0; i < archivosAdjuntos.length; i++) {
+            formdata.append(`Archivos[${i}]`, archivosAdjuntos[i]["archivo"]);                        
+        }
+
+        ArchivosService.adjuntarArchivos(formdata)
+        .then((data) => {
+            if("errors" in data){
+                for (let key of Object.keys(data)) {
+                    for (let key1 of Object.keys(data[key])) {
+                        setErrores(data[key][key1]);
+                    }                           
+                }                
+            }else{
+                Swal.fire(
+                'Archivos adjuntados',
+                'Los archivos fueron adjuntados a la solicitud correctamente',
+                'success'
+                ).then((result) => {
+                    window.location.reload(true);
+                })
+            }
+        })        
+
+    };    
 
     useEffect(() => {
 
@@ -442,8 +475,20 @@ function VisualizarSolicitudAdmin() {
                                 }
                             }}
                         />
-                        {/* <span className="errorMsg">{errores.CarnetSostenedor}</span>                                        */}
+                        <span className="errorMsg">{errores[0]}</span>                                       
                     </Grid>
+                    <Grid item align="center">                        
+                        <Button
+                            className="linkItem"
+                            style={{maxWidth: '250px', minWidth: '250px', outline: "none"}}
+                            variant="contained"
+                            color="primary"   
+                            disabled={archivosAdjuntos.length === 0? true : false}                         
+                            onClick={handleAdjuntarArchivos}
+                        >
+                            Adjuntar archivos
+                        </Button>                     
+                    </Grid>                      
                 </Grid>
             </AppBarCustom>
         </>

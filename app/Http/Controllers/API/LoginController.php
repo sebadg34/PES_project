@@ -56,7 +56,7 @@ class LoginController extends Controller
 
             try {
                 $name = "probando probando";
-            $sendToEmail = "sebastian.delgado@alumnos.ucn.cl";
+            $sendToEmail = "manuel.trigo@alumnos.ucn.cl";
             Mail::to($sendToEmail)->send(new SendMail($name));
 
             } catch (Exception $ex) {

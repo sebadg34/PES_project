@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('registros', [App\Http\Controllers\API\RegistroController::class,'getRegistros'])->name('registros');
     Route::post('registro', [App\Http\Controllers\API\RegistroController::class,'registro'])->name('registro');
     Route::post('cambiar-sostenedor', [App\Http\Controllers\API\RegistroController::class,'cambiarSostenedor'])->name('cambiarSostenedor');
+    Route::post('adjuntar-archivos', [App\Http\Controllers\API\ArchivoController::class,'adjuntarArchivos'])->name('adjuntarArchivos');
 });
 
 Route::post('login', [App\Http\Controllers\API\LoginController::class,'login'])->name('login');
