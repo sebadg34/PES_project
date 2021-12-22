@@ -35,7 +35,7 @@ class SendMail extends Mailable
         
         return $this->from('PES@ucn.cl')
                     ->subject('correo de prueba')
-                    ->view('random-email', ['name' => $this->name])>getHeaders()
+                    ->view('random-email', ['name' => $this->name])->getHeaders()
                     ->addTextHeader('x-mailgun-native-send', 'true');;
     }
 }

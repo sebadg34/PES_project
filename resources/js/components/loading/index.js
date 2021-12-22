@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function Loading(props) {
+function Loading() {
     const classes = useStyles();
 
     return (

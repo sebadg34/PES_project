@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -10,6 +10,7 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import { Tooltip } from "@material-ui/core";
 
 import {
   Home as HomeIcon, 
@@ -48,87 +49,105 @@ function AppBarCustom(props) {
 
   const [ elementosDrawer, setElementosDrawer ] = useState([
     {
+        key: 1,
         nombre: "Inicio",
         tipo: "no colapsable",
         divider: true,
         icon: <HomeIcon/>
     },    
     {
+        key: 2,
         nombre: "Beneficios",
         tipo: "colapsable",
         open: false,
         elementos: [
         {
+            key: 2.1,
             nombreElemento: "Noticias",
             path: ""
         },
         {
+            key: 2.2,
             nombreElemento: "Beneficios internos",
             path: ""
         },
         {
+            key: 2.3,
             nombreElemento: "Beneficios externos",
             path: ""
         },
         {
+            key: 2.4,          
             nombreElemento: "Preguntas frecuentes",
             path: ""
-        }        
+        },  
         ],
         divider: false,
         icon: <SchoolIcon/>
     },
     {
+        key: 3,
         nombre: "Salud",
         tipo: "colapsable",
         open: false,
         elementos: [
             {
+            key: 3.1,
             nombreElemento: "Noticias",
             path: ""
             },
             {
+            key: 3.2,              
             nombreElemento: "Solicitud hora",
             path: ""
             },
             {
+            key: 3.3,              
             nombreElemento: "Visado certificados",
             path: ""
             },
             {
+            key: 3.4,
             nombreElemento: "Agenda PRO",
             path: ""
-            }        
+            },        
         ],
         divider: false,
         icon: <Health/>
     },
     {
+        key: 4,
         nombre: "Deportes",
         tipo: "colapsable",
         open: false,
         elementos: [
             {
+            key: 4.1,
             nombreElemento: "Noticias",
             path: ""
             },
             {
+            key: 4.2,
             nombreElemento: "Equipo deportes UCN",
             path: ""
             },
             {
+            key: 4.3,
             nombreElemento: "Deporte selectivo",
             path: ""
             },
             {
+            key: 4.4,
             nombreElemento: "Deporte interno",
             path: ""
             },
             {
+            key: 4.5,
             nombreElemento: "Actividades complementarias",
             path: ""
             },    
             {
+            key: 4.6,
             nombreElemento: "Infraestructura deportiva",
             path: ""
             },                
@@ -137,30 +156,35 @@ function AppBarCustom(props) {
         icon: <Soccer/>
     },
     {
+        key: 5,
         nombre: "Arte y cultura",
         tipo: "no colapsable",
         divider: false,
         icon: <ColorLens/>
     },          
     {
+        key: 6,      
         nombre: "Jardín infantil Taqinki",
         tipo: "no colapsable",
         divider: false,
         icon: <Baby/>
     },   
     {
+        key: 7,      
         nombre: "Inclusión UCN",
         tipo: "no colapsable",
         divider: true,
         icon: <Inclusive/>
     },           
     {
+        key: 8,
         nombre: "Facebook DGE",
         tipo: "no colapsable",
         divider: false,
         icon: <FacebookIcon/>
     },     
     {
+        key: 9,
         nombre: "Instagram DGE",
         tipo: "no colapsable",
         divider: false,
@@ -186,21 +210,29 @@ function AppBarCustom(props) {
 
   function handleElementOpen(nombre, open) {
 
-    setElementosDrawer([...elementosDrawer].map(object => {
-      if(object.nombre === nombre) {
-        return {
-          ...object,
-          open: !open
-        }
-      }
-      else return object;
-    }));
-
     if(!open){
       setSwitchEnable(true);
       setOpen(true);
+      setTimeout(() => setElementosDrawer([...elementosDrawer].map(object => {
+        if(object.nombre === nombre) {
+          return {
+            ...object,
+            open: !open
+          }
+        }
+        else return object;
+      })), 200);
+    }else{
+      setElementosDrawer([...elementosDrawer].map(object => {
+        if(object.nombre === nombre) {
+          return {
+            ...object,
+            open: !open
+          }
+        }
+        else return object;
+      }));      
     }
-
   }  
 
   return (
@@ -226,12 +258,12 @@ function AppBarCustom(props) {
               <div className={classes.contenedorUser}>
                   <Stack direction="row" spacing={2}>
                       {elementosAppBar.map((element, index) => (
-                        <>
+                        <Fragment key={element.nombre}>
                           <a
                               className={classes.titleNoMargin}
                               rel="noreferrer"
                               target="_blank"
-                              href={element.path}                                                
+                              href={element.path}                                             
                               style={{fontSize:"1.2rem", color:"#007bff", textDecoration:"none"}} 
                           >
                               {element.nombre}
@@ -241,7 +273,7 @@ function AppBarCustom(props) {
                             :
                             ""
                           }
-                        </>
+                        </Fragment>
                       ))}                                                                                                                                                   
                   </Stack>
               </div>  
@@ -267,29 +299,31 @@ function AppBarCustom(props) {
         </div>
         <List>
           {elementosDrawer.map((element, index) => (
-            <>
-            <ListItem button key={index} onClick={element.tipo === "colapsable" ? () => handleElementOpen(element.nombre, element.open) : undefined}>
-              <ListItemIcon style={{ color:"white" }} >
-                {element.icon}
-              </ListItemIcon>
-              <ListItemText primary={element.nombre} style={{ color:"white" }} />
-              {element.tipo === "colapsable" ? 
-                <>
-                {element.open ? 
-                  <ExpandLess style={{ color:"white" }}/>
+            <Fragment key={element.key}>
+            <Tooltip title={open ? "" : element.nombre} placement="right" >
+              <ListItem button onClick={element.tipo === "colapsable" ? () => handleElementOpen(element.nombre, element.open) : undefined}>
+                <ListItemIcon style={{ color:"white" }} >
+                  {element.icon}
+                </ListItemIcon>
+                <ListItemText primary={element.nombre} style={{ color:"white" }} />
+                {element.tipo === "colapsable" ? 
+                  <>
+                  {element.open ? 
+                    <ExpandLess style={{ color:"white" }}/>
+                    : 
+                    <ExpandMore style={{ color:"white" }}/> 
+                  }
+                  </>
                   : 
-                  <ExpandMore style={{ color:"white" }}/> 
-                }
-                </>
-                : 
-                ""
-              }              
-            </ListItem>  
+                  ""
+                }              
+              </ListItem>  
+            </Tooltip>
             {element.tipo === "colapsable" ? 
                 <Collapse in={element.open} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
                     {element.elementos.map((elementoInterior, indexElemento) => (
-                        <ListItem button key={indexElemento}>
+                        <ListItem button key={elementoInterior.key}>
                             <ListItemIcon />                            
                             <ListItemText style={{ color:"white" }} primaryTypographyProps={{style: { whiteSpace: "normal" }}}> 
                               { elementoInterior.nombreElemento } 
@@ -302,7 +336,7 @@ function AppBarCustom(props) {
                 ""
               }                                      
             {element.divider ? <Divider style={{height:"7px", backgroundColor:"#3a4955"}}/> : ""}
-            </>
+            </Fragment>
           ))}
         </List>
       </Drawer>

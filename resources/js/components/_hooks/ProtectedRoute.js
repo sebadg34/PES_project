@@ -117,7 +117,7 @@ function ProtectedRoute({component: Component, roles, ...rest }) {
     
     return <Route {...rest} render={(props) => {
         if (user) {   
-            if(rest.path === "/visualizar-solicitud" || rest.path === "/cambiar-sostenedor" || rest.path === "/administracion" || rest.path === "/estudiantes/:id"){
+            if(loadingScreenPaths.includes(rest.path)){
                 return (<Component />)
             }
             return (
@@ -130,5 +130,13 @@ function ProtectedRoute({component: Component, roles, ...rest }) {
         }
     }} />;
 }
+
+const loadingScreenPaths = [
+    "/visualizar-solicitud",
+    "/cambiar-sostenedor",
+    "/administracion",
+    "/estudiantes/:id",
+    "/home"
+];
 
 export default ProtectedRoute;

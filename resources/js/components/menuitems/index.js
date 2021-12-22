@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 import Perfil from "../perfil";
 
-function MenuItems (){
+function MenuItems ({estadoRegistro}){
 
     const container = {
         hidden: { opacity: 0 },
@@ -111,7 +111,7 @@ function MenuItems (){
         }
         `}
     >
-        <Perfil />
+        <Perfil estadoRegistro={estadoRegistro} />
     </motion.div>
     );
 }
