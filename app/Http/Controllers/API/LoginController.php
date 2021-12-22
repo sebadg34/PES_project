@@ -54,11 +54,16 @@ class LoginController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             $cookie = cookie("jwt", $token, 0);
 
-            //$name = "Dino Cajic";
-            //$sendToEmail = strtolower('sebadg98@gmail.com');
-            //$sendToEmail = strtolower('manuel.trigo@alumnos.ucn.cl');
-            
-            //Mail::to($sendToEmail)->send(new SendMail($name));
+            try {
+                $name = "probando probando";
+            $sendToEmail = "sebastian.delgado@alumnos.ucn.cl";
+            Mail::to($sendToEmail)->send(new SendMail($name));
+
+            } catch (Exception $ex) {
+
+            }
+
+           
         
             return response()->json(['message' => 'Hi '.$user->email.', welcome to home'
             ,'access_token' => $token
