@@ -4,6 +4,7 @@ import imgSignUp from "../sign-up.svg";
 import imgCheck from "../check.svg";
 import imgChange from "../change-sos.svg";
 import imgStart from "../start.svg";
+import imgUnavailable from "../unavailable.svg";
 import Swal from 'sweetalert2'
 
 function Perfil({estadoRegistro}) {
@@ -84,13 +85,17 @@ function Perfil({estadoRegistro}) {
       transition={{ delay: i * 0.3 }}
     
       >
-          <img src={item.img} alt="food burger" />
+        {
+        item.desplegar ? 
+          <img src={item.img} alt="food burger" /> :
+          <img src={imgUnavailable} style={{opacity: 0.5}} alt="food burger" />
+        }
           <motion.div className="item-content">
               <motion.div className="item-title-box">
                   {
                   item.desplegar ? 
                   <a className="item-title linkItem" href={item.url}>{item.title}</a> :
-                  <h4 style= {{color: "#898989"}} className="button" onClick={() => whyDisabled(item.title)}>{item.title}</h4>
+                  <h4 style= {{color: "#898989", opacity: 0.5}} className="button" onClick={() => whyDisabled(item.title)}>{item.title}</h4>
                   }
               </motion.div>
           </motion.div>

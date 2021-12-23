@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Carbon\Carbon;
 
 class SendMail extends Mailable
 {
@@ -33,8 +34,14 @@ class SendMail extends Mailable
     public function build()
     {
         
-        return $this->from('beneficiosUCN@gmail.com')
+        return $this->from('noreply@beneficiosDGE.ucn.cl')
                     ->subject('correo de prueba')
-                    ->view('random-email', ['name' => $this->name]);
+                    ->view('random-email', [
+                        'name' => $this->name,
+                        'rut' => "19.950.670-6",
+                        'correo' => "sebastian.delgado@alumnos.ucn.cl",
+                        'carrera' => "Ingenieria civil en bla bla",
+                        'id' => "2",
+                        'date' => Carbon::now()]);
     }
 }

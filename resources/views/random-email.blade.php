@@ -1,7 +1,15 @@
 <!DOCTYPE html>
+
 <html>
-Hey there {{$name}},
-Este es un correo de prueba para los cambios de solicitud 
-Atentamente, 
-Un seba random
+Estudiante {{$name}} ha solicitado activacion de beneficio
+<pre>
+Rut: {{$rut}}
+<pre>
+Correo: {{$correo}}
+<pre>
+Carrera: {{$carrera}}
+<pre>
+id solicitud: {{$id}}
+<pre>
+fecha de solicitud: {{$date}}
 </html>
