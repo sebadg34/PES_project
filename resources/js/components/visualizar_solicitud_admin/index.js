@@ -58,7 +58,9 @@ function VisualizarSolicitudAdmin() {
 
     let getRegister = async () => {
         const register = await RegisterService.getRegisterByID(id);
+        const archivosAdjuntos = await ArchivosService.getArchivosAdjuntos(id);
         console.log(register);
+        console.log(archivosAdjuntos);
 
         setRutEstudiante(register.data.rutEstudiante);
         setNombreCompletoEstudiante(register.data.nombreCompletoEstudiante);
@@ -71,9 +73,13 @@ function VisualizarSolicitudAdmin() {
         setParentesco(register.data.parentesco);
         setEstado(register.data.estado);
         setDatos([
-            { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE) },
-            { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS) }
+            { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE), adjunto: false },
+            { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS), adjunto: false }
         ]);
+
+        archivosAdjuntos.data.forEach(element => {
+            setDatos(datos => [...datos, { nombre: element.nombreArchivo, carnet: element.nombreArchivoOriginal, peso: bytesToSize(element.peso), adjunto:true }]);  
+        })
 
         setPending(false);
 
@@ -98,6 +104,8 @@ function VisualizarSolicitudAdmin() {
         setErrores([]);
 
         const formdata = new FormData();
+
+        formdata.append("idFormulario", id);
 
         for (let i = 0; i < archivosAdjuntos.length; i++) {
             formdata.append(`Archivos[${i}]`, archivosAdjuntos[i]["archivo"]);                        
@@ -394,7 +402,7 @@ function VisualizarSolicitudAdmin() {
                                 },
                             }}
                             columns={[
-                                { title: 'Tipo carnet', field: 'carnet' },
+                                { title: 'Archivo', field: 'carnet' },
                                 { title: 'Peso archivo', field: 'peso' },
                             ]}
                             data={datos}
@@ -403,7 +411,7 @@ function VisualizarSolicitudAdmin() {
                                     <iframe
                                         width="100%"
                                         height="1120"
-                                        src={"/storage/carnet/" + rowData.nombre}
+                                        src={rowData.adjunto ? "/storage/archivos_adjuntos/" + rowData.nombre: "/storage/carnet/" + rowData.nombre}
                                         frameBorder="0"
                                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen

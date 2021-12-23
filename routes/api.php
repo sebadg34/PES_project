@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('registro', [App\Http\Controllers\API\RegistroController::class,'registro'])->name('registro');
     Route::post('cambiar-sostenedor', [App\Http\Controllers\API\RegistroController::class,'cambiarSostenedor'])->name('cambiarSostenedor');
     Route::post('adjuntar-archivos', [App\Http\Controllers\API\ArchivoController::class,'adjuntarArchivos'])->name('adjuntarArchivos');
+    Route::get('archivos-adjuntos/{id}', [App\Http\Controllers\API\ArchivoController::class,'getArchivosAdjuntos'])->name('archivos-adjuntos/{id}');
 });
 
 Route::post('login', [App\Http\Controllers\API\LoginController::class,'login'])->name('login');

@@ -9,6 +9,14 @@ const adjuntarArchivos = (datos) => {
     });
 };
 
+const getArchivosAdjuntos = (id) => {
+
+    return axios.get(API_URL + "archivos-adjuntos/" + id).then((response) =>{
+        return response.data;
+    });
+};
+
 export default {
-    adjuntarArchivos
+    adjuntarArchivos,
+    getArchivosAdjuntos,
 };
