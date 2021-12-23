@@ -136,7 +136,7 @@ const loadingScreenPaths = [
     "/cambiar-sostenedor",
     "/administracion",
     "/estudiantes/:id",
-    "/home"
+    "/home",
 ];
 
 export default ProtectedRoute;

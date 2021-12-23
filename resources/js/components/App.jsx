@@ -5,6 +5,7 @@ import MenuContainer from "./menucontainer";
 import homeAdmin from "./homeAdmin";
 import Registro from "./registro";
 import VisualizarSolicitud from "./visualizar_solicitud";
+import ActivarSolicitud from "./activar_solicitud";
 import CambiarSostenedor from "./cambiar_sostenedor";
 import ProtectedRoute from "./_hooks/ProtectedRoute";
 import RouteLogin from "./login/RouteLogin";
@@ -25,7 +26,7 @@ function App(){
                 <ProtectedRoute exact path={"/visualizar-solicitud"} roles={Role.User} component={VisualizarSolicitud} />
                 <ProtectedRoute exact path={"/cambiar-sostenedor"} roles={Role.User} component={CambiarSostenedor} />
                 <ProtectedRoute exact path={"/home"} roles={Role.User} component={MenuContainer}/>
-
+                <ProtectedRoute exact path={"/activar-solicitud"} roles={Role.User} component={ActivarSolicitud}/>
 
                 <ProtectedRoute exact path={"/administracion"} roles={Role.Admin} component={homeAdmin}/>
                 <ProtectedRoute exact path={"/estudiantes/:id"} roles={Role.Admin} component={VisualizarSolicitudAdmin}/>

@@ -18,7 +18,6 @@ function Perfil({estadoRegistro}) {
   }; 
 
   const whyDisabled = (title) => {
-    console.log(estadoRegistro);
     if(estadoRegistro == ""){
       Swal.fire(
         'Opción deshabilitada',
@@ -68,7 +67,7 @@ function Perfil({estadoRegistro}) {
     {
       id: 4,
       title: "Iniciar activación de solicitud",
-      url: "/registro",
+      url: "/activar-solicitud",
       img: imgStart,
       desplegar: estadoRegistro ===  "Registrada" ? true : false ,
     }
