@@ -27,9 +27,12 @@ class LoginController extends Controller
        public function login(Request $request){ 
         
         $validator = Validator::make($request->all(), [
-            'correo'=>'required|email',
+            'correo'=>'required|regex:/^([a-zA-Z0-9_\-\.]+)@(alumnos.)?ucn.cl$/',
             'contraseña'=>'required|string',
-        ]);
+        ],
+        [
+            'correo.regex' => 'Utilice el correo institucional',
+        ]);  
 
         if($validator->fails()){
             return response()->json([
