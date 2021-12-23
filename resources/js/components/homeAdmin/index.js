@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import {Grid, Typography, Divider, makeStyles} from '@material-ui/core'
 import { Button } from '@material-ui/core'
 import { useHistory } from "react-router-dom";
@@ -8,6 +8,14 @@ import RegisterService from "../_hooks/RegisterService";
 import Loading from "../loading";
 import AppBarCustom from "../appbar";
 import PatchedPagination from "./PatchedPagination";
+
+import {
+  Circle as CircleIcon,
+  ArrowCircleRight as CircleRight,
+  CheckCircle,
+  Cancel as CancelIcon,
+  Pending as PendingIcon
+} from "@mui/icons-material";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -108,7 +116,56 @@ function homeAdmin() {
             { title: 'Correo', field: 'email', cellStyle: {fontSize: 14}},
             { title: 'Sede', field: 'sede', cellStyle: {fontSize: 14}},
             { title: 'Carrera', field: 'carrera' , cellStyle: {fontSize: 14}},
-            { title: 'Estado solicitud', field: 'estado', cellStyle: {fontSize: 14}}
+            { title: 'Estado solicitud', field: 'estado', cellStyle: {fontSize: 14},
+              render: rowData => 
+                <>                
+                {rowData.estado === "Registrada"
+                        ?
+                        <CircleIcon style={{color: "green"}}/>
+                        :
+                        rowData.estado === "En proceso"
+                            ?
+                            <CircleRight style={{color: "orange"}}/>
+                            :
+                            rowData.estado === "Aceptada"
+                                ?
+                                <CheckCircle style={{color: "blue"}}/>                                
+                                :
+                                rowData.estado === "Rechazada"
+                                    ?
+                                    <CancelIcon style={{color: "red"}}/>                                    
+                                    :
+                                    rowData.estado === "Cargando beneficio"
+                                    ?           
+                                    <PendingIcon style={{color: "cyan"}}/>
+                                    :                                 
+                                    <CircleIcon style={{color: "black"}}/>
+                }                
+                <Typography variant="inherit">{"   "}</Typography>        
+                {rowData.estado === "Registrada"
+                        ?
+                        <Typography variant="inherit" style={{ color: "green" }}>{rowData.estado}</Typography>
+                        :
+                        rowData.estado === "En proceso"
+                            ?
+                            <Typography variant="inherit" style={{ color: "orange" }}>{rowData.estado}</Typography>
+                            :
+                            rowData.estado === "Aceptada"
+                                ?
+                                <Typography variant="inherit" style={{ color: "blue" }}>{rowData.estado}</Typography>                        
+                                :
+                                rowData.estado === "Rechazada"
+                                    ?
+                                    <Typography variant="inherit" style={{ color: "red" }}>{rowData.estado}</Typography>                           
+                                    :
+                                    rowData.estado === "Cargando beneficio"
+                                    ?           
+                                    <Typography variant="inherit" style={{ color: "cyan" }}>{rowData.estado}</Typography>
+                                    :                                 
+                                    <Typography variant="inherit" style={{ color: "black" }}>{rowData.estado}</Typography>
+                }                                                  
+                </>
+            }
 
           ]}
           
