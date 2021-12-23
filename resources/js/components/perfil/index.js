@@ -35,6 +35,9 @@ function Perfil({estadoRegistro}) {
     else {
       Swal.fire(
         'Opción deshabilitada',
+        title === "Registro del beneficio" ? 
+        'La solicitud ya fue creada'
+        :
         'No puede ' + title.toLowerCase() + " mientras que la solicitud esté en proceso",
         'error'
       )

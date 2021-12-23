@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import ArchivosService from "../_hooks/ArchivosService";
 import { Delete } from "@material-ui/icons";
 import Swal from 'sweetalert2'
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,6 +28,12 @@ const useStyles = makeStyles(theme => ({
 function VisualizarSolicitudAdmin() {
 
     const { id } = useParams();
+
+    let history = useHistory();
+    const handleHome = () => {
+        history.push("/administracion");
+
+    }    
 
     //variables estudiante
     const [rutEstudiante, setRutEstudiante] = useState("");
@@ -48,7 +55,6 @@ function VisualizarSolicitudAdmin() {
     const [errores, setErrores] = useState([]);
 
     const classes = useStyles();
-    const [defuncion, setDefuncion] = useState("");
 
     function bytesToSize(bytes) {
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -74,13 +80,16 @@ function VisualizarSolicitudAdmin() {
         setParentesco(register.data.parentesco);
         setEstado(register.data.estado);
         setDatos([
-            { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE), adjunto: false },
-            { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS), adjunto: false }
+            { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE), tipo: "normal" },
+            { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS), tipo: "normal" },            
         ]);
-        setDefuncion([{ nombre: register.data.archivoDefuncion, documento: "Documento" }]);
+
+        if(register.data.archivoDefuncion !== null){
+            setDatos(datos => [...datos, { nombre: register.data.archivoDefuncion, carnet: "Documento defunción sostenedor", peso: bytesToSize(register.pesoAD), tipo: "defuncion" }]);  
+        }
 
         archivosAdjuntos.data.forEach(element => {
-            setDatos(datos => [...datos, { nombre: element.nombreArchivo, carnet: element.nombreArchivoOriginal, peso: bytesToSize(element.peso), adjunto:true }]);  
+            setDatos(datos => [...datos, { nombre: element.nombreArchivo, carnet: element.nombreArchivoOriginal, peso: bytesToSize(element.peso), tipo: "adjunto" }]);  
         })
 
         setPending(false);
@@ -151,26 +160,39 @@ function VisualizarSolicitudAdmin() {
                 <Grid container direction={"column"} spacing={4}>
                     <Grid item>
                         <h1>ESTADO:
+
                             {estado === "Registrada"
-                                ?
-                                <span style={{ color: "green" }}>{" "}{estado.toLocaleUpperCase()}</span>
-                                :
-                                estado === "En proceso"
                                     ?
-                                    <span style={{ color: "orange" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                    <span style={{ color: "green" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                     :
-                                    estado === "Aceptada"
+                                    estado === "En proceso"
                                         ?
-                                        <span style={{ color: "blue" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                        <span style={{ color: "orange" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                         :
-                                        estado === "Cancelada"
+                                        estado === "Aceptada"
                                             ?
-                                            <span style={{ color: "red" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                            <span style={{ color: "blue" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                             :
-                                            <span style={{ color: "black" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                            estado === "Rechazada"
+                                                ?
+                                                <span style={{ color: "red" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                                :
+                                                estado === "Cargando beneficio"
+                                                ?           
+                                                <span style={{ color: "cyan" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                                :                                 
+                                                <span style={{ color: "black" }}>{" "}{estado.toLocaleUpperCase()}</span>
                             }
 
-
+                            <Button
+                                className="linkItem"
+                                style={{ maxWidth: '150px', minWidth: '150px', float: "right", outline: "none" }}
+                                variant="contained"
+                                color="primary"
+                                onClick={handleHome}
+                            >
+                                volver
+                            </Button>
                         </h1>
                     </Grid>
                     <Grid item>
@@ -413,7 +435,16 @@ function VisualizarSolicitudAdmin() {
                                     <iframe
                                         width="100%"
                                         height="1120"
-                                        src={rowData.adjunto ? "/storage/archivos_adjuntos/" + rowData.nombre: "/storage/carnet/" + rowData.nombre}
+                                        src={
+                                            rowData.tipo === "adjunto" ?                                                 
+                                                "/storage/archivos_adjuntos/" + rowData.nombre
+                                            : 
+                                                rowData.tipo === "defuncion"? 
+                                                    "/storage/defuncion/" + rowData.nombre
+                                                :
+                                                    "/storage/carnet/" + rowData.nombre
+                                                                                                   
+                                        }
                                         frameBorder="0"
                                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
@@ -422,47 +453,6 @@ function VisualizarSolicitudAdmin() {
                             }}
                         />
                     </Grid>
-
-                    {
-                    estado == "En proceso" ?
-                        <Grid item className={classes.root}>
-                            <MaterialTable
-                                title="Documento de defunción"
-                                options={{
-                                    search: false,
-                                    paging: false,
-                                    draggable: false,
-                                    header: false,
-                                    rowStyle: (rowData) => {
-                                        return {
-                                            color: 'Black',
-                                            //fontFamily: "Mulish-Regular",
-                                            backgroundColor: 'White',
-                                        };
-                                    },
-                                }}
-                                columns={[
-                                    { title: 'nombre', field: 'documento' },
-                                    { title: 'Peso archivo', field: 'peso' },
-                                ]}
-                                data={defuncion}
-                                detailPanel={rowData => {
-                                    return (
-                                        <iframe
-                                            width="100%"
-                                            height="1120"
-                                            src={"/storage/defuncion/" + rowData.nombre}
-                                            frameBorder="0"
-                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                        />
-                                    )
-                                }}
-                            />
-                        </Grid> :
-                        <div />
-                }
-
                     <Grid item className={classes.root}>
                         <MaterialTable
                             title="Adjuntar archivos"

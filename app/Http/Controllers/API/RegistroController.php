@@ -152,8 +152,13 @@ class RegistroController extends Controller
 
         $pesoCE = Storage::size("public/carnet/" . $formulario->scanCarnetEstudiante);
         $pesoCS = Storage::size("public/carnet/" . $formulario->scanCarnetSostenedor);
+        $pesoAD = null;
+
+        if($formulario->archivoDefuncion != null){
+            $pesoAD = Storage::size("public/defuncion/" . $formulario->archivoDefuncion);
+        }
       
-        return response()->json(['data' => $formulario, "pesoCE" => $pesoCE, "pesoCS" => $pesoCS], 200);             
+        return response()->json(['data' => $formulario, "pesoCE" => $pesoCE, "pesoCS" => $pesoCS, "pesoAD" => $pesoAD], 200);             
         
         
     }
@@ -168,8 +173,13 @@ class RegistroController extends Controller
 
         $pesoCE = Storage::size("public/carnet/" . $formulario->scanCarnetEstudiante);
         $pesoCS = Storage::size("public/carnet/" . $formulario->scanCarnetSostenedor);
+        $pesoAD = null;
+
+        if($formulario->archivoDefuncion != null){
+            $pesoAD = Storage::size("public/defuncion/" . $formulario->archivoDefuncion);
+        }        
       
-        return response()->json(['data' => $formulario, "pesoCE" => $pesoCE, "pesoCS" => $pesoCS], 200);             
+        return response()->json(['data' => $formulario, "pesoCE" => $pesoCE, "pesoCS" => $pesoCS, "pesoAD" => $pesoAD], 200);             
         
         
     }

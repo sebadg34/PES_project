@@ -58,7 +58,7 @@ function ActivarSolicitud() {
         
         Swal.fire({
             title: '¿Estás seguro?',
-            text: "No podrás revertir una vez realizado",
+            text: "No se puede revertir esta decisión una vez realizada.",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -74,7 +74,7 @@ function ActivarSolicitud() {
                             console.log(data.errors);
                         } else {
                             Swal.fire(
-                                'ACTIVACION DE SOLICITUD INICIADA',
+                                'ACTIVACIÓN DE SOLICITUD INICIADA',
                                 'El archivo fue subido exitosamente',
                                 'success'
                             )
@@ -83,34 +83,6 @@ function ActivarSolicitud() {
                     })
             }
         })
-
-        //Esto descomentalo
-        // RegisterService.nombreFuncion(formdata)
-        // .then((data) => {
-        //     if("errors" in data){
-        //         setErrores(data.errors);
-        //     }else{
-        //         Swal.fire({
-        //             title: '¿Estás seguro?',
-        //             text: "You won't be able to revert this!",
-        //             icon: 'warning',
-        //             showCancelButton: true,
-        //             confirmButtonColor: '#3085d6',
-        //             cancelButtonColor: '#d33',
-        //             cancelButtonText: 'Cancelar',
-        //             confirmButtonText: 'Iniciar activación'
-        //           }).then((result) => {
-        //             if (result.isConfirmed) {
-        //               Swal.fire(
-        //                 'Deleted!',
-        //                 'Your file has been deleted.',
-        //                 'success'
-        //               )
-        //               history.push("/home");
-        //             }
-        //         })
-        //     }
-        // })
     }
 
     const handleUpload = (e) => {

@@ -43,7 +43,6 @@ function VisualizarSolicitud() {
     const [pending, setPending] = useState(true);
 
     const [datos, setDatos] = useState([]);
-    const [defuncion, setDefuncion] = useState("");
 
     const classes = useStyles();
 
@@ -69,10 +68,13 @@ function VisualizarSolicitud() {
         setParentesco(register.data.parentesco);
         setEstado(register.data.estado);
         setDatos([
-            { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE) },
-            { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS) }
+            { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE), tipo: "normal" },
+            { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS), tipo: "normal" },
         ]);
-        setDefuncion([{ nombre: register.data.archivoDefuncion, documento: "Documento" }]);
+
+        if(register.data.archivoDefuncion !== null){
+            setDatos(datos => [...datos, { nombre: register.data.archivoDefuncion, carnet: "Documento defunción sostenedor", peso: bytesToSize(register.pesoAD), tipo: "defuncion" }]);  
+        }        
 
         setPending(false);
 
@@ -96,26 +98,29 @@ function VisualizarSolicitud() {
                 <Grid container direction={"column"} spacing={4}>
                     <Grid item>
 
-
                         <h1>ESTADO:
 
                             {estado === "Registrada"
-                                ?
-                                <span style={{ color: "green" }}>{" "}{estado.toLocaleUpperCase()}</span>
-                                :
-                                estado === "En proceso"
                                     ?
-                                    <span style={{ color: "orange" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                    <span style={{ color: "green" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                     :
-                                    estado === "Aceptada"
+                                    estado === "En proceso"
                                         ?
-                                        <span style={{ color: "blue" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                        <span style={{ color: "orange" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                         :
-                                        estado === "Cancelada"
+                                        estado === "Aceptada"
                                             ?
-                                            <span style={{ color: "red" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                            <span style={{ color: "blue" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                             :
-                                            <span style={{ color: "black" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                            estado === "Rechazada"
+                                                ?
+                                                <span style={{ color: "red" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                                :
+                                                estado === "Cargando beneficio"
+                                                ?           
+                                                <span style={{ color: "cyan" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                                :                                 
+                                                <span style={{ color: "black" }}>{" "}{estado.toLocaleUpperCase()}</span>
                             }
 
                             <Button
@@ -371,7 +376,7 @@ function VisualizarSolicitud() {
                                     <iframe
                                         width="100%"
                                         height="1120"
-                                        src={"/storage/carnet/" + rowData.nombre}
+                                        src={rowData.tipo === "defuncion" ? "/storage/defuncion/" + rowData.nombre : "/storage/carnet/" + rowData.nombre}
                                         frameBorder="0"
                                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
@@ -379,59 +384,8 @@ function VisualizarSolicitud() {
                                 )
                             }}
                         />
-
-
-
                     </Grid>
-
-
                 </Grid>
-
-                {
-                    estado == "En proceso" ?
-                        <Grid item className={classes.root}>
-                            <MaterialTable
-                                title="Documento de defunción"
-                                options={{
-                                    search: false,
-                                    paging: false,
-                                    draggable: false,
-                                    header: false,
-                                    // headerStyle: {
-                                    //     backgroundColor: '#003057',
-                                    //     color: 'White',
-                                    // },
-                                    rowStyle: (rowData) => {
-                                        return {
-                                            color: 'Black',
-                                            //fontFamily: "Mulish-Regular",
-                                            backgroundColor: 'White',
-                                        };
-                                    },
-                                }}
-                                columns={[
-                                    { title: 'nombre', field: 'documento' },
-                                    { title: 'Peso archivo', field: 'peso' },
-                                ]}
-                                data={defuncion}
-                                detailPanel={rowData => {
-                                    return (
-                                        <iframe
-                                            width="100%"
-                                            height="1120"
-                                            src={"/storage/defuncion/" + rowData.nombre}
-                                            frameBorder="0"
-                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                        />
-                                    )
-                                }}
-                            />
-                        </Grid> :
-                        <div />
-                }
-
-
             </AppBarCustom>
         </>
     );
