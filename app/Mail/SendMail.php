@@ -19,11 +19,19 @@ class SendMail extends Mailable
      */
 
     private $name;
-
-    public function __construct($name)
+    private $rut;
+    private $correo;
+    private $carrera;
+    private $id;
+    private $sede;
+    public function __construct($data)
     {
-        $this->name = $name;
-        
+        $this->name = $data["name"];
+        $this->rut = $data["rut"];
+        $this->correo = $data["correo"];
+        $this->carrera = $data["carrera"];
+        $this->id = $data["id"];
+        $this->sede = $data["sede"];
     }
 
     /**
@@ -38,10 +46,11 @@ class SendMail extends Mailable
                     ->subject('correo de prueba')
                     ->view('random-email', [
                         'name' => $this->name,
-                        'rut' => "19.950.670-6",
-                        'correo' => "sebastian.delgado@alumnos.ucn.cl",
-                        'carrera' => "Ingenieria civil en bla bla",
-                        'id' => "2",
+                        'rut' => $this->rut,
+                        'correo' => $this->correo,
+                        'carrera' => $this->carrera,
+                        'id' => $this->id,
+                        'sede' => $this->sede,
                         'date' => Carbon::now()]);
     }
 }

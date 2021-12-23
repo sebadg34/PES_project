@@ -43,6 +43,7 @@ function VisualizarSolicitud() {
     const [pending, setPending] = useState(true);
 
     const [datos, setDatos] = useState([]);
+    const [defuncion, setDefuncion] = useState("");
 
     const classes = useStyles();
 
@@ -71,6 +72,7 @@ function VisualizarSolicitud() {
             { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE) },
             { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS) }
         ]);
+        setDefuncion([{ nombre: register.data.archivoDefuncion, documento: "Documento" }]);
 
         setPending(false);
 
@@ -377,8 +379,59 @@ function VisualizarSolicitud() {
                                 )
                             }}
                         />
+
+
+
                     </Grid>
+
+
                 </Grid>
+
+                {
+                    estado == "En proceso" ?
+                        <Grid item className={classes.root}>
+                            <MaterialTable
+                                title="Documento de defunción"
+                                options={{
+                                    search: false,
+                                    paging: false,
+                                    draggable: false,
+                                    header: false,
+                                    // headerStyle: {
+                                    //     backgroundColor: '#003057',
+                                    //     color: 'White',
+                                    // },
+                                    rowStyle: (rowData) => {
+                                        return {
+                                            color: 'Black',
+                                            //fontFamily: "Mulish-Regular",
+                                            backgroundColor: 'White',
+                                        };
+                                    },
+                                }}
+                                columns={[
+                                    { title: 'nombre', field: 'documento' },
+                                    { title: 'Peso archivo', field: 'peso' },
+                                ]}
+                                data={defuncion}
+                                detailPanel={rowData => {
+                                    return (
+                                        <iframe
+                                            width="100%"
+                                            height="1120"
+                                            src={"/storage/defuncion/" + rowData.nombre}
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    )
+                                }}
+                            />
+                        </Grid> :
+                        <div />
+                }
+
+
             </AppBarCustom>
         </>
     );

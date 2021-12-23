@@ -16,6 +16,13 @@ const cambiarSostenedor = (datos) => {
     });
 };
 
+const adjuntarDefuncion = (datos) => {
+
+    return axios.post(API_URL + "adjuntar-defuncion", datos).then((response) =>{
+        return response.data;
+    });
+};
+
 const getRegister = () => {
 
     return axios.get(API_URL + "ver-registro").then((response) =>{
@@ -43,4 +50,5 @@ export default {
     cambiarSostenedor,
     getRegisters,
     getRegisterByID,
+    adjuntarDefuncion
 };

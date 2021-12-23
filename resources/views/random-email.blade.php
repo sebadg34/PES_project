@@ -7,7 +7,7 @@ Rut: {{$rut}}
 <pre>
 Correo: {{$correo}}
 <pre>
-Carrera: {{$carrera}}
+Carrera: {{$carrera}} sede {{$sede}}
 <pre>
 id solicitud: {{$id}}
 <pre>

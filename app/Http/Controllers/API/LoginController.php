@@ -12,8 +12,7 @@ use Auth;
 
 
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\SendMail;
+
 
 
 class LoginController extends Controller 
@@ -57,14 +56,7 @@ class LoginController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             $cookie = cookie("jwt", $token, 0);
 
-            try {
-                $name = "Sebastian Delgado";
-            $sendToEmail = "sebadg98@gmail.com";
-            Mail::to($sendToEmail)->send(new SendMail($name));
-
-            } catch (Exception $ex) {
-
-            }
+            
 
            
         

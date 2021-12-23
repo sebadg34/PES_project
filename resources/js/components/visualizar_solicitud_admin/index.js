@@ -48,6 +48,7 @@ function VisualizarSolicitudAdmin() {
     const [errores, setErrores] = useState([]);
 
     const classes = useStyles();
+    const [defuncion, setDefuncion] = useState("");
 
     function bytesToSize(bytes) {
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -76,6 +77,7 @@ function VisualizarSolicitudAdmin() {
             { nombre: register.data.scanCarnetEstudiante, carnet: "Carnet estudiante", peso: bytesToSize(register.pesoCE), adjunto: false },
             { nombre: register.data.scanCarnetSostenedor, carnet: "Carnet sostenedor", peso: bytesToSize(register.pesoCS), adjunto: false }
         ]);
+        setDefuncion([{ nombre: register.data.archivoDefuncion, documento: "Documento" }]);
 
         archivosAdjuntos.data.forEach(element => {
             setDatos(datos => [...datos, { nombre: element.nombreArchivo, carnet: element.nombreArchivoOriginal, peso: bytesToSize(element.peso), adjunto:true }]);  
@@ -420,6 +422,47 @@ function VisualizarSolicitudAdmin() {
                             }}
                         />
                     </Grid>
+
+                    {
+                    estado == "En proceso" ?
+                        <Grid item className={classes.root}>
+                            <MaterialTable
+                                title="Documento de defunción"
+                                options={{
+                                    search: false,
+                                    paging: false,
+                                    draggable: false,
+                                    header: false,
+                                    rowStyle: (rowData) => {
+                                        return {
+                                            color: 'Black',
+                                            //fontFamily: "Mulish-Regular",
+                                            backgroundColor: 'White',
+                                        };
+                                    },
+                                }}
+                                columns={[
+                                    { title: 'nombre', field: 'documento' },
+                                    { title: 'Peso archivo', field: 'peso' },
+                                ]}
+                                data={defuncion}
+                                detailPanel={rowData => {
+                                    return (
+                                        <iframe
+                                            width="100%"
+                                            height="1120"
+                                            src={"/storage/defuncion/" + rowData.nombre}
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    )
+                                }}
+                            />
+                        </Grid> :
+                        <div />
+                }
+
                     <Grid item className={classes.root}>
                         <MaterialTable
                             title="Adjuntar archivos"

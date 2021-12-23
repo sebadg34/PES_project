@@ -92,13 +92,13 @@ class FormularioFactory extends Factory
             ,"Licenciatura en Ciencias Religiosas"
             ,"Pedagogía en Filosofía y Religión"
             ,"Programa de Prosecución de Estudios de Formación Pedagógica"]),
-            'anioIngreso' => $this->faker->randomElement([2019,2020]),
+            'anioIngreso' => $this->faker->randomElement([2014,2015,2016,2017,2018,2019,2020]),
             'scanCarnetEstudiante' => "mad3tdDcUT7YUtqPvmZubLeyMG5bYtxiespu7Eib.png",
             'scanCarnetSostenedor' => "mad3tdDcUT7YUtqPvmZubLeyMG5bYtxiespu7Eib.png",
             'parentesco' => $this->faker->randomElement(["PADRE","MADRE","TUTOR"]),
             'rutSostenedor' => $this->faker->randomElement($ruts),
             'rutEstudiante' => $this->faker->unique()->randomElement($ruts),
-            'email' => $this->faker->email(),
+            'email' => preg_replace('/@example\..*/', '@alumnos.ucn.cl',$this->faker->unique()->safeEmail()),
             "usuario_id" => Usuario::factory(),
 
         ];

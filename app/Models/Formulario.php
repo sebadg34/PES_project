@@ -23,7 +23,8 @@ class Formulario extends Model
         'nombreCompletoSostenedor',
         'parentesco',
         'scanCarnetSostenedor',
-        'estado'
+        'estado',
+        'archivoDefuncion'
     ];
 
     public function formulario()

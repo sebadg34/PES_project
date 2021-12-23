@@ -33,6 +33,7 @@ class CreateFormulariosTable extends Migration
             // Los estados pueden ser Registrada, En proceso, rechazada y aceptada, 
             // al crear formulario, por default sera registrado
             $table->string('estado')->default("Registrada");
+            $table->string('archivoDefuncion')->nullable();
             $table->timestamps();
 
             

@@ -10,11 +10,70 @@ use App\Models\Usuario;
 
 use Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 
 class RegistroController extends Controller
 {
+
+    public function adjuntarDefuncion(Request $request){ 
+    
+        $validator = Validator::make($request->all(), [
+            'archivoDefuncion' => 'required|mimes:jpg,jpeg,png,pdf'
+        ],[
+            'archivoDefuncion' => 'Adjunta un archivo porfavor',
+            'archivoDefuncion' => 'Sólo se permiten archivos en formato .jpg, .png, .pdf',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                "errors" => $validator->messages(),
+            ]);
+        }
+
+        $archivoDefuncion = $request->file('archivoDefuncion');
+        $AD_path = $archivoDefuncion->store("defuncion", 'public');
+
+        $id = Auth::guard("usuario")->user()->id;
+       
+
+      
+        Formulario::where("usuario_id", $id)->update([
+            'archivoDefuncion' => basename($AD_path),
+            'estado' => $request['estado']           
+        ]);
+
+
+        try {
+            $user = Usuario::where("id", $id)->first();
+            $formulario = Formulario::where("usuario_id", $id)->first();
+            $data = [
+            "correo"=> $user->email,
+            "name"=> $formulario->nombreCompletoEstudiante,
+            "rut"=> $formulario->rutEstudiante,
+            "carrera"=> $formulario->carrera,
+            "sede"=> $formulario->sede,
+            "id"=> $formulario->id,
+        
+        ];
+            $sendToEmail = "sebadg98@gmail.com";
+
+        Mail::to($sendToEmail)->send(new SendMail($data));
+
+        } catch (Exception $ex) {
+
+        }
+
+
+        return response()->json([
+            "message" => "success", 200]);
+
+    }
+
+
+
     public function registro(Request $request)
-    {        
+    {   
         $validator = Validator::make($request->all(), [
             'RutEstudiante'=>'required|regex:/^[0-9]{1,2}(.([0-9]{3})){2}-[0-9]{1}$/',
             'NombreEstudiante'=>'required|regex:/^[a-zA-ZñáéíóúÁÉÍÓÚ ]+(\s[a-zA-ZñáéíóúÁÉÍÓÚ ]*)*[a-zA-ZñáéíóúÁÉÍÓÚ]$/',

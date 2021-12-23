@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import {Grid, Typography, Divider, makeStyles, Button } from '@material-ui/core';
+import { Grid, Typography, Divider, makeStyles, Button } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import RegisterService from "../_hooks/RegisterService";
 import AppBarCustom from "../appbar";
@@ -10,18 +10,18 @@ import AlertTitle from '@mui/material/AlertTitle';
 
 const useStyles = makeStyles(theme => ({
     root: {
-      "& .MuiPaper-root": {
-        backgroundColor: "#003057",           
-        color: "white",
-      },
-      "& .MuiButtonBase-root": {
-        outline: "none",
-      }
+        "& .MuiPaper-root": {
+            backgroundColor: "#003057",
+            color: "white",
+        },
+        "& .MuiButtonBase-root": {
+            outline: "none",
+        }
     }
-  }));
+}));
 
-function ActivarSolicitud(){
-   
+function ActivarSolicitud() {
+
     const handleHome = () => {
         history.push("/home");
     }
@@ -29,10 +29,11 @@ function ActivarSolicitud(){
     let history = useHistory();
 
     const [datos, setDatos] = useState([
-        {newFileName: "SELECCIONA UN ARCHIVO (.PDF, .JPG, .PNG)", peso: "-"}
+        { newFileName: "SELECCIONA UN ARCHIVO (.PDF, .JPG, .PNG)", peso: "-" }
     ]);
 
-    const[scanDefuncion, setScanDefuncion] = useState(""); 
+
+    const [scanDefuncion, setScanDefuncion] = useState("");
 
     const [errores, setErrores] = useState([])
 
@@ -51,27 +52,35 @@ function ActivarSolicitud(){
 
         const formdata = new FormData();
 
-        formdata.append("ArchivoDefuncion", scanDefuncion);
+        formdata.append("archivoDefuncion", scanDefuncion);
         formdata.append("estado", "En proceso");
-    
-        //Esto esta aqui de placeholder :V
+
+        
         Swal.fire({
             title: '¿Estás seguro?',
-            text: "You won't be able to revert this!",
+            text: "No podrás revertir una vez realizado",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Iniciar activación'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-              )
-              history.push("/home");
+
+                RegisterService.adjuntarDefuncion(formdata).then((data) => {
+                        if ("errors" in data) {
+                            setErrores(data.errors);
+                            console.log(data.errors);
+                        } else {
+                            Swal.fire(
+                                'ACTIVACION DE SOLICITUD INICIADA',
+                                'El archivo fue subido exitosamente',
+                                'success'
+                            )
+                            history.push("/home");
+                        }
+                    })
             }
         })
 
@@ -105,22 +114,22 @@ function ActivarSolicitud(){
     }
 
     const handleUpload = (e) => {
-        if(e.target.files[0]){
+        if (e.target.files[0]) {
             setScanDefuncion(e.target.files[0]);
             setDatos([
-                {newFileName: e.target.files[0].name, peso: bytesToSize(e.target.files[0].size)}
-            ]);            
+                { newFileName: e.target.files[0].name, peso: bytesToSize(e.target.files[0].size) }
+            ]);
             e.target.value = null;
-        }        
+        }
     };
 
-    return(
+    return (
         <>
             <Grid container direction={"column"} spacing={2}>
                 <Grid item>
                     <Typography variant="h4" gutterBottom style={{ color: "#003057" }}>
-                                Activación de solicitud
-                                <Button
+                        Activación de solicitud
+                        <Button
                             className="linkItem"
                             style={{ maxWidth: '150px', minWidth: '150px', float: "right", outline: "none" }}
                             variant="contained"
@@ -130,8 +139,8 @@ function ActivarSolicitud(){
                             volver
                         </Button>
                     </Typography>
-                    <Divider light />                  
-                </Grid>                         
+                    <Divider light />
+                </Grid>
                 <Grid item>
                     <Alert variant="filled" severity="warning">
                         <strong>
@@ -143,61 +152,61 @@ function ActivarSolicitud(){
                 <Grid item className={classes.root}>
                     <MaterialTable
                         title="Adjuntar el archivo de defunción"
-                        localization={{header: { actions: '' }}}
+                        localization={{ header: { actions: '' } }}
                         options={{
-                                search: false, 
-                                paging: false,
-                                draggable: false,                              
-                                rowStyle: (rowData) => {
-                                        return {
-                                            color: 'Black',
-                                            backgroundColor: 'White',
-                                        };
-                                    },                                                                
-                                }}           
-                        columns={[                          
-                            { title: 'Nombre archivo', field: 'newFileName'},
-                            { title: 'Peso', field: 'peso'},
+                            search: false,
+                            paging: false,
+                            draggable: false,
+                            rowStyle: (rowData) => {
+                                return {
+                                    color: 'Black',
+                                    backgroundColor: 'White',
+                                };
+                            },
+                        }}
+                        columns={[
+                            { title: 'Nombre archivo', field: 'newFileName' },
+                            { title: 'Peso', field: 'peso' },
                         ]}
                         data={datos}
                         actions={[
-                            rowData => ({ 
-                                tooltip: 'Adjuntar un nuevo archivo',                                                                        
-                            }),                                                                                                 
+                            rowData => ({
+                                tooltip: 'Adjuntar un nuevo archivo',
+                            }),
                         ]}
                         components={{
-                        Action: props => (
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                component="label"
-                                size="small"
-                            >
-                            Adjuntar archivo
-                            <input
-                                type="file"
-                                accept="image/x-png,image/jpeg,application/pdf"
-                                onChange={(e) => handleUpload(e)}
-                                hidden
-                            />
-                            </Button>   
-                        ),
-                        }}                                          
-                        />
-                        <span className="errorMsg">{errores.ArchivoDefuncion}</span>                                       
-                </Grid>          
+                            Action: props => (
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    component="label"
+                                    size="small"
+                                >
+                                    Adjuntar archivo
+                                    <input
+                                        type="file"
+                                        accept="image/x-png,image/jpeg,application/pdf"
+                                        onChange={(e) => handleUpload(e)}
+                                        hidden
+                                    />
+                                </Button>
+                            ),
+                        }}
+                    />
+                    <span className="errorMsg">{errores.archivoDefuncion}</span>
+                </Grid>
                 <Grid item align="center">
                     <Button
                         className="linkItem"
-                        style={{maxWidth: '250px', minWidth: '250px', outline: "none"}}
+                        style={{ maxWidth: '250px', minWidth: '250px', outline: "none" }}
                         variant="contained"
-                        color="primary"          
-                        disabled={scanDefuncion === "" ? true : false}                  
+                        color="primary"
+                        disabled={scanDefuncion === "" ? true : false}
                         onClick={handleActivarSolicitud}
                     >
                         Iniciar la activación de solicitud
-                    </Button>                            
-                </Grid>                                                                                 
+                    </Button>
+                </Grid>
             </Grid>
         </>
     );
