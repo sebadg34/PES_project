@@ -74,7 +74,7 @@ function homeAdmin() {
 
   return (
     <AppBarCustom>
-    <div className="App" style={{width:1000}}>
+    <div className="App" style={{width:1010}}>
       <Grid container direction={"column"} spacing={1}>
         <Grid item>
           <Grid container direction={"column"} spacing={3}>
@@ -106,8 +106,7 @@ function homeAdmin() {
 
 
         <MaterialTable
-          title="Solicitudes"
-          
+          title="Solicitudes"         
           columns={[
             { title: 'ID', field: 'id',cellStyle: {margin: "auto", width: "0%", padding:"auto", fontSize: 14}},
             { title: 'Rut', field: 'rutEstudiante', cellStyle: { minWidth: 100, fontSize: 14 }},
@@ -116,7 +115,7 @@ function homeAdmin() {
             { title: 'Correo', field: 'email', cellStyle: {fontSize: 14}},
             { title: 'Sede', field: 'sede', cellStyle: {fontSize: 14}},
             { title: 'Carrera', field: 'carrera' , cellStyle: {fontSize: 14}},
-            { title: 'Estado solicitud', field: 'estado', cellStyle: {fontSize: 14},
+            { title: 'Estado solicitud', field: 'estado', cellStyle: {fontSize: 14, paddingLeft:0, paddingRight:0},
               render: rowData => 
                 <>                
                 {rowData.estado === "Registrada"
@@ -137,32 +136,32 @@ function homeAdmin() {
                                     :
                                     rowData.estado === "Cargando beneficio"
                                     ?           
-                                    <PendingIcon style={{color: "cyan"}}/>
+                                    <PendingIcon style={{color: "teal"}}/>
                                     :                                 
                                     <CircleIcon style={{color: "black"}}/>
                 }                
-                <Typography variant="inherit">{"   "}</Typography>        
+                <Typography variant="inherit">{"  "}</Typography>        
                 {rowData.estado === "Registrada"
                         ?
-                        <Typography variant="inherit" style={{ color: "green" }}>{rowData.estado}</Typography>
+                        <Typography variant="inherit" style={{ color: "green"}}>{rowData.estado}</Typography>
                         :
                         rowData.estado === "En proceso"
                             ?
-                            <Typography variant="inherit" style={{ color: "orange" }}>{rowData.estado}</Typography>
+                            <Typography variant="inherit" style={{ color: "orange"}}>{rowData.estado}</Typography>
                             :
                             rowData.estado === "Aceptada"
                                 ?
-                                <Typography variant="inherit" style={{ color: "blue" }}>{rowData.estado}</Typography>                        
+                                <Typography variant="inherit" style={{ color: "blue"}}>{rowData.estado}</Typography>                        
                                 :
                                 rowData.estado === "Rechazada"
                                     ?
-                                    <Typography variant="inherit" style={{ color: "red" }}>{rowData.estado}</Typography>                           
+                                    <Typography variant="inherit" style={{ color: "red"}}>{rowData.estado}</Typography>                           
                                     :
                                     rowData.estado === "Cargando beneficio"
                                     ?           
-                                    <Typography variant="inherit" style={{ color: "cyan" }}>{rowData.estado}</Typography>
+                                    <Typography variant="inherit" style={{ color: "teal"}}>{rowData.estado}</Typography>
                                     :                                 
-                                    <Typography variant="inherit" style={{ color: "black" }}>{rowData.estado}</Typography>
+                                    <Typography variant="inherit" style={{ color: "black"}}>{rowData.estado}</Typography>
                 }                                                  
                 </>
             }
@@ -173,6 +172,9 @@ function homeAdmin() {
           localization={datosLocalizacion}
           components={{Pagination: PatchedPagination}}
           options={{          
+            headerStyle: {
+              whiteSpace: 'nowrap',
+            },           
             rowStyle: rowData => ({
               color: 'Black',
               backgroundColor: (selectedRow === rowData.tableData.id) ? '#c8d7e3' : '#FFF',

@@ -67,20 +67,27 @@ function ActivarSolicitud() {
             confirmButtonText: 'Iniciar activación'
         }).then((result) => {
             if (result.isConfirmed) {
-
-                RegisterService.adjuntarDefuncion(formdata).then((data) => {
-                        if ("errors" in data) {
-                            setErrores(data.errors);
-                            console.log(data.errors);
-                        } else {
-                            Swal.fire(
-                                'ACTIVACIÓN DE SOLICITUD INICIADA',
-                                'El archivo fue subido exitosamente',
-                                'success'
-                            )
-                            history.push("/home");
-                        }
-                    })
+                Swal.fire({
+                    title: 'Actualizando el estado de la solicitud',
+                    text: "Espere por favor...",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        RegisterService.adjuntarDefuncion(formdata).then((data) => {
+                            if ("errors" in data) {
+                                setErrores(data.errors);
+                                console.log(data.errors);
+                            } else {
+                                Swal.fire(
+                                    'ACTIVACIÓN DE SOLICITUD INICIADA',
+                                    'El archivo fue subido exitosamente',
+                                    'success'
+                                )
+                                history.push("/home");
+                            }
+                        });                        
+                    },
+                })
             }
         })
     }

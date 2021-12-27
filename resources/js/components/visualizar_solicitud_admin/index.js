@@ -179,7 +179,7 @@ function VisualizarSolicitudAdmin() {
                                                 :
                                                 estado === "Cargando beneficio"
                                                 ?           
-                                                <span style={{ color: "cyan" }}>{" "}{estado.toLocaleUpperCase()}</span>
+                                                <span style={{ color: "teal" }}>{" "}{estado.toLocaleUpperCase()}</span>
                                                 :                                 
                                                 <span style={{ color: "black" }}>{" "}{estado.toLocaleUpperCase()}</span>
                             }
