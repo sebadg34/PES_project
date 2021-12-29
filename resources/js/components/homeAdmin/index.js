@@ -8,6 +8,7 @@ import RegisterService from "../_hooks/RegisterService";
 import Loading from "../loading";
 import AppBarCustom from "../appbar";
 import PatchedPagination from "./PatchedPagination";
+import moment from 'moment';
 
 import {
   Circle as CircleIcon,
@@ -108,14 +109,26 @@ function homeAdmin() {
         <MaterialTable
           title="Solicitudes"         
           columns={[
-            { title: 'ID', field: 'id',cellStyle: {margin: "auto", width: "0%", padding:"auto", fontSize: 14}},
-            { title: 'Rut', field: 'rutEstudiante', cellStyle: { minWidth: 100, fontSize: 14 }},
+            // { title: 'ID', field: 'id',cellStyle: {margin: "auto", width: "0%", padding:"auto", fontSize: 13}},
+            { title: 'Rut', field: 'rutEstudiante', cellStyle: { minWidth: 120, fontSize: 13 }},
             //{ title: 'Nombre', field: 'nombreCompletoEstudiante', cellStyle: { width: 320, minWidth: 320 }},
-            { title: 'Nombre', field: 'nombreCompletoEstudiante', cellStyle: {minWidth: 150, fontSize: 14}},
-            { title: 'Correo', field: 'email', cellStyle: {fontSize: 14}},
-            { title: 'Sede', field: 'sede', cellStyle: {fontSize: 14}},
-            { title: 'Carrera', field: 'carrera' , cellStyle: {fontSize: 14}},
-            { title: 'Estado solicitud', field: 'estado', cellStyle: {fontSize: 14, paddingLeft:0, paddingRight:0},
+            { title: 'Nombre', field: 'nombreCompletoEstudiante', cellStyle: {minWidth: 150, fontSize: 13}},
+            { title: 'Correo', field: 'email', cellStyle: {fontSize: 13}},
+            { title: 'Sede', field: 'sede', cellStyle: {fontSize: 13}},
+            { title: 'Carrera', field: 'carrera' , cellStyle: {fontSize: 13}},
+            { title: 'Fecha creación', field: 'created_at' , cellStyle: {fontSize: 13},
+              render: rowData => 
+               <>
+                  <Typography variant="inherit">{moment(rowData.created_at).utc().local().format('DD/MM/YYYY HH:mm')}</Typography>
+               </>
+          },
+            { title: 'Última actualización', field: 'updated_at' , cellStyle: {fontSize: 13},
+              render: rowData => 
+              <>
+                <Typography variant="inherit">{moment(rowData.updated_at).utc().local().format('DD/MM/YYYY HH:mm')}</Typography>
+              </>
+          },
+            { title: 'Estado solicitud', field: 'estado', cellStyle: {fontSize: 13, paddingLeft:0, paddingRight:0},
               render: rowData => 
                 <>                
                 {rowData.estado === "Registrada"
@@ -172,6 +185,7 @@ function homeAdmin() {
           localization={datosLocalizacion}
           components={{Pagination: PatchedPagination}}
           options={{          
+            //doubleHorizontalScroll : true,
             headerStyle: {
               whiteSpace: 'nowrap',
             },           
