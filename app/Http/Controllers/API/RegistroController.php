@@ -56,7 +56,7 @@ class RegistroController extends Controller
             "id"=> $formulario->id,
         
         ];
-            $sendToEmail = "sebadg98@gmail.com";
+            $sendToEmail = "vra.dge@ucn.cl";
 
         Mail::to($sendToEmail)->send(new SendMail($data));
 
