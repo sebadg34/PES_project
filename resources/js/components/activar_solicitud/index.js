@@ -130,7 +130,7 @@ function ActivarSolicitud() {
                 </Grid>
                 <Grid item className={classes.root}>
                     <MaterialTable
-                        title="Adjuntar el archivo de defunción"
+                        title="Adjuntar certificado de defunción"
                         localization={{ header: { actions: '' } }}
                         options={{
                             search: false,
